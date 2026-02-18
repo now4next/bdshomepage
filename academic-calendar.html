@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academic Calendar 2025-2026 - BDS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --harvard-crimson: #A51C30;
+      --harvard-black: #1a1a1a;
+      --harvard-light-gray: #f9f9f9;
+      --harvard-dark-gray: #8c8c8c;
+      --text-color: #333333;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #ffffff;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .header {
+      background: #ffffff;
+      border-bottom: 1px solid #e0e0e0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .harvard-logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .harvard-logo-text-main {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--harvard-crimson);
+      font-family: 'Merriweather', serif;
+      letter-spacing: -0.5px;
+    }
+
+    .harvard-logo-text-sub {
+      font-size: 0.75rem;
+      color: var(--harvard-black);
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--harvard-black);
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 8px 16px;
+      border: 1px solid #e0e0e0;
+      transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+      background: var(--harvard-light-gray);
+      border-color: var(--harvard-black);
+    }
+
+    /* Main Content */
+    .calendar-container {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 40px;
+    }
+
+    .calendar-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .calendar-title {
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: var(--harvard-black);
+      font-family: 'Merriweather', serif;
+      margin-bottom: 12px;
+    }
+
+    .calendar-subtitle {
+      font-size: 1.1rem;
+      color: var(--harvard-dark-gray);
+      font-weight: 400;
+    }
+
+    .calendar-image-wrapper {
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      padding: 30px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      margin-bottom: 40px;
+    }
+
+    .calendar-image {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .calendar-info {
+      background: var(--harvard-light-gray);
+      padding: 30px;
+      border-left: 3px solid var(--harvard-crimson);
+    }
+
+    .calendar-info h3 {
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--harvard-black);
+      font-family: 'Merriweather', serif;
+      margin-bottom: 16px;
+    }
+
+    .calendar-info-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .calendar-info-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid #e0e0e0;
+      font-size: 0.95rem;
+    }
+
+    .calendar-info-list li:last-child {
+      border-bottom: none;
+    }
+
+    .calendar-info-list strong {
+      color: var(--harvard-crimson);
+      font-weight: 500;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--harvard-black);
+      color: #ffffff;
+      padding: 40px 0;
+      margin-top: 80px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+      text-align: center;
+    }
+
+    .footer-text {
+      font-size: 0.9rem;
+      color: #cccccc;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-container {
+        padding: 16px 20px;
+      }
+
+      .calendar-container {
+        padding: 0 20px;
+        margin: 40px auto;
+      }
+
+      .calendar-title {
+        font-size: 1.8rem;
+      }
+
+      .calendar-subtitle {
+        font-size: 1rem;
+      }
+
+      .calendar-image-wrapper {
+        padding: 15px;
+      }
+
+      .calendar-info {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="harvard-logo-text">
+        <span class="harvard-logo-text-main">BDS</span>
+        <span class="harvard-logo-text-sub">Beyond Dream Scholars</span>
+      </div>
+      <a href="index.html" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to Home
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="calendar-container">
+    <!-- Header Section -->
+    <div class="calendar-header">
+      <h1 class="calendar-title">Academic Calendar 2025-2026</h1>
+      <p class="calendar-subtitle">학사일정 | BDS Global Leadership Academy</p>
+    </div>
+
+    <!-- Calendar Image -->
+    <div class="calendar-image-wrapper">
+      <img src="academic-calendar-2025-2026.png" alt="BDS Academic Calendar 2025-2026" class="calendar-image">
+    </div>
+
+    <!-- Additional Information -->
+    <div class="calendar-info">
+      <h3>Key Highlights</h3>
+      <ul class="calendar-info-list">
+        <li><strong>Fall Semester:</strong> September 2025 - December 2025</li>
+        <li><strong>Winter Break:</strong> December 2025 - January 2026</li>
+        <li><strong>Spring Semester:</strong> February 2026 - June 2026</li>
+        <li><strong>Summer Programs:</strong> July 2026 - August 2026</li>
+        <li><strong>Special Events:</strong> Mock Tests, APAP, Winter Concert, Easter Egg Hunt, and more</li>
+        <li><strong>International Programs:</strong> BDS Germany, Summer Sessions, Intensive SAT/TOEFL</li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <p class="footer-text">© 2024-2026 BDS - Beyond Dream Scholars. All rights reserved.</p>
+      <p class="footer-text" style="margin-top: 8px;">충주 옹달샘 명상센터 | 아침편지 문화재단</p>
+    </div>
+  </footer>
+
+</body>
+</html>
