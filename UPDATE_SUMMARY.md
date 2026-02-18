@@ -16,15 +16,24 @@
 - **제목**: "Beyond Dream, Beyond Border - Germany"
 - **내용**: "BDS Germany: Bridging rigorous academic excellence with global opportunity. We empower students to transcend boundaries and turn dreams into reality."
 
+### 섹션 3: BDS Summer Camp at Ongdalsam
+**레이아웃**: 유튜브 영상 (왼쪽) + 텍스트 (오른쪽)
+
+- **유튜브 영상**: https://youtu.be/SooTDsGLspw
+- **제목**: "BDS Summer Camp at Ongdalsam"
+- **내용**: "A transformative retreat where nature meets global vision. Empowering students to go Beyond Dreams through mindful growth and forest adventures."
+
 ## 📊 변경 사항
 
 ### Before
 1. **섹션 1**: "Serving our community" - 정적 이미지 + 커뮤니티 서비스 설명
 2. **섹션 2**: "Serving our country" - 군사 서비스 이미지 + 설명 + 링크
+3. **섹션 3**: "Global Leadership Program" - 이미지 + 글로벌 리더십 프로그램 설명 + 링크
 
 ### After
 1. **섹션 1**: "A World Level International School BDS" - 유튜브 영상 + 글로벌 교육 메시지
 2. **섹션 2**: "Beyond Dream, Beyond Border - Germany" - 독일 프로그램 메시지 + 유튜브 영상
+3. **섹션 3**: "BDS Summer Camp at Ongdalsam" - 유튜브 영상 + 자연 속 성장 메시지
 
 ## ✅ 기술적 구현
 
@@ -48,6 +57,7 @@
 ## 📝 Git 커밋
 
 ```
+✅ b058cc6 - feat: Replace 'Global Leadership Program' with Summer Camp video
 ✅ 34eefae - feat: Replace 'Serving our country' with Germany program
 ✅ 8cb524c - feat: Replace Community Service with YouTube video
 ✅ 5028591 - docs: Add Cloudflare deployment troubleshooting guide
