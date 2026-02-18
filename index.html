@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BDS - B.S.D.S. Global Leadership Academy</title>
+  <title>BDS - Beyond Dream Scholars</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -1033,7 +1033,54 @@
         font-size: 3rem;
       }
       
+      
+
+    
+    /* Tablet Responsive (769px - 1024px) */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .header-container {
+        padding: 18px 30px;
+      }
+      
+      .hero-title {
+        font-size: 3.5rem;
+      }
+      
+      .hero-subtext {
+        font-size: 16px;
+      }
+      
+      .news-item {
+        gap: 30px;
+      }
+      
+      .news-item-title {
+        font-size: 2.25rem;
+      }
+      
+      .news-item-description {
+        font-size: 16px;
+      }
+      
       .section-title {
+        font-size: 2.25rem;
+      }
+      
+      .cards-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+        gap: 25px !important;
+      }
+      
+      .feature-card {
+        padding: 30px 25px;
+      }
+      
+      .section-content {
+        padding: 80px 40px;
+      }
+    }
+
+.section-title {
         font-size: 2rem;
       }
     }
@@ -1043,7 +1090,84 @@
         height: auto;
         padding: 15px 16px;
         flex-wrap: nowrap;
+  
+      
+      /* Enhanced News Items Mobile */
+      .news-item-image-container {
+        height: auto !important;
+        min-height: 250px;
       }
+      
+      .news-item-title {
+        font-size: 1.75rem !important;
+        line-height: 1.3;
+        margin-bottom: 15px;
+      }
+      
+      .news-item-description {
+        font-size: 16px !important;
+        line-height: 1.6;
+      }
+      
+      /* Section Padding Mobile */
+      .news-section,
+      .section-content {
+        padding: 60px 20px !important;
+      }
+      
+      .section-title {
+        font-size: 1.875rem !important;
+        margin-bottom: 20px;
+      }
+      
+      .section-subtitle {
+        font-size: 16px !important;
+        line-height: 1.6;
+      }
+      
+      /* Cards Mobile Optimization */
+      .cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+        padding: 0 10px;
+      }
+      
+      .feature-card {
+        padding: 25px 20px !important;
+      }
+      
+      .feature-icon {
+        font-size: 2rem !important;
+        margin-bottom: 12px;
+      }
+      
+      .feature-title {
+        font-size: 1.25rem !important;
+        margin-bottom: 10px;
+      }
+      
+      .feature-description {
+        font-size: 15px !important;
+        line-height: 1.5;
+      }
+      
+      /* Footer Mobile */
+      .footer-section {
+        padding: 40px 20px !important;
+        text-align: center;
+      }
+      
+      .footer-content {
+        flex-direction: column !important;
+        gap: 30px !important;
+      }
+      
+      .footer-column {
+        width: 100% !important;
+        text-align: center;
+      }
+
+    }
       
       .header-left {
         gap: 12px;
@@ -1701,22 +1825,12 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>Copyright © 2024 BDS - B.S.D.S. Global Leadership Academy</p>
-        <p style="margin-top: 10px;">충주 옹달샘 명상센터 | 아침편지 문화재단</p>
-        <p style="margin-top: 10px; font-size: 0.85rem;">서버 시간: <span id="server-time"></span></p>
+        <p>Copyright © 2024 BDS (Beyond Dream Scholars)</p>
       </div>
     </div>
   </footer>
 
   <script>
-    // 서버 시간 표시
-    function updateTime() {
-      const now = new Date();
-      document.getElementById('server-time').textContent = now.toLocaleString('ko-KR');
-    }
-    updateTime();
-    setInterval(updateTime, 1000);
-
     // Search Overlay 토글
     const searchToggle = document.getElementById('searchToggle');
     const searchOverlay = document.getElementById('searchOverlay');
