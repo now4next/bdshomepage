@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BDS - B.S.D.S. Global Leadership Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --harvard-crimson: #A51C30;
+      --harvard-black: #000000;
+      --harvard-dark: #1E1E1E;
+      --harvard-gray: #4A4A4A;
+      --harvard-light-gray: #F9F9F9;
+      --harvard-white: #FFFFFF;
+    }
+    
+    body {
+      font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      line-height: 1.6;
+      color: var(--harvard-dark);
+      background: var(--harvard-white);
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    h1, h2, h3, h4, h5, h6,
+    .serif {
+      font-family: 'Merriweather', 'Noto Sans KR', Georgia, serif;
+      font-weight: 700;
+      color: var(--harvard-black);
+    }
+    
+    /* Harvard Header - Sticky Top, Overlay on Hero */
+    .harvard-header {
+      background: transparent;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      border-bottom: none;
+      box-shadow: none;
+    }
+    
+    .header-container {
+      width: 100%;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80px;
+    }
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+    
+    .harvard-shield {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+    
+    .harvard-logo-text {
+      font-family: 'Merriweather', serif;
+      font-size: 22.5px; /* 18px * 125% */
+      font-weight: 700;
+      color: var(--harvard-black);
+      text-transform: none;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    
+    .harvard-logo-text-main {
+      font-size: 27px; /* 21.6px * 125% */
+      line-height: 1.2;
+    }
+    
+    .harvard-logo-text-sub {
+      font-size: 22.5px; /* 18px * 125% */
+      text-transform: none;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+    
+    .header-notice {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: 20px;
+      padding-left: 20px;
+      border-left: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .header-notice-bullet {
+      width: 6px;
+      height: 6px;
+      background: var(--harvard-crimson);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    
+    .header-notice-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 16.25px; /* 13px * 125% */
+      color: var(--harvard-gray);
+      text-decoration: none;
+      line-height: 1.4;
+    }
+    
+    .header-notice-text:hover {
+      color: var(--harvard-crimson);
+      text-decoration: underline;
+    }
+    
+    /* Black Container on Right */
+    .header-right-black {
+      background: #000000;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      height: 100%;
+      padding: 0 20px;
+      margin-right: -24px;
+      flex-shrink: 0;
+    }
+    
+    .header-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 20px;
+      height: 100%;
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      font-size: 17.5px; /* 14px * 125% */
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+      border-left: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .header-nav-item:first-child {
+      border-left: none;
+    }
+    
+    .header-nav-item:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    .header-nav-icon {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+    
+    /* Harvard Style Menu */
+    .mega-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #2a2a2a;
+      z-index: 2000;
+      overflow-y: auto;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    
+    .mega-menu.active {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .mega-menu-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 40px 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .mega-menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 80px;
+    }
+    
+    .mega-menu-logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .mega-menu-logo-text {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .mega-menu-logo-text-main {
+      font-family: 'Merriweather', serif;
+      font-size: 24px; /* 20px * 120% */
+      font-weight: 700;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+    
+    .mega-menu-logo-text-sub {
+      font-family: 'Merriweather', serif;
+      font-size: 20px;
+      font-weight: 500;
+      color: #FFFFFF;
+      text-transform: none;
+      line-height: 1.2;
+    }
+    
+    .mega-menu-close {
+      background: transparent;
+      border: none;
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: opacity 0.3s;
+      padding: 10px;
+    }
+    
+    .mega-menu-close:hover {
+      opacity: 0.7;
+    }
+    
+    .mega-menu-close-icon {
+      width: 24px;
+      height: 24px;
+      border: 2px solid #FFFFFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      line-height: 1;
+    }
+    
+    .mega-menu-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-left: 60px;
+    }
+    
+    .mega-menu-main-links {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .mega-menu-main-links li {
+      margin-bottom: 30px;
+    }
+    
+    .mega-menu-main-links a {
+      font-family: 'Merriweather', serif;
+      font-size: 3.5rem;
+      font-weight: 400;
+      color: #FFFFFF;
+      text-decoration: none;
+      display: block;
+      transition: opacity 0.3s;
+      line-height: 1.2;
+    }
+    
+    .mega-menu-main-links a:hover {
+      opacity: 0.7;
+    }
+    
+    .mega-menu-quick-links {
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding: 30px 40px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .mega-menu-quick-links-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .mega-menu-quick-links-list {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .mega-menu-quick-links-list li {
+      margin: 0;
+    }
+    
+    .mega-menu-quick-links-list a {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #FFFFFF;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+    
+    .mega-menu-quick-links-list a:hover {
+      opacity: 0.7;
+    }
+    
+    /* Search Overlay - Same style as menu */
+    .search-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #2a2a2a;
+      z-index: 2000;
+      overflow-y: auto;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    
+    .search-overlay.active {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .search-overlay-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 40px 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .search-overlay-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 60px;
+    }
+    
+    .search-overlay-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.7);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .search-overlay-close {
+      background: transparent;
+      border: none;
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: opacity 0.3s;
+      padding: 10px;
+    }
+    
+    .search-overlay-close:hover {
+      opacity: 0.7;
+    }
+    
+    .search-overlay-close-icon {
+      width: 24px;
+      height: 24px;
+      border: 2px solid #FFFFFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      line-height: 1;
+    }
+    
+    .search-overlay-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding-left: 60px;
+      padding-right: 60px;
+    }
+    
+    .search-input-container {
+      margin-bottom: 60px;
+    }
+    
+    .search-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid rgba(255,255,255,0.3);
+      color: #FFFFFF;
+      font-family: 'Merriweather', serif;
+      font-size: 4rem;
+      font-weight: 400;
+      padding: 20px 0;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    
+    .search-input:focus {
+      border-bottom-color: rgba(255,255,255,0.7);
+    }
+    
+    .search-input::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+    
+    .search-suggestions {
+      margin-top: 40px;
+    }
+    
+    .search-suggestions-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+    
+    .search-suggestions-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .search-suggestions-list li {
+      margin-bottom: 15px;
+    }
+    
+    .search-suggestions-list a {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      display: block;
+      padding: 10px 0;
+      transition: opacity 0.3s;
+    }
+    
+    .search-suggestions-list a:hover {
+      opacity: 0.7;
+      color: #FFFFFF;
+    }
+    
+    .search-overlay-quick-links {
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding: 30px 40px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .search-overlay-quick-links-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .search-overlay-quick-links-list {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .search-overlay-quick-links-list li {
+      margin: 0;
+    }
+    
+    .search-overlay-quick-links-list a {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #FFFFFF;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+    
+    .search-overlay-quick-links-list a:hover {
+      opacity: 0.7;
+    }
+    
+    /* Harvard Hero Section */
+    .hero-section {
+      background-image: url('https://imgnews.pstatic.net/image/008/2025/12/04/0005287509_001_20251204161309073.jpg?type=w860');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 0;
+      padding-top: 100px;
+      padding-bottom: 100px;
+    }
+    
+    /* Heavy white overlay (85-90% opacity) - image barely visible like watermark */
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.88);
+      z-index: 1;
+    }
+    
+    /* Gradient from white to transparent at bottom */
+    .hero-section::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 200px;
+      background: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+      z-index: 1;
+    }
+    
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding-top: 120px;
+    }
+    
+    .hero-title {
+      font-family: 'Merriweather', serif;
+      font-size: 6.875rem; /* 5.5rem * 125% */
+      font-weight: 500;
+      line-height: 1.1;
+      color: #1a1a1a;
+      margin-bottom: 30px;
+      letter-spacing: -0.02em;
+    }
+    
+    .hero-subtext {
+      font-family: 'Inter', sans-serif;
+      font-size: 20px; /* 16px * 125% */
+      line-height: 1.6;
+      color: #4a4a4a;
+      max-width: 42rem;
+      margin: 0 auto;
+    }
+    
+    /* Make header sticky when scrolling */
+    @media (min-width: 769px) {
+      .harvard-header {
+        position: fixed;
+      }
+      
+      .hero-section {
+        padding-top: 100px;
+      }
+    }
+    
+    /* Latest News Section - Two Column Layout */
+    .latest-news-section {
+      background: var(--harvard-white);
+      padding: 80px 20px;
+    }
+    
+    .latest-news-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .latest-news-header {
+      margin-bottom: 60px;
+    }
+    
+    .latest-news-header h2 {
+      font-family: 'Merriweather', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--harvard-black);
+      margin-bottom: 15px;
+    }
+    
+    .latest-news-header p {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 1.1rem;
+      color: var(--harvard-gray);
+    }
+    
+    /* News Item - Two Column Layout */
+    .news-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 80px;
+      align-items: center;
+    }
+    
+    .news-item.reverse {
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .news-item.reverse .news-item-content {
+      order: 1;
+    }
+    
+    .news-item.reverse .news-item-image-container {
+      order: 2;
+    }
+    
+    .news-item-image-container {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+      background: var(--harvard-light-gray);
+    }
+    
+    .news-item-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .news-item-image-container:hover .news-item-image {
+      transform: scale(1.05);
+    }
+    
+    /* Video Play Button Overlay */
+    .news-item-video-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+      padding: 30px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .video-play-button {
+      width: 60px;
+      height: 60px;
+      background: var(--harvard-crimson);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+    
+    .video-play-button:hover {
+      transform: scale(1.1);
+    }
+    
+    .video-play-button svg {
+      width: 24px;
+      height: 24px;
+      fill: #FFFFFF;
+      margin-left: 3px;
+    }
+    
+    .video-overlay-text {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+    
+    .news-item-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .news-item-title {
+      font-family: 'Merriweather', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--harvard-black);
+      margin-bottom: 25px;
+      line-height: 1.2;
+    }
+    
+    .news-item-description {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--harvard-gray);
+      margin-bottom: 25px;
+    }
+    
+    .news-item-description strong {
+      color: var(--harvard-black);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+    
+    .news-item-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--harvard-crimson);
+      text-decoration: none;
+      transition: gap 0.3s ease;
+    }
+    
+    .news-item-link:hover {
+      gap: 15px;
+    }
+    
+    .news-item-link svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+    
+    /* Content Sections */
+    .content-section {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 80px 20px;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    
+    .section-title {
+      font-family: 'Merriweather', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--harvard-black);
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+    
+    .section-subtitle {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 1.3rem;
+      color: var(--harvard-gray);
+      font-weight: 400;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .card {
+      background: #FFFFFF;
+      border: 1px solid #E0E0E0;
+      padding: 0;
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+    
+    .card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      transform: translateY(-4px);
+    }
+    
+    .card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: var(--harvard-light-gray);
+    }
+    
+    .card-content {
+      padding: 30px;
+    }
+    
+    .card-title {
+      font-family: 'Merriweather', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--harvard-black);
+      margin-bottom: 15px;
+      line-height: 1.3;
+    }
+    
+    .card-text {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      color: var(--harvard-gray);
+      line-height: 1.8;
+      font-size: 1rem;
+      font-weight: 400;
+    }
+    
+    .card-link {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      color: var(--harvard-crimson);
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 15px;
+      display: inline-block;
+    }
+    
+    .card-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* Quote Section */
+    .quote-section {
+      background: var(--harvard-light-gray);
+      padding: 80px 20px;
+      margin: 80px 0;
+    }
+    
+    .quote-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .quote-text {
+      font-family: 'Merriweather', serif;
+      font-size: 2rem;
+      font-style: italic;
+      color: var(--harvard-black);
+      margin-bottom: 30px;
+      line-height: 1.6;
+      position: relative;
+      padding: 0 40px;
+      font-weight: 400;
+    }
+    
+    .quote-text::before {
+      content: '"';
+      font-family: 'Merriweather', serif;
+      font-size: 5rem;
+      color: var(--harvard-crimson);
+      position: absolute;
+      left: 0;
+      top: -20px;
+      opacity: 0.3;
+      line-height: 1;
+    }
+    
+    .quote-author {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 1.1rem;
+      color: var(--harvard-crimson);
+      font-weight: 600;
+    }
+    
+    /* Feature List */
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+      margin-top: 50px;
+    }
+    
+    .feature-item {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .feature-icon {
+      flex-shrink: 0;
+      width: 60px;
+      height: 60px;
+      background: var(--harvard-crimson);
+      color: #FFFFFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    
+    .feature-content h3 {
+      font-family: 'Merriweather', serif;
+      font-size: 1.4rem;
+      color: var(--harvard-black);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    
+    .feature-content p {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      color: var(--harvard-gray);
+      line-height: 1.8;
+      font-size: 1rem;
+      font-weight: 400;
+    }
+    
+    /* Footer */
+    .footer {
+      background: var(--harvard-dark);
+      color: #FFFFFF;
+      padding: 60px 20px 30px;
+    }
+    
+    .footer-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    
+    .footer-section h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #FFFFFF;
+      font-family: 'Merriweather', serif;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+    }
+    
+    .footer-links a:hover {
+      color: #FFFFFF;
+    }
+    
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 30px;
+      text-align: center;
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+    }
+    
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-title {
+        font-size: 3rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .header-container {
+        height: auto;
+        padding: 15px 16px;
+        flex-wrap: nowrap;
+      }
+      
+      .header-left {
+        gap: 12px;
+        flex-shrink: 0;
+        min-width: 0;
+      }
+      
+      .header-notice {
+        display: none;
+      }
+      
+      .harvard-logo-text {
+        font-size: 20px; /* 16px * 125% */
+        gap: 8px;
+      }
+      
+      .harvard-logo-text-main {
+        font-size: 24px; /* 19.2px * 125% */
+      }
+      
+      .harvard-logo-text-sub {
+        font-size: 20px; /* 16px * 125% */
+      }
+      
+      .header-right-black {
+        margin-right: -16px;
+        padding: 0 12px;
+        flex-shrink: 0;
+      }
+      
+      .header-nav-item {
+        padding: 0 12px;
+        font-size: 16.25px; /* 13px * 125% */
+      }
+      
+      .hero-title {
+        font-size: 3.75rem; /* 3rem * 125% */
+      }
+      
+      .hero-subtext {
+        font-size: 17.5px; /* 14px * 125% */
+      }
+      
+      .hero-section {
+        padding: 60px 20px;
+        min-height: 50vh;
+      }
+      
+      .mega-menu-main {
+        padding-left: 20px;
+      }
+      
+      .mega-menu-main-links a {
+        font-size: 2.5rem;
+      }
+      
+      .mega-menu-quick-links {
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      
+      .mega-menu-quick-links-list {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      
+      .search-overlay-main {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      
+      .search-input {
+        font-size: 2.5rem;
+      }
+      
+      .search-overlay-quick-links {
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      
+      .search-overlay-quick-links-list {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .news-item {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        margin-bottom: 60px;
+      }
+      
+      .news-item.reverse .news-item-content {
+        order: 1;
+      }
+      
+      .news-item.reverse .news-item-image-container {
+        order: 2;
+      }
+      
+      .news-item-image-container {
+        height: 300px;
+      }
+      
+      .news-item-title {
+        font-size: 2rem;
+      }
+      
+      .news-item-description {
+        font-size: 15px;
+      }
+      
+      .feature-list {
+        grid-template-columns: 1fr;
+      }
+      
+      .quote-text {
+        font-size: 1.5rem;
+        padding: 0 20px;
+      }
+      
+      .quote-text::before {
+        font-size: 3rem;
+        left: -10px;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Harvard Hero Section with Header Overlay -->
+  <section class="hero-section">
+    <!-- Harvard Header - Overlay on Hero -->
+    <header class="harvard-header">
+      <div class="header-container">
+        <div class="header-left">
+          <div class="harvard-logo-text">
+            <span class="harvard-logo-text-main">BDS</span>
+            <span class="harvard-logo-text-sub">Beyond Dream Scholars</span>
+          </div>
+          <div class="header-notice">
+            <div class="header-notice-bullet"></div>
+            <a href="#" class="header-notice-text">Learn about our lawsuits to protect our students and researchers</a>
+          </div>
+        </div>
+        <div class="header-right-black">
+          <button class="header-nav-item" id="searchToggle" style="background: none; border: none; cursor: pointer;">
+            <svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            Search
+          </button>
+          <button class="header-nav-item" id="menuToggle" style="background: none; border: none; cursor: pointer;">
+            <svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            Menu
+          </button>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+      <div class="search-overlay-container">
+        <div class="search-overlay-header">
+          <div class="search-overlay-title">
+            <svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px;">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            Search BDS
+          </div>
+          <button class="search-overlay-close" id="searchOverlayClose">
+            Close
+            <span class="search-overlay-close-icon">×</span>
+          </button>
+        </div>
+        <div class="search-overlay-main">
+          <div class="search-input-container">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search..." autofocus>
+          </div>
+          <div class="search-suggestions">
+            <div class="search-suggestions-title">QUICK LINKS</div>
+            <ul class="search-suggestions-list">
+              <li><a href="#a-to-z">A to Z index</a></li>
+              <li><a href="#find-person">Find a person</a></li>
+              <li><a href="#events">Events</a></li>
+              <li><a href="#media">Media Relations</a></li>
+              <li><a href="#alumni">Alumni</a></li>
+              <li><a href="#give">Give Now</a></li>
+              <li><a href="#emergency">Emergency</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="search-overlay-quick-links">
+          <span class="search-overlay-quick-links-label">Quick Links ></span>
+          <ul class="search-overlay-quick-links-list">
+            <li><a href="#a-to-z">A to Z index</a></li>
+            <li><a href="#find-person">Find a person</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="#media">Media Relations</a></li>
+            <li><a href="#alumni">Alumni</a></li>
+            <li><a href="#give">Give Now</a></li>
+            <li><a href="#emergency">Emergency</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Harvard Style Menu -->
+    <div class="mega-menu" id="megaMenu">
+      <div class="mega-menu-container">
+        <div class="mega-menu-header">
+          <div class="mega-menu-logo">
+            <div class="mega-menu-logo-text">
+              <span class="mega-menu-logo-text-main">BDS</span>
+              <span class="mega-menu-logo-text-sub">Beyond Dream Scholars</span>
+            </div>
+          </div>
+          <button class="mega-menu-close" id="megaMenuClose">
+            Close
+            <span class="mega-menu-close-icon">×</span>
+          </button>
+        </div>
+        <div class="mega-menu-main">
+          <ul class="mega-menu-main-links">
+            <li><a href="#academics">Academics</a></li>
+            <li><a href="#campus">Campus</a></li>
+            <li><a href="#in-focus">In Focus</a></li>
+            <li><a href="#visit">Visit</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#news">News</a></li>
+          </ul>
+        </div>
+        <div class="mega-menu-quick-links">
+          <span class="mega-menu-quick-links-label">Quick Links ></span>
+          <ul class="mega-menu-quick-links-list">
+            <li><a href="#a-to-z">A to Z index</a></li>
+            <li><a href="#find-person">Find a person</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="#media">Media Relations</a></li>
+            <li><a href="#alumni">Alumni</a></li>
+            <li><a href="#give">Give Now</a></li>
+            <li><a href="#emergency">Emergency</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Hero Content -->
+    <div class="hero-content">
+      <h1 class="hero-title">
+        Dream Beyond Dream
+      </h1>
+      <p class="hero-subtext">
+        Each day, BDS students, faculty, staff, and alumni worldwide commit their skills, knowledge, and energy to advancing the public good and making a lasting impact on society.
+      </p>
+    </div>
+  </section>
+
+  <!-- Latest News Section -->
+  <section class="latest-news-section">
+    <div class="latest-news-container">
+      <div class="news-items">
+        <!-- News Item 1: Image on Left, Text on Right -->
+        <div class="news-item">
+          <div class="news-item-image-container">
+            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Community Service" class="news-item-image">
+            <div class="news-item-video-overlay">
+              <div class="video-play-button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="9 6 9 18 18 12"></polygon>
+                </svg>
+              </div>
+              <div class="video-overlay-text">Join us for a Day of Service</div>
+            </div>
+          </div>
+          <div class="news-item-content">
+            <h3 class="news-item-title">Serving our community</h3>
+            <p class="news-item-description">
+              BDS Ed Portal offers lectures, arts and culture events, public school partnerships, youth programming, and more. BDS students, faculty, staff, and alumni participate in days of service, partner with local non-profits, and organize seasonal drives.
+            </p>
+          </div>
+        </div>
+        
+        <!-- News Item 2: Text on Left, Image on Right -->
+        <div class="news-item reverse">
+          <div class="news-item-content">
+            <h3 class="news-item-title">Serving our country</h3>
+            <p class="news-item-description">
+              BDS has a deeply interwoven history with the U.S. military. The rise of ROTC students and programs like BDS Kennedy School's American Service Fellowship continue this tradition of service and leadership.
+            </p>
+            <a href="#" class="news-item-link">
+              Learn about BDS's tradition of military service
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+          <div class="news-item-image-container">
+            <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Military Service" class="news-item-image">
+          </div>
+        </div>
+        
+        <!-- News Item 3: Image on Left, Text on Right -->
+        <div class="news-item">
+          <div class="news-item-image-container">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Global Leadership" class="news-item-image">
+          </div>
+          <div class="news-item-content">
+            <h3 class="news-item-title">Global Leadership Program</h3>
+            <p class="news-item-description">
+              Our comprehensive global leadership program brings together students from diverse backgrounds to develop skills in cross-cultural communication, international collaboration, and sustainable development. Through partnerships with leading institutions worldwide, students gain hands-on experience in addressing global challenges.
+            </p>
+            <a href="#" class="news-item-link">
+              Explore our global programs
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+        
+        <!-- News Item 4: Text on Left, Image on Right -->
+        <div class="news-item reverse">
+          <div class="news-item-content">
+            <h3 class="news-item-title">Campus Life at BDS</h3>
+            <p class="news-item-description">
+              Experience life at BDS through our vibrant campus community. From student organizations and cultural events to athletic programs and community service, there are countless ways to get involved and make lasting connections.
+            </p>
+            <a href="#" class="news-item-link">
+              Discover campus life
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+          <div class="news-item-image-container">
+            <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Campus Life" class="news-item-image">
+            <div class="news-item-video-overlay">
+              <div class="video-play-button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="9 6 9 18 18 12"></polygon>
+                </svg>
+              </div>
+              <div class="video-overlay-text">Watch: A Day in the Life at BDS</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote Section -->
+  <section class="quote-section">
+    <div class="quote-container">
+      <p class="quote-text">
+        꿈을 넘어서는 글로벌 리더로 성장하기 위해, 
+        옹달샘의 평화로운 자연 속에서 자신의 재능을 발견하고 내면의 힘을 기릅니다.
+      </p>
+      <p class="quote-author">— B.S.D.S. Global Leadership Academy</p>
+    </div>
+  </section>
+
+  <!-- Academics Section -->
+  <section class="content-section" id="academics">
+    <div class="section-header">
+      <h2 class="section-title">학문 프로그램</h2>
+      <p class="section-subtitle">BDS에서 제공하는 다양한 교육 프로그램을 만나보세요</p>
+    </div>
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-icon">🌍</div>
+        <div class="feature-content">
+          <h3>글로벌 리더십</h3>
+          <p>국제적인 시야와 리더십을 기르는 프로그램으로, 다양한 문화를 이해하고 글로벌 이슈에 대해 깊이 있게 탐구합니다.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-content">
+          <h3>재능 발견 프로그램</h3>
+          <p>학생 개개인의 고유한 재능과 관심사를 발견하고 발전시킬 수 있도록 맞춤형 교육을 제공합니다.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🧘</div>
+        <div class="feature-content">
+          <h3>명상과 자기성찰</h3>
+          <p>옹달샘의 자연환경을 활용한 명상 프로그램으로 내면의 평화를 찾고 자기 성찰 능력을 기릅니다.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">📚</div>
+        <div class="feature-content">
+          <h3>프로젝트 기반 학습</h3>
+          <p>실제 문제를 해결하는 프로젝트를 통해 창의력과 문제 해결 능력을 기르는 학습 방법입니다.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🌿</div>
+        <div class="feature-content">
+          <h3>자연 체험 학습</h3>
+          <p>충주의 아름다운 자연 속에서 생태 교육과 환경 보호에 대한 인식을 높이는 체험 프로그램입니다.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🤝</div>
+        <div class="feature-content">
+          <h3>국제 교류</h3>
+          <p>해외 학생들과의 교류 프로그램을 통해 다양한 문화를 경험하고 글로벌 네트워크를 구축합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Campus Section -->
+  <section class="content-section" id="campus" style="background: var(--harvard-light-gray);">
+    <div class="section-header">
+      <h2 class="section-title">캠퍼스</h2>
+      <p class="section-subtitle">옹달샘 명상센터의 자연환경과 인프라를 교육에 활용합니다</p>
+    </div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-content">
+          <h3 class="card-title">교실 및 학습공간</h3>
+          <p class="card-text">자연 속에서 편안하게 학습할 수 있는 교실과 다양한 학습 공간을 제공합니다.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-content">
+          <h3 class="card-title">명상실</h3>
+          <p class="card-text">평화로운 명상 공간에서 내면의 힘을 기르고 자기 성찰의 시간을 가집니다.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-content">
+          <h3 class="card-title">기숙사</h3>
+          <p class="card-text">자연 속에서 생활하며 공동체 의식을 기르는 기숙사 시설을 제공합니다.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-content">
+          <h3 class="card-title">식당 (사찰음식)</h3>
+          <p class="card-text">건강한 유기농 재료로 만든 사찰음식을 통해 몸과 마음을 정화합니다.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-content">
+          <h3 class="card-title">도서관 및 자료실</h3>
+          <p class="card-text">다양한 도서와 자료를 활용하여 깊이 있는 학습을 할 수 있는 공간입니다.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-content">
+          <h3 class="card-title">자연 학습 공간</h3>
+          <p class="card-text">옹달샘의 아름다운 정원과 자연 환경을 활용한 야외 학습 공간입니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h3>Security & Brand</h3>
+          <ul class="footer-links">
+            <li><a href="#">Report Copyright Infringement</a></li>
+            <li><a href="#">Report Security Issue</a></li>
+            <li><a href="#">Trademark Notice</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Website</h3>
+          <ul class="footer-links">
+            <li><a href="#">Accessibility</a></li>
+            <li><a href="#">Digital Accessibility</a></li>
+            <li><a href="#">Privacy statement</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Get In Touch</h3>
+          <ul class="footer-links">
+            <li><a href="#">Contact BDS</a></li>
+            <li><a href="#">Maps & Directions</a></li>
+            <li><a href="#">Jobs</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Copyright © 2024 BDS - B.S.D.S. Global Leadership Academy</p>
+        <p style="margin-top: 10px;">충주 옹달샘 명상센터 | 아침편지 문화재단</p>
+        <p style="margin-top: 10px; font-size: 0.85rem;">서버 시간: <span id="server-time"></span></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 서버 시간 표시
+    function updateTime() {
+      const now = new Date();
+      document.getElementById('server-time').textContent = now.toLocaleString('ko-KR');
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+
+    // Search Overlay 토글
+    const searchToggle = document.getElementById('searchToggle');
+    const searchOverlay = document.getElementById('searchOverlay');
+    const searchOverlayClose = document.getElementById('searchOverlayClose');
+    const searchInput = document.getElementById('searchInput');
+    
+    if (searchToggle && searchOverlay) {
+      searchToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        searchOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => {
+          if (searchInput) searchInput.focus();
+        }, 100);
+      });
+      
+      if (searchOverlayClose) {
+        searchOverlayClose.addEventListener('click', function() {
+          searchOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      }
+      
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
+          searchOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+      
+      searchOverlay.addEventListener('click', function(e) {
+        if (e.target === searchOverlay) {
+          searchOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+    
+    // Mega Menu 토글
+    const menuToggle = document.getElementById('menuToggle');
+    const megaMenu = document.getElementById('megaMenu');
+    const megaMenuClose = document.getElementById('megaMenuClose');
+    
+    if (menuToggle && megaMenu) {
+      menuToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        // Close search overlay if open
+        if (searchOverlay && searchOverlay.classList.contains('active')) {
+          searchOverlay.classList.remove('active');
+        }
+        megaMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+      
+      if (megaMenuClose) {
+        megaMenuClose.addEventListener('click', function() {
+          megaMenu.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      }
+      
+      const menuLinks = megaMenu.querySelectorAll('a');
+      menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          megaMenu.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      });
+      
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && megaMenu.classList.contains('active')) {
+          megaMenu.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+      
+      megaMenu.addEventListener('click', function(e) {
+        if (e.target === megaMenu) {
+          megaMenu.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+    
+    // Prevent both overlays from being open at the same time
+    if (searchOverlay && megaMenu) {
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            if (searchOverlay.classList.contains('active') && megaMenu.classList.contains('active')) {
+              megaMenu.classList.remove('active');
+            }
+            if (megaMenu.classList.contains('active') && searchOverlay.classList.contains('active')) {
+              searchOverlay.classList.remove('active');
+            }
+          }
+        });
+      });
+      
+      observer.observe(searchOverlay, { attributes: true });
+      observer.observe(megaMenu, { attributes: true });
+    }
+
+    // 부드러운 스크롤
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
