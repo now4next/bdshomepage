@@ -1079,18 +1079,13 @@
         padding: 80px 40px;
       }
     }
-
-.section-title {
-        font-size: 2rem;
-      }
-    }
     
     @media (max-width: 768px) {
       .header-container {
         height: auto;
         padding: 15px 16px;
         flex-wrap: nowrap;
-  
+      }
       
       /* Enhanced News Items Mobile */
       .news-item-image-container {
@@ -1269,12 +1264,21 @@
         margin-bottom: 60px;
       }
       
+      /* Mobile: Always show video/image first, then content below */
+      .news-item-image-container {
+        order: 1 !important;
+      }
+      
+      .news-item-content {
+        order: 2 !important;
+      }
+      
       .news-item.reverse .news-item-content {
-        order: 1;
+        order: 2 !important;
       }
       
       .news-item.reverse .news-item-image-container {
-        order: 2;
+        order: 1 !important;
       }
       
       .news-item-image-container {
