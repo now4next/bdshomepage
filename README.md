@@ -103,3 +103,47 @@ php -S localhost:8000
 ## 📄 라이선스
 
 Copyright © 2024 BDS (Beyond Dream Scholars). All rights reserved.
+
+---
+
+## 🌐 Live Deployment
+
+**Production URL**: [https://bdshomepage.pages.dev](https://bdshomepage.pages.dev)
+
+### Deployment Status
+
+✅ **Status**: Live and Running  
+🚀 **Platform**: Cloudflare Pages  
+🔄 **Auto-Deploy**: Enabled (GitHub integration)  
+📦 **CDN**: Global Cloudflare Network  
+
+### Deployment Details
+
+- **Project Name**: `bdshomepage`
+- **Build Status**: Success
+- **Content Type**: Static HTML/CSS/JavaScript
+- **Response Code**: 200 OK
+- **CDN**: Cloudflare Global Network
+- **SSL/TLS**: Enabled (HTTPS)
+
+### Automatic Deployment
+
+이 프로젝트는 GitHub와 Cloudflare Pages가 연동되어 있어, `main` 브랜치에 코드를 푸시하면 자동으로 배포됩니다:
+
+```bash
+git add .
+git commit -m "업데이트 내용"
+git push origin main
+# → 자동으로 https://bdshomepage.pages.dev 에 배포됨
+```
+
+### Custom Domain Setup (선택사항)
+
+커스텀 도메인을 연결하려면:
+
+1. Cloudflare Dashboard → Pages → bdshomepage
+2. **Custom domains** 탭 선택
+3. **Set up a custom domain** 클릭
+4. 도메인 입력 및 DNS 설정 완료
+
+---
