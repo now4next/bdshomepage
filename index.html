@@ -627,6 +627,119 @@
       }
     }
     
+    /* Hero CTA Section */
+    .hero-cta-section {
+      background: linear-gradient(135deg, #f9f9f9 0%, #ffffff 100%);
+      padding: 100px 20px 80px;
+      text-align: center;
+    }
+    
+    .hero-cta-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .hero-cta-title {
+      font-family: 'Merriweather', serif;
+      font-size: 3rem;
+      font-weight: 400;
+      color: #1a1a1a;
+      margin-bottom: 24px;
+      line-height: 1.3;
+    }
+    
+    .hero-cta-subtitle {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 1.2rem;
+      color: #333333;
+      line-height: 1.6;
+      margin-bottom: 48px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .hero-cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 32px;
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      cursor: pointer;
+    }
+    
+    .cta-primary {
+      background: var(--harvard-crimson);
+      color: #FFFFFF;
+      border-color: var(--harvard-crimson);
+    }
+    
+    .cta-primary:hover {
+      background: #8B1826;
+      border-color: #8B1826;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(165, 28, 48, 0.3);
+    }
+    
+    .cta-secondary {
+      background: transparent;
+      color: var(--harvard-crimson);
+      border-color: var(--harvard-crimson);
+    }
+    
+    .cta-secondary:hover {
+      background: var(--harvard-crimson);
+      color: #FFFFFF;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(165, 28, 48, 0.2);
+    }
+    
+    .hide-mobile {
+      display: inline;
+    }
+    
+    @media (max-width: 768px) {
+      .hero-cta-section {
+        padding: 60px 20px 50px;
+      }
+      
+      .hero-cta-title {
+        font-size: 2rem;
+      }
+      
+      .hero-cta-subtitle {
+        font-size: 1rem;
+        margin-bottom: 32px;
+      }
+      
+      .hero-cta-buttons {
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .cta-button {
+        width: 100%;
+        padding: 14px 24px;
+      }
+      
+      .hide-mobile {
+        display: none;
+      }
+    }
+
     /* Quick Facts Statistics Section */
     .quick-facts-section {
       background: linear-gradient(135deg, #A51C30 0%, #7d1625 100%);
@@ -1418,6 +1531,243 @@
         font-size: 2rem;
       }
     }
+    /* Testimonials Section */
+    .testimonials-section {
+      background: #f9f9f9;
+      padding: 80px 20px;
+    }
+    
+    .testimonials-container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    
+    .testimonials-title {
+      font-family: 'Merriweather', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: #1a1a1a;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    
+    .testimonials-subtitle {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 1.1rem;
+      color: #666666;
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    
+    .testimonials-carousel {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto 40px;
+    }
+    
+    .testimonials-track {
+      position: relative;
+      overflow: hidden;
+      min-height: 350px;
+    }
+    
+    .testimonial-card {
+      display: none;
+      background: #FFFFFF;
+      border-radius: 8px;
+      padding: 48px 40px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      animation: fadeIn 0.5s ease;
+    }
+    
+    .testimonial-card.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .testimonial-content {
+      margin-bottom: 32px;
+    }
+    
+    .quote-mark {
+      font-family: 'Merriweather', serif;
+      font-size: 5rem;
+      color: var(--harvard-crimson);
+      line-height: 1;
+      margin-bottom: 16px;
+      opacity: 0.3;
+    }
+    
+    .testimonial-text {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #333333;
+      font-style: italic;
+    }
+    
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .author-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--harvard-crimson);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    
+    .author-name {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+    
+    .author-role {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 0.95rem;
+      color: #666666;
+    }
+    
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #FFFFFF;
+      border: 2px solid var(--harvard-crimson);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+      color: var(--harvard-crimson);
+    }
+    
+    .carousel-btn:hover {
+      background: var(--harvard-crimson);
+      color: #FFFFFF;
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .carousel-prev {
+      left: -24px;
+    }
+    
+    .carousel-next {
+      right: -24px;
+    }
+    
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+    
+    .indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #d0d0d0;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .indicator.active {
+      background: var(--harvard-crimson);
+      width: 32px;
+      border-radius: 6px;
+    }
+    
+    .indicator:hover {
+      background: var(--harvard-crimson);
+      opacity: 0.7;
+    }
+    
+    @media (max-width: 968px) {
+      .carousel-prev {
+        left: 0;
+      }
+      
+      .carousel-next {
+        right: 0;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .testimonials-section {
+        padding: 60px 20px;
+      }
+      
+      .testimonials-title {
+        font-size: 2rem;
+      }
+      
+      .testimonials-subtitle {
+        font-size: 1rem;
+        margin-bottom: 40px;
+      }
+      
+      .testimonial-card {
+        padding: 32px 24px;
+      }
+      
+      .testimonial-text {
+        font-size: 1rem;
+      }
+      
+      .quote-mark {
+        font-size: 4rem;
+      }
+      
+      .carousel-btn {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .carousel-prev {
+        left: -8px;
+      }
+      
+      .carousel-next {
+        right: -8px;
+      }
+    }
+
+    .social-link:hover {
+      color: #FFFFFF !important;
+      transform: translateY(-2px);
+    }
+    
+    .footer-section svg {
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
@@ -1552,6 +1902,31 @@
       <p class="hero-subtext">
         Each day, BDS students, faculty, staff, and alumni worldwide commit their skills, knowledge, and energy to advancing the public good and making a lasting impact on society.
       </p>
+    </div>
+  </section>
+
+  <!-- Hero CTA Section -->
+  <section class="hero-cta-section">
+    <div class="hero-cta-container">
+      <h1 class="hero-cta-title">Educating Global Leaders with<br>Purpose, Excellence & Mindfulness</h1>
+      <p class="hero-cta-subtitle">
+        Beyond Dream Scholars nurtures passionate learners who dream beyond themselves,<br class="hide-mobile">
+        combining rigorous academics with daily meditation and character development.
+      </p>
+      <div class="hero-cta-buttons">
+        <a href="#" class="cta-button cta-primary">
+          Apply Now
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 8px;">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="academic-calendar.html" class="cta-button cta-secondary">
+          View Academic Calendar
+        </a>
+        <a href="#" class="cta-button cta-secondary">
+          Schedule a Visit
+        </a>
+      </div>
     </div>
   </section>
 
@@ -1967,12 +2342,54 @@
           </ul>
         </div>
         <div class="footer-section">
-          <h3>Contact</h3>
+          <h3>Contact Us</h3>
           <ul class="footer-links">
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Visit Campus</a></li>
-            <li><a href="#">Career Opportunities</a></li>
+            <li><a href="tel:+82-43-850-3600" style="display: flex; align-items: center; gap: 8px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              +82-43-850-3600
+            </a></li>
+            <li><a href="mailto:info@bdskorea.org" style="display: flex; align-items: center; gap: 8px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              info@bdskorea.org
+            </a></li>
+            <li style="display: flex; align-items: center; gap: 8px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              Chungju, South Korea
+            </li>
           </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Connect With Us</h3>
+          <div style="display: flex; gap: 15px; margin-top: 20px;">
+            <a href="#" class="social-link" aria-label="Facebook" style="color: rgba(255,255,255,0.8); transition: color 0.3s;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+            <a href="#" class="social-link" aria-label="Instagram" style="color: rgba(255,255,255,0.8); transition: color 0.3s;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+            <a href="#" class="social-link" aria-label="YouTube" style="color: rgba(255,255,255,0.8); transition: color 0.3s;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+            </a>
+            <a href="#" class="social-link" aria-label="LinkedIn" style="color: rgba(255,255,255,0.8); transition: color 0.3s;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
       <div class="footer-bottom">
@@ -1980,6 +2397,7 @@
       </div>
     </div>
   </footer>
+
 
   <script>
     // Search Overlay 토글
@@ -2098,6 +2516,59 @@
         }
       });
     });
+
+    // Testimonials Carousel
+    const carouselTrack = document.querySelector('.testimonials-track');
+    if (carouselTrack) {
+      const testimonialCards = Array.from(carouselTrack.querySelectorAll('.testimonial-card'));
+      const prevBtn = document.querySelector('.carousel-prev');
+      const nextBtn = document.querySelector('.carousel-next');
+      const indicators = Array.from(document.querySelectorAll('.carousel-indicators .indicator'));
+      
+      let currentIndex = 0;
+      
+      function updateCarousel(index) {
+        // Remove active class from all cards
+        testimonialCards.forEach(card => card.classList.remove('active'));
+        indicators.forEach(ind => ind.classList.remove('active'));
+        
+        // Add active class to current card
+        testimonialCards[index].classList.add('active');
+        indicators[index].classList.add('active');
+        
+        currentIndex = index;
+      }
+      
+      // Previous button
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          const newIndex = currentIndex === 0 ? testimonialCards.length - 1 : currentIndex - 1;
+          updateCarousel(newIndex);
+        });
+      }
+      
+      // Next button
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          const newIndex = currentIndex === testimonialCards.length - 1 ? 0 : currentIndex + 1;
+          updateCarousel(newIndex);
+        });
+      }
+      
+      // Indicator buttons
+      indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+          updateCarousel(index);
+        });
+      });
+      
+      // Auto-advance carousel every 8 seconds
+      setInterval(() => {
+        const newIndex = currentIndex === testimonialCards.length - 1 ? 0 : currentIndex + 1;
+        updateCarousel(newIndex);
+      }, 8000);
+    }
+
   </script>
 </body>
 </html>
