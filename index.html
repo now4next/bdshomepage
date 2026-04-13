@@ -627,6 +627,86 @@
       }
     }
     
+    /* Quick Facts Statistics Section */
+    .quick-facts-section {
+      background: linear-gradient(135deg, #A51C30 0%, #7d1625 100%);
+      color: #FFFFFF;
+      padding: 80px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .quick-facts-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="rgba(255,255,255,0.03)"/></svg>');
+      opacity: 0.3;
+    }
+    
+    .quick-facts-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .quick-facts-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 300;
+      margin-bottom: 20px;
+      font-family: 'Merriweather', serif;
+      letter-spacing: -0.5px;
+    }
+    
+    .quick-facts-subtitle {
+      text-align: center;
+      font-size: 1.1rem;
+      margin-bottom: 60px;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+    
+    .quick-facts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 50px;
+    }
+    
+    .quick-fact-item {
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .quick-fact-number {
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 15px;
+      font-family: 'Merriweather', serif;
+      display: block;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .quick-fact-label {
+      font-size: 1.1rem;
+      font-weight: 400;
+      opacity: 0.95;
+      line-height: 1.4;
+    }
+    
+    .quick-fact-description {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+    
+
     /* Latest News Section - Two Column Layout */
     .latest-news-section {
       background: var(--harvard-white);
@@ -1474,6 +1554,41 @@
       </p>
     </div>
   </section>
+
+  <!-- Quick Facts Statistics Section -->
+  <section class="quick-facts-section">
+    <div class="quick-facts-container">
+      <h2 class="quick-facts-title">BDS by the Numbers</h2>
+      <p class="quick-facts-subtitle">Excellence in education, measured by outcomes and dedication</p>
+      
+      <div class="quick-facts-grid">
+        <div class="quick-fact-item">
+          <span class="quick-fact-number">6+</span>
+          <div class="quick-fact-label">Years of Excellence</div>
+          <div class="quick-fact-description">Since 2020</div>
+        </div>
+        
+        <div class="quick-fact-item">
+          <span class="quick-fact-number">8:1</span>
+          <div class="quick-fact-label">Student-Teacher Ratio</div>
+          <div class="quick-fact-description">Personalized attention for every student</div>
+        </div>
+        
+        <div class="quick-fact-item">
+          <span class="quick-fact-number">100%</span>
+          <div class="quick-fact-label">University Acceptance</div>
+          <div class="quick-fact-description">Our graduates excel globally</div>
+        </div>
+        
+        <div class="quick-fact-item">
+          <span class="quick-fact-number">15+</span>
+          <div class="quick-fact-label">Countries Represented</div>
+          <div class="quick-fact-description">A truly global community</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
   <!-- Latest News Section -->
   <section class="latest-news-section">
