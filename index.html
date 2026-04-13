@@ -1728,6 +1728,313 @@
       .testimonials-title {
         font-size: 2rem;
       }
+
+    /* Why Choose BDS Section */
+    .why-choose-section {
+      background: #FFFFFF;
+      padding: 80px 20px;
+    }
+    
+    .why-choose-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .why-choose-title {
+      font-family: 'Merriweather', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: #1a1a1a;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    
+    .why-choose-subtitle {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 1.1rem;
+      color: #666666;
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    
+    .why-choose-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+    
+    .why-choose-card {
+      background: #f9f9f9;
+      padding: 40px 32px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    
+    .why-choose-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+      border-color: var(--harvard-crimson);
+    }
+    
+    .why-choose-card.highlight {
+      background: linear-gradient(135deg, #A51C30 0%, #8B1826 100%);
+      color: #FFFFFF;
+    }
+    
+    .why-choose-card.highlight h3,
+    .why-choose-card.highlight p {
+      color: #FFFFFF;
+    }
+    
+    .card-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(165, 28, 48, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      color: var(--harvard-crimson);
+    }
+    
+    .why-choose-card.highlight .card-icon {
+      background: rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+    }
+    
+    .why-choose-card h3 {
+      font-family: 'Merriweather', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: #1a1a1a;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+    
+    .why-choose-card p {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #333333;
+    }
+    
+    .why-choose-cta {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    @media (max-width: 768px) {
+      .why-choose-section {
+        padding: 60px 20px;
+      }
+      
+      .why-choose-title {
+        font-size: 2rem;
+      }
+      
+      .why-choose-subtitle {
+        font-size: 1rem;
+        margin-bottom: 40px;
+      }
+      
+      .why-choose-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .why-choose-card {
+        padding: 32px 24px;
+      }
+      
+      .card-icon {
+        width: 64px;
+        height: 64px;
+      }
+      
+      .why-choose-cta {
+        flex-direction: column;
+      }
+      
+      .why-choose-cta .cta-button {
+        width: 100%;
+      }
+    }
+
+    /* FAQ Section */
+    .faq-section {
+      background: #f9f9f9;
+      padding: 80px 20px;
+    }
+    
+    .faq-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .faq-title {
+      font-family: 'Merriweather', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: #1a1a1a;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    
+    .faq-subtitle {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 1.1rem;
+      color: #666666;
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    .faq-accordion {
+      margin-bottom: 50px;
+    }
+    
+    .faq-item {
+      background: #FFFFFF;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+    
+    .faq-item.active {
+      border-color: var(--harvard-crimson);
+    }
+    
+    .faq-question {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 28px;
+      background: none;
+      border: none;
+      text-align: left;
+      font-family: 'Merriweather', serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: #1a1a1a;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .faq-question:hover {
+      background-color: #f9f9f9;
+    }
+    
+    .faq-item.active .faq-question {
+      color: var(--harvard-crimson);
+    }
+    
+    .faq-icon {
+      flex-shrink: 0;
+      margin-left: 16px;
+      transition: transform 0.3s ease;
+      color: var(--harvard-crimson);
+    }
+    
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+    }
+    
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    
+    .faq-item.active .faq-answer {
+      max-height: 1000px;
+    }
+    
+    .faq-answer > div {
+      padding: 0 28px 28px 28px;
+    }
+    
+    .faq-answer p {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #333333;
+      margin-bottom: 16px;
+    }
+    
+    .faq-answer ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 16px 0;
+    }
+    
+    .faq-answer li {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #333333;
+      padding-left: 28px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+    
+    .faq-answer li:before {
+      content: "•";
+      position: absolute;
+      left: 12px;
+      color: var(--harvard-crimson);
+      font-weight: bold;
+    }
+    
+    .faq-cta {
+      text-align: center;
+      padding: 40px 20px;
+      background: #FFFFFF;
+      border-radius: 8px;
+    }
+    
+    .faq-cta p {
+      font-family: 'Merriweather', serif;
+      font-size: 1.3rem;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+    }
+    
+    @media (max-width: 768px) {
+      .faq-section {
+        padding: 60px 20px;
+      }
+      
+      .faq-title {
+        font-size: 2rem;
+      }
+      
+      .faq-subtitle {
+        font-size: 1rem;
+        margin-bottom: 40px;
+      }
+      
+      .faq-question {
+        padding: 20px;
+        font-size: 1rem;
+      }
+      
+      .faq-answer > div {
+        padding: 0 20px 20px 20px;
+      }
+      
+      .faq-cta p {
+        font-size: 1.1rem;
+      }
+    }
+
+
       
       .testimonials-subtitle {
         font-size: 1rem;
@@ -2321,6 +2628,149 @@
   </section>
 
 
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="faq-container">
+      <h2 class="faq-title">Frequently Asked Questions</h2>
+      <p class="faq-subtitle">Find answers to common questions about BDS admissions, academics, and campus life</p>
+      
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>What are the admission requirements for BDS?</span>
+            <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <div>
+              <p>BDS accepts students in grades 9-12 who demonstrate academic potential, curiosity, and a commitment to personal growth. The application process includes:</p>
+            <ul>
+              <li>Completed application form with personal essay</li>
+              <li>Academic transcripts from previous schools</li>
+              <li>English proficiency test (TOEFL/IELTS for international students)</li>
+              <li>Two teacher recommendations</li>
+              <li>Interview with admissions committee</li>
+            </ul>
+            <p>We evaluate each applicant holistically, considering not just grades but also character, motivation, and alignment with our educational philosophy.</p>
+          </div>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>What makes BDS's meditation program unique?</span>
+            <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <div>
+              <p>BDS is one of the few schools worldwide that integrates daily meditation into its curriculum. Every morning begins with a 20-30 minute guided meditation session designed to:</p>
+            <ul>
+              <li>Develop focus and mental clarity for academic work</li>
+              <li>Build emotional resilience and stress management skills</li>
+              <li>Cultivate mindfulness and self-awareness</li>
+              <li>Foster inner peace and balanced decision-making</li>
+            </ul>
+            <p>Students consistently report that meditation helps them manage college application stress, improve concentration, and maintain emotional balance—skills they carry into university and beyond.</p>
+          </div>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>What is the "Dream Beyond a Dream" philosophy?</span>
+            <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <div>
+              <p>"Dream Beyond a Dream" is BDS's core educational philosophy that challenges students to think beyond personal success. Instead of dreaming only for themselves, we encourage students to ask:</p>
+            <ul>
+              <li><strong>"How can my dreams benefit others?"</strong></li>
+              <li><strong>"What positive impact can I make on my community and the world?"</strong></li>
+              <li><strong>"How can I use my talents to address global challenges?"</strong></li>
+            </ul>
+            <p>This philosophy shapes everything from our curriculum to our community service projects, creating graduates who are not just academically successful but also socially responsible global citizens.</p>
+          </div>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>How does BDS prepare students for top universities?</span>
+            <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <div>
+              <p>BDS maintains a 100% university acceptance rate through comprehensive college preparation:</p>
+            <ul>
+              <li><strong>Rigorous Academics:</strong> AP courses, SAT/TOEFL preparation, and college-level writing</li>
+              <li><strong>Small Classes:</strong> 8:1 student-teacher ratio ensures personalized guidance</li>
+              <li><strong>College Counseling:</strong> Dedicated counselors assist with applications, essays, and interviews</li>
+              <li><strong>Extracurriculars:</strong> Leadership opportunities, community service, and unique programs</li>
+              <li><strong>Global Perspective:</strong> International student body prepares students for diverse campus environments</li>
+            </ul>
+            <p>Our graduates have been accepted to Stanford, UC Berkeley, Yale, MIT, and leading universities in Korea, the UK, and beyond.</p>
+          </div>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>What is campus life like at BDS?</span>
+            <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <div>
+              <p>BDS campus life balances rigorous academics with holistic personal development:</p>
+            <ul>
+              <li><strong>Natural Setting:</strong> Located in Chungju's serene countryside, providing a peaceful learning environment</li>
+              <li><strong>Residential Community:</strong> Dormitory living fosters independence and close friendships</li>
+              <li><strong>International Environment:</strong> Students from 15+ countries create a truly global community</li>
+              <li><strong>Daily Schedule:</strong> Morning meditation, academic classes, sports/arts, evening study, and community time</li>
+              <li><strong>Healthy Living:</strong> Organic temple-style meals, outdoor activities, and wellness programs</li>
+            </ul>
+            <p>Students describe BDS as a supportive family where they grow academically, emotionally, and spiritually.</p>
+          </div>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>What are the tuition and financial aid options?</span>
+            <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <div>
+              <p>BDS offers comprehensive tuition packages and financial assistance:</p>
+            <ul>
+              <li><strong>Tuition:</strong> Covers academics, boarding, meals, and most activities</li>
+              <li><strong>Merit Scholarships:</strong> Available for students with outstanding academic or leadership records</li>
+              <li><strong>Need-Based Aid:</strong> Financial assistance for families demonstrating need</li>
+              <li><strong>Payment Plans:</strong> Flexible payment options available</li>
+            </ul>
+            <p>We believe exceptional education should be accessible. Please contact our admissions office at info@bdskorea.org or +82-43-850-3600 for detailed tuition information and to discuss financial aid options.</p>
+          </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="faq-cta">
+        <p>Still have questions?</p>
+        <a href="#" class="cta-button cta-secondary">Contact Admissions</a>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-container">
@@ -2568,6 +3018,33 @@
         updateCarousel(newIndex);
       }, 8000);
     }
+
+    // FAQ Accordion
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    if (faqQuestions.length > 0) {
+      faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+          const faqItem = question.parentElement;
+          const isActive = faqItem.classList.contains('active');
+          
+          // Close all FAQ items
+          document.querySelectorAll('.faq-item').forEach(item => {
+            item.classList.remove('active');
+          });
+          
+          // Toggle current item
+          if (!isActive) {
+            faqItem.classList.add('active');
+          }
+        });
+      });
+      
+      // Open first FAQ by default
+      if (document.querySelector('.faq-item')) {
+        document.querySelector('.faq-item').classList.add('active');
+      }
+    }
+
 
   </script>
 </body>
