@@ -6,7 +6,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="version" content="2.2.0-faq-force-style">
+  <meta name="version" content="2.3.0-faq-inline-critical">
   <title>BDS - Beyond Dream Scholars</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2652,6 +2652,154 @@
     </div>
   </section>
 
+
+  <!-- FAQ Section Inline Critical Styles -->
+  <style>
+    /* CRITICAL: This inline style block ensures FAQ styling cannot be overridden */
+    section.faq-section {
+      background: #FFFFFF !important;
+      padding: 80px 20px !important;
+      position: relative !important;
+      z-index: 10 !important;
+      display: block !important;
+      clear: both !important;
+    }
+    
+    .faq-section .faq-container {
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      padding: 0 20px !important;
+      display: block !important;
+    }
+    
+    .faq-section .faq-title {
+      font-family: 'Merriweather', serif !important;
+      font-size: 2.5rem !important;
+      font-weight: 400 !important;
+      color: #1a1a1a !important;
+      text-align: center !important;
+      margin-bottom: 16px !important;
+      display: block !important;
+    }
+    
+    .faq-section .faq-subtitle {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif !important;
+      font-size: 1.1rem !important;
+      color: #666666 !important;
+      text-align: center !important;
+      margin-bottom: 50px !important;
+      display: block !important;
+    }
+    
+    .faq-section .faq-accordion {
+      margin-bottom: 50px !important;
+      display: block !important;
+    }
+    
+    .faq-section .faq-item {
+      background: #FFFFFF !important;
+      border-radius: 8px !important;
+      margin-bottom: 16px !important;
+      overflow: hidden !important;
+      border: 2px solid transparent !important;
+      transition: border-color 0.3s ease !important;
+      display: block !important;
+    }
+    
+    .faq-section .faq-item.active {
+      border-color: #A51C30 !important;
+    }
+    
+    .faq-section .faq-question {
+      width: 100% !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      padding: 24px 28px !important;
+      background: none !important;
+      border: none !important;
+      text-align: left !important;
+      font-family: 'Merriweather', serif !important;
+      font-size: 1.15rem !important;
+      font-weight: 400 !important;
+      color: #1a1a1a !important;
+      cursor: pointer !important;
+      transition: background-color 0.3s ease !important;
+      appearance: none !important;
+      -webkit-appearance: none !important;
+      -moz-appearance: none !important;
+    }
+    
+    .faq-section .faq-question:hover {
+      background-color: #f9f9f9 !important;
+    }
+    
+    .faq-section .faq-item.active .faq-question {
+      color: #A51C30 !important;
+    }
+    
+    .faq-section .faq-icon {
+      flex-shrink: 0 !important;
+      margin-left: 16px !important;
+      transition: transform 0.3s ease !important;
+      color: #A51C30 !important;
+    }
+    
+    .faq-section .faq-item.active .faq-icon {
+      transform: rotate(180deg) !important;
+    }
+    
+    .faq-section .faq-answer {
+      max-height: 0 !important;
+      overflow: hidden !important;
+      transition: max-height 0.4s ease !important;
+      display: block !important;
+    }
+    
+    .faq-section .faq-item.active .faq-answer {
+      max-height: 2000px !important;
+    }
+    
+    .faq-section .faq-answer > div {
+      padding: 0 28px 28px 28px !important;
+      display: block !important;
+    }
+    
+    .faq-section .faq-answer p {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif !important;
+      font-size: 0.95rem !important;
+      line-height: 1.7 !important;
+      color: #333333 !important;
+      margin: 0 0 16px 0 !important;
+      padding: 0 !important;
+      display: block !important;
+    }
+    
+    .faq-section .faq-answer ul {
+      list-style-type: disc !important;
+      list-style-position: outside !important;
+      padding: 0 0 0 28px !important;
+      margin: 16px 0 !important;
+      display: block !important;
+    }
+    
+    .faq-section .faq-answer li {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif !important;
+      font-size: 0.95rem !important;
+      line-height: 1.7 !important;
+      color: #333333 !important;
+      padding: 0 !important;
+      margin: 0 0 8px 0 !important;
+      display: list-item !important;
+      list-style-type: disc !important;
+      list-style-position: outside !important;
+    }
+    
+    .faq-section .faq-answer li strong {
+      font-weight: 600 !important;
+      color: #1a1a1a !important;
+    }
+  </style>
 
   <!-- FAQ Section -->
   <section class="faq-section">
