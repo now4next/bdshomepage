@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Academic Calendar 2025-2026 - BDS</title>
@@ -206,6 +207,82 @@
         padding: 20px;
       }
     }
+
+    /* Language Dropdown */
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .lang-dropdown {
+      position: relative;
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+    }
+    .lang-dropdown-toggle {
+      background: #ffffff;
+      color: var(--harvard-black);
+      border: 1px solid #e0e0e0;
+      padding: 7px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+      line-height: 1;
+      min-width: 58px;
+      justify-content: center;
+      font-family: inherit;
+    }
+    .lang-dropdown-toggle:hover {
+      background: var(--harvard-light-gray);
+      border-color: var(--harvard-black);
+    }
+    .lang-dropdown-toggle svg {
+      width: 10px;
+      height: 10px;
+      transition: transform 0.2s ease;
+    }
+    .lang-dropdown.open .lang-dropdown-toggle svg {
+      transform: rotate(180deg);
+    }
+    .lang-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 4px);
+      right: 0;
+      min-width: 140px;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      padding: 4px 0;
+      display: none;
+      z-index: 1100;
+    }
+    .lang-dropdown.open .lang-dropdown-menu {
+      display: block;
+    }
+    .lang-dropdown-option {
+      display: block;
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      color: var(--harvard-black);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .lang-dropdown-option:hover {
+      background: var(--harvard-light-gray);
+    }
+    .lang-dropdown-option.active {
+      color: var(--harvard-crimson);
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
@@ -217,12 +294,25 @@
         <span class="harvard-logo-text-main">BDS</span>
         <span class="harvard-logo-text-sub">Beyond Dream Scholars</span>
       </div>
-      <a href="index.html" class="back-link">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M19 12H5M12 19l-7-7 7-7"/>
-        </svg>
-        Back to Home
-      </a>
+      <div class="header-right">
+        <a href="index.html" class="back-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          <span data-i18n="calendar.back">Back to Home</span>
+        </a>
+        <div class="lang-dropdown" id="langDropdown">
+          <button type="button" class="lang-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false">
+            <span class="lang-dropdown-current">EN</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="lang-dropdown-menu" role="listbox" aria-label="Language">
+            <button type="button" class="lang-dropdown-option" role="option" data-lang="en" data-i18n="lang.en">English</button>
+            <button type="button" class="lang-dropdown-option" role="option" data-lang="ko" data-i18n="lang.ko">한국어</button>
+            <button type="button" class="lang-dropdown-option" role="option" data-lang="ja" data-i18n="lang.ja">日本語</button>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -230,8 +320,8 @@
   <main class="calendar-container">
     <!-- Header Section -->
     <div class="calendar-header">
-      <h1 class="calendar-title">Academic Calendar 2025-2026</h1>
-      <p class="calendar-subtitle">학사일정 | BDS Global Leadership Academy</p>
+      <h1 class="calendar-title" data-i18n="calendar.page_title">Academic Calendar 2025-2026</h1>
+      <p class="calendar-subtitle" data-i18n="calendar.page_subtitle">학사일정 | BDS Global Leadership Academy</p>
     </div>
 
     <!-- Calendar Image -->
@@ -241,14 +331,14 @@
 
     <!-- Additional Information -->
     <div class="calendar-info">
-      <h3>Key Highlights</h3>
+      <h3 data-i18n="calendar.highlights">Key Highlights</h3>
       <ul class="calendar-info-list">
-        <li><strong>Fall Semester:</strong> September 2025 - December 2025</li>
-        <li><strong>Winter Break:</strong> December 2025 - January 2026</li>
-        <li><strong>Spring Semester:</strong> February 2026 - June 2026</li>
-        <li><strong>Summer Programs:</strong> July 2026 - August 2026</li>
-        <li><strong>Special Events:</strong> Mock Tests, APAP, Winter Concert, Easter Egg Hunt, and more</li>
-        <li><strong>International Programs:</strong> BDS Germany, Summer Sessions, Intensive SAT/TOEFL</li>
+        <li><strong data-i18n="calendar.fall_strong">Fall Semester:</strong><span data-i18n="calendar.fall_text"> September 2025 - December 2025</span></li>
+        <li><strong data-i18n="calendar.winter_strong">Winter Break:</strong><span data-i18n="calendar.winter_text"> December 2025 - January 2026</span></li>
+        <li><strong data-i18n="calendar.spring_strong">Spring Semester:</strong><span data-i18n="calendar.spring_text"> February 2026 - June 2026</span></li>
+        <li><strong data-i18n="calendar.summer_strong">Summer Programs:</strong><span data-i18n="calendar.summer_text"> July 2026 - August 2026</span></li>
+        <li><strong data-i18n="calendar.events_strong">Special Events:</strong><span data-i18n="calendar.events_text"> Mock Tests, APAP, Winter Concert, Easter Egg Hunt, and more</span></li>
+        <li><strong data-i18n="calendar.intl_strong">International Programs:</strong><span data-i18n="calendar.intl_text"> BDS Germany, Summer Sessions, Intensive SAT/TOEFL</span></li>
       </ul>
     </div>
   </main>
@@ -256,9 +346,11 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-container">
-      <p class="footer-text">Copyright © 2020-2026 BDS (Beyond Dream Scholars). All rights reserved.</p>
+      <p class="footer-text" data-i18n="footer.copyright">Copyright © 2020-2026 BDS (Beyond Dream Scholars). All rights reserved.</p>
     </div>
   </footer>
 
+  <script src="js/langs.js"></script>
+  <script src="js/i18n.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -2492,6 +2492,89 @@
     .footer-section svg {
       flex-shrink: 0;
     }
+
+    /* Language Dropdown */
+    .lang-dropdown {
+      position: relative;
+      display: inline-block;
+      margin-left: 16px;
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+    }
+    .lang-dropdown-toggle {
+      background: rgba(0, 0, 0, 0.55);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+      border-radius: 2px;
+      line-height: 1;
+      min-width: 58px;
+      justify-content: center;
+    }
+    .lang-dropdown-toggle:hover {
+      background: rgba(165, 28, 48, 0.85);
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+    .lang-dropdown-toggle svg {
+      width: 10px;
+      height: 10px;
+      transition: transform 0.2s ease;
+    }
+    .lang-dropdown.open .lang-dropdown-toggle svg {
+      transform: rotate(180deg);
+    }
+    .lang-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 4px);
+      right: 0;
+      min-width: 140px;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      padding: 4px 0;
+      display: none;
+      z-index: 1100;
+      border-radius: 2px;
+    }
+    .lang-dropdown.open .lang-dropdown-menu {
+      display: block;
+    }
+    .lang-dropdown-option {
+      display: block;
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      color: #1a1a1a;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .lang-dropdown-option:hover {
+      background: #f5f5f5;
+    }
+    .lang-dropdown-option.active {
+      color: #A51C30;
+      font-weight: 600;
+    }
+    @media (max-width: 768px) {
+      .lang-dropdown {
+        margin-left: 8px;
+      }
+      .lang-dropdown-toggle {
+        padding: 5px 10px;
+        font-size: 0.7rem;
+        min-width: 52px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -2507,7 +2590,7 @@
           </div>
           <div class="header-notice">
             <div class="header-notice-bullet"></div>
-            <a href="academic-calendar.html" class="header-notice-text">BDS Academic Calendar & Key Highlights</a>
+            <a href="academic-calendar.html" class="header-notice-text" data-i18n="header.notice">BDS Academic Calendar & Key Highlights</a>
           </div>
         </div>
         <div class="header-right-black">
@@ -2526,6 +2609,17 @@
             </svg>
             Menu
           </button>
+          <div class="lang-dropdown" id="langDropdown">
+            <button type="button" class="lang-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false">
+              <span class="lang-dropdown-current">EN</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="lang-dropdown-menu" role="listbox" aria-label="Language">
+              <button type="button" class="lang-dropdown-option" role="option" data-lang="en" data-i18n="lang.en">English</button>
+              <button type="button" class="lang-dropdown-option" role="option" data-lang="ko" data-i18n="lang.ko">한국어</button>
+              <button type="button" class="lang-dropdown-option" role="option" data-lang="ja" data-i18n="lang.ja">日本語</button>
+            </div>
+          </div>
         </div>
       </div>
     </header>
@@ -2623,7 +2717,7 @@
       <h1 class="hero-title">
         Dream Beyond Dream
       </h1>
-      <p class="hero-subtext">
+      <p class="hero-subtext" data-i18n="hero.subtext">
         Each day, BDS students, faculty, staff, and alumni worldwide commit their skills, knowledge, and energy to advancing the public good and making a lasting impact on society.
       </p>
     </div>
@@ -2632,22 +2726,21 @@
   <!-- Hero CTA Section -->
   <section class="hero-cta-section">
     <div class="hero-cta-container">
-      <h1 class="hero-cta-title">Educating Global Leaders with<br>Purpose, Excellence & Mindfulness</h1>
-      <p class="hero-cta-subtitle">
-        Beyond Dream Scholars nurtures passionate learners who dream beyond themselves,<br class="hide-mobile">
-        combining rigorous academics with daily meditation and character development.
+      <h1 class="hero-cta-title"><span data-i18n="cta.title_line1">Educating Global Leaders with</span><br><span data-i18n="cta.title_line2">Purpose, Excellence & Mindfulness</span></h1>
+      <p class="hero-cta-subtitle" data-i18n="cta.subtitle">
+        Beyond Dream Scholars nurtures passionate learners who dream beyond themselves, combining rigorous academics with daily meditation and character development.
       </p>
       <div class="hero-cta-buttons">
         <a href="#" class="cta-button cta-primary">
-          Apply Now
+          <span data-i18n="cta.apply">Apply Now</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 8px;">
             <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
         </a>
-        <a href="academic-calendar.html" class="cta-button cta-secondary">
+        <a href="academic-calendar.html" class="cta-button cta-secondary" data-i18n="cta.calendar">
           View Academic Calendar
         </a>
-        <a href="#" class="cta-button cta-secondary">
+        <a href="#" class="cta-button cta-secondary" data-i18n="cta.visit">
           Schedule a Visit
         </a>
       </div>
@@ -2657,32 +2750,32 @@
   <!-- Quick Facts Statistics Section -->
   <section class="quick-facts-section">
     <div class="quick-facts-container">
-      <h2 class="quick-facts-title">BDS by the Numbers</h2>
-      <p class="quick-facts-subtitle">Excellence in education, measured by outcomes and dedication</p>
-      
+      <h2 class="quick-facts-title" data-i18n="quick_facts.title">BDS by the Numbers</h2>
+      <p class="quick-facts-subtitle" data-i18n="quick_facts.subtitle">Excellence in education, measured by outcomes and dedication</p>
+
       <div class="quick-facts-grid">
         <div class="quick-fact-item">
           <span class="quick-fact-number">6+</span>
-          <div class="quick-fact-label">Years of Excellence</div>
-          <div class="quick-fact-description">Since 2020</div>
+          <div class="quick-fact-label" data-i18n="quick_facts.years.label">Years of Excellence</div>
+          <div class="quick-fact-description" data-i18n="quick_facts.years.desc">Since 2020</div>
         </div>
-        
+
         <div class="quick-fact-item">
           <span class="quick-fact-number">8:1</span>
-          <div class="quick-fact-label">Student-Teacher Ratio</div>
-          <div class="quick-fact-description">Personalized attention for every student</div>
+          <div class="quick-fact-label" data-i18n="quick_facts.ratio.label">Student-Teacher Ratio</div>
+          <div class="quick-fact-description" data-i18n="quick_facts.ratio.desc">Personalized attention for every student</div>
         </div>
-        
+
         <div class="quick-fact-item">
           <span class="quick-fact-number">100%</span>
-          <div class="quick-fact-label">University Acceptance</div>
-          <div class="quick-fact-description">Our graduates excel globally</div>
+          <div class="quick-fact-label" data-i18n="quick_facts.acceptance.label">University Acceptance</div>
+          <div class="quick-fact-description" data-i18n="quick_facts.acceptance.desc">Our graduates excel globally</div>
         </div>
-        
+
         <div class="quick-fact-item">
           <span class="quick-fact-number">15+</span>
-          <div class="quick-fact-label">Countries Represented</div>
-          <div class="quick-fact-description">A truly global community</div>
+          <div class="quick-fact-label" data-i18n="quick_facts.countries.label">Countries Represented</div>
+          <div class="quick-fact-description" data-i18n="quick_facts.countries.desc">A truly global community</div>
         </div>
       </div>
     </div>
@@ -2706,8 +2799,8 @@
             </iframe>
           </div>
           <div class="news-item-content">
-            <h3 class="news-item-title">A World Level International School BDS</h3>
-            <p class="news-item-description">
+            <h3 class="news-item-title" data-i18n="news.item1.title">A World Level International School BDS</h3>
+            <p class="news-item-description" data-i18n="news.item1.desc">
               At BDS, we transcend traditional boundaries to provide a world-class education that prepares students to lead with excellence and integrity in an interconnected world.
             </p>
           </div>
@@ -2716,8 +2809,8 @@
         <!-- News Item 2: Text on Left, YouTube Video on Right -->
         <div class="news-item reverse">
           <div class="news-item-content">
-            <h3 class="news-item-title">Beyond Dream, Beyond Border - Germany</h3>
-            <p class="news-item-description">
+            <h3 class="news-item-title" data-i18n="news.item2.title">Beyond Dream, Beyond Border - Germany</h3>
+            <p class="news-item-description" data-i18n="news.item2.desc">
               BDS Germany: Bridging rigorous academic excellence with global opportunity. We empower students to transcend boundaries and turn dreams into reality.
             </p>
           </div>
@@ -2746,8 +2839,8 @@
             </iframe>
           </div>
           <div class="news-item-content">
-            <h3 class="news-item-title">BDS Summer Camp at Ongdalsam</h3>
-            <p class="news-item-description">
+            <h3 class="news-item-title" data-i18n="news.item3.title">BDS Summer Camp at Ongdalsam</h3>
+            <p class="news-item-description" data-i18n="news.item3.desc">
               A transformative retreat where nature meets global vision. Empowering students to go Beyond Dreams through mindful growth and forest adventures.
             </p>
           </div>
@@ -2756,8 +2849,8 @@
         <!-- News Item 4: Text on Left, YouTube Video on Right -->
         <div class="news-item reverse">
           <div class="news-item-content">
-            <h3 class="news-item-title">BDS Official Introduction</h3>
-            <p class="news-item-description">
+            <h3 class="news-item-title" data-i18n="news.item4.title">BDS Official Introduction</h3>
+            <p class="news-item-description" data-i18n="news.item4.desc">
               Empowering students to realize 'Dreams Beyond Dreams'—where personal passion meets global contribution. We nurture leaders who find their purpose and expand it to serve the happiness of others.
             </p>
           </div>
@@ -2781,8 +2874,8 @@
   <!-- Education Philosophy Section - Harvard Style -->
   <section class="content-section" style="background: #ffffff; padding: 80px 0;">
     <div class="section-header" style="max-width: 1100px; margin: 0 auto; padding: 0 40px;">
-      <h2 class="section-title" style="font-size: 2rem; margin-bottom: 12px; font-weight: 400; color: #1a1a1a; font-family: 'Merriweather', serif;">Education Philosophy & Core Values</h2>
-      <p class="section-subtitle" style="font-size: 1rem; color: #333333; margin-bottom: 50px; line-height: 1.5; font-weight: 400;">
+      <h2 class="section-title" style="font-size: 2rem; margin-bottom: 12px; font-weight: 400; color: #1a1a1a; font-family: 'Merriweather', serif;" data-i18n="philosophy.title">Education Philosophy & Core Values</h2>
+      <p class="section-subtitle" style="font-size: 1rem; color: #333333; margin-bottom: 50px; line-height: 1.5; font-weight: 400;" data-i18n="philosophy.subtitle">
         BDS goes beyond academic instruction. We focus on cultivating inner growth, purpose, and global responsibility.
       </p>
     </div>
@@ -2792,24 +2885,24 @@
         
         <!-- Dream Beyond a Dream -->
         <div style="background: #f7f7f7; padding: 30px 28px; border-radius: 0; border-top: 2px solid #1a1a1a;">
-          <h3 style="font-size: 1.25rem; margin-bottom: 14px; color: #1a1a1a; font-weight: 400; font-family: 'Merriweather', serif;">Dream Beyond a Dream</h3>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+          <h3 style="font-size: 1.25rem; margin-bottom: 14px; color: #1a1a1a; font-weight: 400; font-family: 'Merriweather', serif;" data-i18n="philosophy.dream.title">Dream Beyond a Dream</h3>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="philosophy.dream.desc">
             We guide students not only to discover their dreams, but to expand them — so that their aspirations contribute to the happiness and well-being of others.
           </p>
         </div>
-        
+
         <!-- Global Citizenship (moved to second position) -->
         <div style="background: #f7f7f7; padding: 30px 28px; border-radius: 0; border-top: 2px solid #1a1a1a;">
-          <h3 style="font-size: 1.25rem; margin-bottom: 14px; color: #1a1a1a; font-weight: 400; font-family: 'Merriweather', serif;">Global Citizenship</h3>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+          <h3 style="font-size: 1.25rem; margin-bottom: 14px; color: #1a1a1a; font-weight: 400; font-family: 'Merriweather', serif;" data-i18n="philosophy.global.title">Global Citizenship</h3>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="philosophy.global.desc">
             English as a tool for meaningful global communication. We cultivate persuasive, confident global leaders who can thrive on the world stage.
           </p>
         </div>
-        
+
         <!-- Meditation & Inner Development -->
         <div style="background: #f7f7f7; padding: 30px 28px; border-radius: 0; border-top: 2px solid #1a1a1a;">
-          <h3 style="font-size: 1.25rem; margin-bottom: 14px; color: #1a1a1a; font-weight: 400; font-family: 'Merriweather', serif;">Meditation & Inner Development</h3>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+          <h3 style="font-size: 1.25rem; margin-bottom: 14px; color: #1a1a1a; font-weight: 400; font-family: 'Merriweather', serif;" data-i18n="philosophy.meditation.title">Meditation & Inner Development</h3>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="philosophy.meditation.desc">
             Through daily meditation, students learn to reflect, regulate emotions, and strengthen their inner resilience in a peaceful natural environment.
           </p>
         </div>
@@ -2822,8 +2915,8 @@
   <!-- Curriculum & Academic Programs Section - Harvard Style -->
   <section class="content-section" style="background: #f9f9f9; padding: 80px 0;">
     <div class="section-header" style="max-width: 1100px; margin: 0 auto; padding: 0 40px;">
-      <h2 class="section-title" style="font-size: 2rem; margin-bottom: 12px; font-weight: 400; color: #1a1a1a; font-family: 'Merriweather', serif;">Curriculum & Academic Programs</h2>
-      <p class="section-subtitle" style="font-size: 1rem; color: #333333; margin-bottom: 50px; line-height: 1.5; font-weight: 400;">
+      <h2 class="section-title" style="font-size: 2rem; margin-bottom: 12px; font-weight: 400; color: #1a1a1a; font-family: 'Merriweather', serif;" data-i18n="curriculum.title">Curriculum & Academic Programs</h2>
+      <p class="section-subtitle" style="font-size: 1rem; color: #333333; margin-bottom: 50px; line-height: 1.5; font-weight: 400;" data-i18n="curriculum.subtitle">
         BDS operates a structured curriculum designed to build international-level academic competence.
       </p>
     </div>
@@ -2832,26 +2925,26 @@
       
       <!-- American-Style Curriculum -->
       <div style="margin-bottom: 50px;">
-        <h3 style="font-size: 1.5rem; margin-bottom: 28px; color: #1a1a1a; font-weight: 400; font-family: 'Merriweather', serif;">American-Style Curriculum & English Immersion</h3>
+        <h3 style="font-size: 1.5rem; margin-bottom: 28px; color: #1a1a1a; font-weight: 400; font-family: 'Merriweather', serif;" data-i18n="curriculum.american.heading">American-Style Curriculum & English Immersion</h3>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
-          
+
           <div style="background: #ffffff; padding: 28px 26px; border: 1px solid #e0e0e0;">
-            <h4 style="font-size: 1.1rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;">International Curriculum</h4>
-            <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+            <h4 style="font-size: 1.1rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;" data-i18n="curriculum.intl.title">International Curriculum</h4>
+            <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="curriculum.intl.desc">
               Classes conducted in English by qualified teachers recognized in the U.S., U.K., Australia, and other countries.
             </p>
           </div>
-          
+
           <div style="background: #ffffff; padding: 28px 26px; border: 1px solid #e0e0e0;">
-            <h4 style="font-size: 1.1rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;">Student-Centered Learning</h4>
-            <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+            <h4 style="font-size: 1.1rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;" data-i18n="curriculum.student.title">Student-Centered Learning</h4>
+            <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="curriculum.student.desc">
               Socratic method, debate, and project-based learning foster critical thinking and self-directed growth.
             </p>
           </div>
-          
+
           <div style="background: #ffffff; padding: 28px 26px; border: 1px solid #e0e0e0;">
-            <h4 style="font-size: 1.1rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;">Academic Divisions</h4>
-            <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+            <h4 style="font-size: 1.1rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;" data-i18n="curriculum.divisions.title">Academic Divisions</h4>
+            <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="curriculum.divisions.desc">
               Elementary, Middle, and High School divisions offer age-appropriate curricula aligned with international standards.
             </p>
           </div>
@@ -2861,26 +2954,26 @@
       
       <!-- Enrichment Programs -->
       <div>
-        <h3 style="font-size: 1.5rem; margin-bottom: 28px; color: #1a1a1a; font-weight: 400; font-family: 'Merriweather', serif;">After-School & Enrichment Programs</h3>
+        <h3 style="font-size: 1.5rem; margin-bottom: 28px; color: #1a1a1a; font-weight: 400; font-family: 'Merriweather', serif;" data-i18n="curriculum.enrichment.heading">After-School & Enrichment Programs</h3>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px;">
-          
+
           <div style="background: #ffffff; padding: 26px 24px; border-left: 3px solid #1a1a1a;">
-            <h4 style="font-size: 1rem; margin-bottom: 10px; color: #1a1a1a; font-weight: 400;">Talent Discovery</h4>
-            <p style="font-size: 0.875rem; line-height: 1.6; color: #333333;">
+            <h4 style="font-size: 1rem; margin-bottom: 10px; color: #1a1a1a; font-weight: 400;" data-i18n="curriculum.talent.title">Talent Discovery</h4>
+            <p style="font-size: 0.875rem; line-height: 1.6; color: #333333;" data-i18n="curriculum.talent.desc">
               Dedicated sessions to explore each student's unique talents and strengths.
             </p>
           </div>
-          
+
           <div style="background: #ffffff; padding: 26px 24px; border-left: 3px solid #1a1a1a;">
-            <h4 style="font-size: 1rem; margin-bottom: 10px; color: #1a1a1a; font-weight: 400;">Reading Culture</h4>
-            <p style="font-size: 0.875rem; line-height: 1.6; color: #333333;">
+            <h4 style="font-size: 1rem; margin-bottom: 10px; color: #1a1a1a; font-weight: 400;" data-i18n="curriculum.reading.title">Reading Culture</h4>
+            <p style="font-size: 0.875rem; line-height: 1.6; color: #333333;" data-i18n="curriculum.reading.desc">
               Evening reading programs cultivate wisdom and empathy through literature.
             </p>
           </div>
-          
+
           <div style="background: #ffffff; padding: 26px 24px; border-left: 3px solid #1a1a1a;">
-            <h4 style="font-size: 1rem; margin-bottom: 10px; color: #1a1a1a; font-weight: 400;">Nature Learning</h4>
-            <p style="font-size: 0.875rem; line-height: 1.6; color: #333333;">
+            <h4 style="font-size: 1rem; margin-bottom: 10px; color: #1a1a1a; font-weight: 400;" data-i18n="curriculum.nature.title">Nature Learning</h4>
+            <p style="font-size: 0.875rem; line-height: 1.6; color: #333333;" data-i18n="curriculum.nature.desc">
               Outdoor learning experiences enhance observation, mindfulness, and appreciation of nature.
             </p>
           </div>
@@ -2894,8 +2987,8 @@
   <!-- Educational Environment Section - Harvard Style -->
   <section class="content-section" style="background: #ffffff; padding: 80px 0;">
     <div class="section-header" style="max-width: 1100px; margin: 0 auto; padding: 0 40px;">
-      <h2 class="section-title" style="font-size: 2rem; margin-bottom: 12px; font-weight: 400; color: #1a1a1a; font-family: 'Merriweather', serif;">Educational Environment & Facilities</h2>
-      <p class="section-subtitle" style="font-size: 1rem; color: #333333; margin-bottom: 50px; line-height: 1.5; font-weight: 400;">
+      <h2 class="section-title" style="font-size: 2rem; margin-bottom: 12px; font-weight: 400; color: #1a1a1a; font-family: 'Merriweather', serif;" data-i18n="environment.title">Educational Environment & Facilities</h2>
+      <p class="section-subtitle" style="font-size: 1rem; color: #333333; margin-bottom: 50px; line-height: 1.5; font-weight: 400;" data-i18n="environment.subtitle">
         BDS is located in a nature-friendly area, providing an ideal environment for both learning and well-being.
       </p>
     </div>
@@ -2904,43 +2997,43 @@
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
         
         <div style="background: #f7f7f7; padding: 30px 28px;">
-          <h3 style="font-size: 1.2rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;">Campus Environment</h3>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+          <h3 style="font-size: 1.2rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;" data-i18n="environment.campus.title">Campus Environment</h3>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="environment.campus.desc">
             Modern classrooms, labs, and learning spaces equipped with the latest educational technology.
           </p>
         </div>
-        
+
         <div style="background: #f7f7f7; padding: 30px 28px;">
           <h3 style="font-size: 1.2rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;">Dream Attic Dormitory</h3>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="environment.dorm.desc">
             Safe, comfortable residential facilities designed to foster community and personal growth.
           </p>
         </div>
-        
+
         <div style="background: #f7f7f7; padding: 30px 28px;">
-          <h3 style="font-size: 1.2rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;">Dining Hall</h3>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+          <h3 style="font-size: 1.2rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;" data-i18n="environment.dining.title">Dining Hall</h3>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="environment.dining.desc">
             Nutritious, organic meals prepared in a temple-style dining facility, supporting health and mindfulness.
           </p>
         </div>
-        
+
         <div style="background: #f7f7f7; padding: 30px 28px;">
-          <h3 style="font-size: 1.2rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;">Library & Resources</h3>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+          <h3 style="font-size: 1.2rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;" data-i18n="environment.library.title">Library & Resources</h3>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="environment.library.desc">
             Extensive collection of books and digital resources for deep learning and research.
           </p>
         </div>
-        
+
         <div style="background: #f7f7f7; padding: 30px 28px;">
-          <h3 style="font-size: 1.2rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;">Wellness Spaces</h3>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+          <h3 style="font-size: 1.2rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;" data-i18n="environment.wellness.title">Wellness Spaces</h3>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="environment.wellness.desc">
             Fresh organic meals and natural surroundings enhance mental clarity and emotional balance.
           </p>
         </div>
-        
+
         <div style="background: #f7f7f7; padding: 30px 28px;">
-          <h3 style="font-size: 1.2rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;">Meditation & Reflection Center</h3>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+          <h3 style="font-size: 1.2rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;" data-i18n="environment.meditation.title">Meditation & Reflection Center</h3>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="environment.meditation.desc">
             Dedicated spaces for daily meditation, assemblies, and quiet reflection, designed to cultivate inner strength, emotional balance, and mindful leadership within a peaceful natural setting.
           </p>
         </div>
@@ -2952,8 +3045,8 @@
   <!-- Community & Student Well-Being Section - Harvard Style -->
   <section class="content-section" style="background: #f9f9f9; padding: 80px 0;">
     <div class="section-header" style="max-width: 1100px; margin: 0 auto; padding: 0 40px;">
-      <h2 class="section-title" style="font-size: 2rem; margin-bottom: 12px; font-weight: 400; color: #1a1a1a; font-family: 'Merriweather', serif;">Community & Student Well-Being</h2>
-      <p class="section-subtitle" style="font-size: 1rem; color: #333333; margin-bottom: 50px; line-height: 1.5; font-weight: 400;">
+      <h2 class="section-title" style="font-size: 2rem; margin-bottom: 12px; font-weight: 400; color: #1a1a1a; font-family: 'Merriweather', serif;" data-i18n="community.title">Community & Student Well-Being</h2>
+      <p class="section-subtitle" style="font-size: 1rem; color: #333333; margin-bottom: 50px; line-height: 1.5; font-weight: 400;" data-i18n="community.subtitle">
         At BDS, every student receives individualized attention and support.
       </p>
     </div>
@@ -2962,22 +3055,22 @@
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
         
         <div style="background: #ffffff; padding: 32px 30px; border: 1px solid #e0e0e0;">
-          <h3 style="font-size: 1.3rem; margin-bottom: 14px; color: #1a1a1a; font-weight: 400; font-family: 'Merriweather', serif;">Personalized Mentorship</h3>
-          <p style="font-size: 0.95rem; line-height: 1.6; color: #333333;">
+          <h3 style="font-size: 1.3rem; margin-bottom: 14px; color: #1a1a1a; font-weight: 400; font-family: 'Merriweather', serif;" data-i18n="community.mentorship.title">Personalized Mentorship</h3>
+          <p style="font-size: 0.95rem; line-height: 1.6; color: #333333;" data-i18n="community.mentorship.desc">
             Small class sizes (8-12 students) allow teachers to tailor instruction to each student's needs and learning style.
           </p>
         </div>
-        
+
         <div style="background: #ffffff; padding: 32px 30px; border: 1px solid #e0e0e0;">
-          <h3 style="font-size: 1.3rem; margin-bottom: 14px; color: #1a1a1a; font-weight: 400; font-family: 'Merriweather', serif;">Culture of Respect</h3>
-          <p style="font-size: 0.95rem; line-height: 1.6; color: #333333;">
+          <h3 style="font-size: 1.3rem; margin-bottom: 14px; color: #1a1a1a; font-weight: 400; font-family: 'Merriweather', serif;" data-i18n="community.respect.title">Culture of Respect</h3>
+          <p style="font-size: 0.95rem; line-height: 1.6; color: #333333;" data-i18n="community.respect.desc">
             We foster a supportive community where honesty, empathy, and cooperation are valued over competition.
           </p>
         </div>
-        
+
         <div style="background: #ffffff; padding: 32px 30px; border: 1px solid #e0e0e0;">
-          <h3 style="font-size: 1.3rem; margin-bottom: 14px; color: #1a1a1a; font-weight: 400; font-family: 'Merriweather', serif;">Holistic Health Care</h3>
-          <p style="font-size: 0.95rem; line-height: 1.6; color: #333333;">
+          <h3 style="font-size: 1.3rem; margin-bottom: 14px; color: #1a1a1a; font-weight: 400; font-family: 'Merriweather', serif;" data-i18n="community.health.title">Holistic Health Care</h3>
+          <p style="font-size: 0.95rem; line-height: 1.6; color: #333333;" data-i18n="community.health.desc">
             Fresh organic meals support physical health. Clean air and natural surroundings enhance mental clarity.
           </p>
         </div>
@@ -2989,8 +3082,8 @@
   <!-- Creativity & Physical Education Section - Harvard Style -->
   <section class="content-section" style="background: #ffffff; padding: 80px 0 100px;">
     <div class="section-header" style="max-width: 1100px; margin: 0 auto; padding: 0 40px;">
-      <h2 class="section-title" style="font-size: 2rem; margin-bottom: 12px; font-weight: 400; color: #1a1a1a; font-family: 'Merriweather', serif;">Creativity & Physical Education</h2>
-      <p class="section-subtitle" style="font-size: 1rem; color: #333333; margin-bottom: 50px; line-height: 1.5; font-weight: 400;">
+      <h2 class="section-title" style="font-size: 2rem; margin-bottom: 12px; font-weight: 400; color: #1a1a1a; font-family: 'Merriweather', serif;" data-i18n="creativity.title">Creativity & Physical Education</h2>
+      <p class="section-subtitle" style="font-size: 1rem; color: #333333; margin-bottom: 50px; line-height: 1.5; font-weight: 400;" data-i18n="creativity.subtitle">
         BDS believes in unlocking each student's full potential beyond academics.
       </p>
     </div>
@@ -2999,43 +3092,43 @@
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
         
         <div style="background: #f7f7f7; padding: 30px 28px; border-top: 2px solid #1a1a1a;">
-          <h4 style="font-size: 1.15rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;">Creative & Artistic Expression</h4>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+          <h4 style="font-size: 1.15rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;" data-i18n="creativity.artistic.title">Creative & Artistic Expression</h4>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="creativity.artistic.desc">
             Support for V-log production, filmmaking, content creation, painting, b-boying, music concerts, and other artistic pursuits.
           </p>
         </div>
-        
+
         <div style="background: #f7f7f7; padding: 30px 28px; border-top: 2px solid #1a1a1a;">
-          <h4 style="font-size: 1.15rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;">Outdoor & Sports Programs</h4>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+          <h4 style="font-size: 1.15rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;" data-i18n="creativity.sports.title">Outdoor & Sports Programs</h4>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="creativity.sports.desc">
             Opportunities rarely found in typical schools, including rowing, indoor swimming, horseback riding, and golf.
           </p>
         </div>
-        
+
         <div style="background: #f7f7f7; padding: 30px 28px; border-top: 2px solid #1a1a1a;">
-          <h4 style="font-size: 1.15rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;">Expert Mentorship</h4>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+          <h4 style="font-size: 1.15rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;" data-i18n="creativity.mentorship.title">Expert Mentorship</h4>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="creativity.mentorship.desc">
             Professionals from various fields (Master Group) provide hands-on guidance and inspiration.
           </p>
         </div>
-        
+
         <div style="background: #f7f7f7; padding: 30px 28px; border-top: 2px solid #1a1a1a;">
-          <h4 style="font-size: 1.15rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;">Student-Led Events</h4>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+          <h4 style="font-size: 1.15rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;" data-i18n="creativity.events.title">Student-Led Events</h4>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="creativity.events.desc">
             Students plan and lead performances and events, creating meaningful opportunities for ownership and leadership growth.
           </p>
         </div>
-        
+
         <div style="background: #f7f7f7; padding: 30px 28px; border-top: 2px solid #1a1a1a;">
-          <h4 style="font-size: 1.15rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;">Performance & Stage Opportunities</h4>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+          <h4 style="font-size: 1.15rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;" data-i18n="creativity.performance.title">Performance & Stage Opportunities</h4>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="creativity.performance.desc">
             Students regularly showcase their talents through concerts, exhibitions, showcases, and public performances, building confidence, stage presence, and expressive power.
           </p>
         </div>
-        
+
         <div style="background: #f7f7f7; padding: 30px 28px; border-top: 2px solid #1a1a1a;">
-          <h4 style="font-size: 1.15rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;">Strength & Wellness Training</h4>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;">
+          <h4 style="font-size: 1.15rem; margin-bottom: 12px; color: #1a1a1a; font-weight: 400;" data-i18n="creativity.fitness.title">Strength & Wellness Training</h4>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #333333;" data-i18n="creativity.fitness.desc">
             Structured fitness and conditioning programs develop physical endurance, discipline, and resilience, supporting both athletic performance and lifelong well-being.
           </p>
         </div>
@@ -3196,142 +3289,142 @@
   <!-- FAQ Section -->
   <section class="faq-section">
     <div class="faq-container">
-      <h2 class="faq-title">Frequently Asked Questions</h2>
-      <p class="faq-subtitle">Find answers to common questions about BDS admissions, academics, and campus life</p>
+      <h2 class="faq-title" data-i18n="faq.title">Frequently Asked Questions</h2>
+      <p class="faq-subtitle" data-i18n="faq.subtitle">Find answers to common questions about BDS admissions, academics, and campus life</p>
       
       <div class="faq-accordion">
         <div class="faq-item">
           <button class="faq-question">
-            <span>What are the admission requirements for BDS?</span>
+            <span data-i18n="faq.q1">What are the admission requirements for BDS?</span>
             <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </button>
           <div class="faq-answer">
             <div>
-              <p>BDS accepts students in grades 9-12 who demonstrate academic potential, curiosity, and a commitment to personal growth. The application process includes:</p>
+              <p data-i18n="faq.a1.p1">BDS accepts students in grades 9-12 who demonstrate academic potential, curiosity, and a commitment to personal growth. The application process includes:</p>
             <ul>
-              <li>Completed application form with personal essay</li>
-              <li>Academic transcripts from previous schools</li>
-              <li>English proficiency test (TOEFL/IELTS for international students)</li>
-              <li>Two teacher recommendations</li>
-              <li>Interview with admissions committee</li>
+              <li data-i18n="faq.a1.li1">Completed application form with personal essay</li>
+              <li data-i18n="faq.a1.li2">Academic transcripts from previous schools</li>
+              <li data-i18n="faq.a1.li3">English proficiency test (TOEFL/IELTS for international students)</li>
+              <li data-i18n="faq.a1.li4">Two teacher recommendations</li>
+              <li data-i18n="faq.a1.li5">Interview with admissions committee</li>
             </ul>
-            <p>We evaluate each applicant holistically, considering not just grades but also character, motivation, and alignment with our educational philosophy.</p>
+            <p data-i18n="faq.a1.p2">We evaluate each applicant holistically, considering not just grades but also character, motivation, and alignment with our educational philosophy.</p>
           </div>
           </div>
         </div>
         
         <div class="faq-item">
           <button class="faq-question">
-            <span>What makes BDS's meditation program unique?</span>
+            <span data-i18n="faq.q2">What makes BDS's meditation program unique?</span>
             <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </button>
           <div class="faq-answer">
             <div>
-              <p>BDS is one of the few schools worldwide that integrates daily meditation into its curriculum. Every morning begins with a 20-30 minute guided meditation session designed to:</p>
+              <p data-i18n="faq.a2.p1">BDS is one of the few schools worldwide that integrates daily meditation into its curriculum. Every morning begins with a 20-30 minute guided meditation session designed to:</p>
             <ul>
-              <li>Develop focus and mental clarity for academic work</li>
-              <li>Build emotional resilience and stress management skills</li>
-              <li>Cultivate mindfulness and self-awareness</li>
-              <li>Foster inner peace and balanced decision-making</li>
+              <li data-i18n="faq.a2.li1">Develop focus and mental clarity for academic work</li>
+              <li data-i18n="faq.a2.li2">Build emotional resilience and stress management skills</li>
+              <li data-i18n="faq.a2.li3">Cultivate mindfulness and self-awareness</li>
+              <li data-i18n="faq.a2.li4">Foster inner peace and balanced decision-making</li>
             </ul>
-            <p>Students consistently report that meditation helps them manage college application stress, improve concentration, and maintain emotional balance—skills they carry into university and beyond.</p>
+            <p data-i18n="faq.a2.p2">Students consistently report that meditation helps them manage college application stress, improve concentration, and maintain emotional balance—skills they carry into university and beyond.</p>
           </div>
           </div>
         </div>
         
         <div class="faq-item">
           <button class="faq-question">
-            <span>What is the "Dream Beyond a Dream" philosophy?</span>
+            <span data-i18n="faq.q3">What is the "Dream Beyond a Dream" philosophy?</span>
             <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </button>
           <div class="faq-answer">
             <div>
-              <p>"Dream Beyond a Dream" is BDS's core educational philosophy that challenges students to think beyond personal success. Instead of dreaming only for themselves, we encourage students to ask:</p>
+              <p data-i18n="faq.a3.p1">"Dream Beyond a Dream" is BDS's core educational philosophy that challenges students to think beyond personal success. Instead of dreaming only for themselves, we encourage students to ask:</p>
             <ul>
-              <li><strong>"How can my dreams benefit others?"</strong></li>
-              <li><strong>"What positive impact can I make on my community and the world?"</strong></li>
-              <li><strong>"How can I use my talents to address global challenges?"</strong></li>
+              <li><strong data-i18n="faq.a3.li1">"How can my dreams benefit others?"</strong></li>
+              <li><strong data-i18n="faq.a3.li2">"What positive impact can I make on my community and the world?"</strong></li>
+              <li><strong data-i18n="faq.a3.li3">"How can I use my talents to address global challenges?"</strong></li>
             </ul>
-            <p>This philosophy shapes everything from our curriculum to our community service projects, creating graduates who are not just academically successful but also socially responsible global citizens.</p>
+            <p data-i18n="faq.a3.p2">This philosophy shapes everything from our curriculum to our community service projects, creating graduates who are not just academically successful but also socially responsible global citizens.</p>
           </div>
           </div>
         </div>
         
         <div class="faq-item">
           <button class="faq-question">
-            <span>How does BDS prepare students for top universities?</span>
+            <span data-i18n="faq.q4">How does BDS prepare students for top universities?</span>
             <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </button>
           <div class="faq-answer">
             <div>
-              <p>BDS maintains a 100% university acceptance rate through comprehensive college preparation:</p>
+              <p data-i18n="faq.a4.p1">BDS maintains a 100% university acceptance rate through comprehensive college preparation:</p>
             <ul>
-              <li><strong>Rigorous Academics:</strong> AP courses, SAT/TOEFL preparation, and college-level writing</li>
-              <li><strong>Small Classes:</strong> 8:1 student-teacher ratio ensures personalized guidance</li>
-              <li><strong>College Counseling:</strong> Dedicated counselors assist with applications, essays, and interviews</li>
-              <li><strong>Extracurriculars:</strong> Leadership opportunities, community service, and unique programs</li>
-              <li><strong>Global Perspective:</strong> International student body prepares students for diverse campus environments</li>
+              <li><strong data-i18n="faq.a4.li1_strong">Rigorous Academics:</strong><span data-i18n="faq.a4.li1_text"> AP courses, SAT/TOEFL preparation, and college-level writing</span></li>
+              <li><strong data-i18n="faq.a4.li2_strong">Small Classes:</strong><span data-i18n="faq.a4.li2_text"> 8:1 student-teacher ratio ensures personalized guidance</span></li>
+              <li><strong data-i18n="faq.a4.li3_strong">College Counseling:</strong><span data-i18n="faq.a4.li3_text"> Dedicated counselors assist with applications, essays, and interviews</span></li>
+              <li><strong data-i18n="faq.a4.li4_strong">Extracurriculars:</strong><span data-i18n="faq.a4.li4_text"> Leadership opportunities, community service, and unique programs</span></li>
+              <li><strong data-i18n="faq.a4.li5_strong">Global Perspective:</strong><span data-i18n="faq.a4.li5_text"> International student body prepares students for diverse campus environments</span></li>
             </ul>
-            <p>Our graduates have been accepted to Stanford, UC Berkeley, Yale, MIT, and leading universities in Korea, the UK, and beyond.</p>
+            <p data-i18n="faq.a4.p2">Our graduates have been accepted to Stanford, UC Berkeley, Yale, MIT, and leading universities in Korea, the UK, and beyond.</p>
           </div>
           </div>
         </div>
         
         <div class="faq-item">
           <button class="faq-question">
-            <span>What is campus life like at BDS?</span>
+            <span data-i18n="faq.q5">What is campus life like at BDS?</span>
             <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </button>
           <div class="faq-answer">
             <div>
-              <p>BDS campus life balances rigorous academics with holistic personal development:</p>
+              <p data-i18n="faq.a5.p1">BDS campus life balances rigorous academics with holistic personal development:</p>
             <ul>
-              <li><strong>Natural Setting:</strong> Located in Chungju's serene countryside, providing a peaceful learning environment</li>
-              <li><strong>Residential Community:</strong> Dormitory living fosters independence and close friendships</li>
-              <li><strong>International Environment:</strong> Students from 15+ countries create a truly global community</li>
-              <li><strong>Daily Schedule:</strong> Morning meditation, academic classes, sports/arts, evening study, and community time</li>
-              <li><strong>Healthy Living:</strong> Organic temple-style meals, outdoor activities, and wellness programs</li>
+              <li><strong data-i18n="faq.a5.li1_strong">Natural Setting:</strong><span data-i18n="faq.a5.li1_text"> Located in Chungju's serene countryside, providing a peaceful learning environment</span></li>
+              <li><strong data-i18n="faq.a5.li2_strong">Residential Community:</strong><span data-i18n="faq.a5.li2_text"> Dormitory living fosters independence and close friendships</span></li>
+              <li><strong data-i18n="faq.a5.li3_strong">International Environment:</strong><span data-i18n="faq.a5.li3_text"> Students from 15+ countries create a truly global community</span></li>
+              <li><strong data-i18n="faq.a5.li4_strong">Daily Schedule:</strong><span data-i18n="faq.a5.li4_text"> Morning meditation, academic classes, sports/arts, evening study, and community time</span></li>
+              <li><strong data-i18n="faq.a5.li5_strong">Healthy Living:</strong><span data-i18n="faq.a5.li5_text"> Organic temple-style meals, outdoor activities, and wellness programs</span></li>
             </ul>
-            <p>Students describe BDS as a supportive family where they grow academically, emotionally, and spiritually.</p>
+            <p data-i18n="faq.a5.p2">Students describe BDS as a supportive family where they grow academically, emotionally, and spiritually.</p>
           </div>
           </div>
         </div>
         
         <div class="faq-item">
           <button class="faq-question">
-            <span>What are the tuition and financial aid options?</span>
+            <span data-i18n="faq.q6">What are the tuition and financial aid options?</span>
             <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </button>
           <div class="faq-answer">
             <div>
-              <p>BDS offers comprehensive tuition packages and financial assistance:</p>
+              <p data-i18n="faq.a6.p1">BDS offers comprehensive tuition packages and financial assistance:</p>
             <ul>
-              <li><strong>Tuition:</strong> Covers academics, boarding, meals, and most activities</li>
-              <li><strong>Merit Scholarships:</strong> Available for students with outstanding academic or leadership records</li>
-              <li><strong>Need-Based Aid:</strong> Financial assistance for families demonstrating need</li>
-              <li><strong>Payment Plans:</strong> Flexible payment options available</li>
+              <li><strong data-i18n="faq.a6.li1_strong">Tuition:</strong><span data-i18n="faq.a6.li1_text"> Covers academics, boarding, meals, and most activities</span></li>
+              <li><strong data-i18n="faq.a6.li2_strong">Merit Scholarships:</strong><span data-i18n="faq.a6.li2_text"> Available for students with outstanding academic or leadership records</span></li>
+              <li><strong data-i18n="faq.a6.li3_strong">Need-Based Aid:</strong><span data-i18n="faq.a6.li3_text"> Financial assistance for families demonstrating need</span></li>
+              <li><strong data-i18n="faq.a6.li4_strong">Payment Plans:</strong><span data-i18n="faq.a6.li4_text"> Flexible payment options available</span></li>
             </ul>
-            <p>We believe exceptional education should be accessible. Please contact our admissions office at admin@bds-korea.org or +82-70-7525-5517 for detailed tuition information and to discuss financial aid options.</p>
+            <p data-i18n="faq.a6.p2">We believe exceptional education should be accessible. Please contact our admissions office at admin@bds-korea.org or +82-70-7525-5517 for detailed tuition information and to discuss financial aid options.</p>
           </div>
           </div>
         </div>
       </div>
-      
+
       <div class="faq-cta">
-        <p>Still have questions?</p>
-        <a href="#" class="cta-button cta-secondary" id="contactAdmissionsBtn">Contact Admissions</a>
+        <p data-i18n="faq.cta_text">Still have questions?</p>
+        <a href="#" class="cta-button cta-secondary" id="contactAdmissionsBtn" data-i18n="faq.cta_button">Contact Admissions</a>
       </div>
     </div>
   </section>
@@ -3348,138 +3441,142 @@
       </button>
       
       <div class="contact-modal-header">
-        <h2 class="contact-modal-title">Contact BDS Admissions</h2>
-        <p class="contact-modal-subtitle">We'd love to hear from you</p>
+        <h2 class="contact-modal-title" data-i18n="form.title">Contact BDS Admissions</h2>
+        <p class="contact-modal-subtitle" data-i18n="form.subtitle">We'd love to hear from you</p>
       </div>
-      
+
       <form id="contactForm" class="contact-form" novalidate>
         <div class="form-row">
           <div class="form-group">
-            <label for="fullName">Full Name <span class="required">*</span></label>
-            <input 
-              type="text" 
-              id="fullName" 
-              name="fullName" 
-              required 
+            <label for="fullName"><span data-i18n="form.fullName">Full Name</span> <span class="required">*</span></label>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              required
               minlength="2"
               placeholder="Enter your full name"
               aria-required="true"
+              data-i18n-attr="placeholder:form.fullName_placeholder"
             >
             <span class="error-message" id="fullNameError"></span>
           </div>
-          
+
           <div class="form-group">
-            <label for="email">Email Address <span class="required">*</span></label>
-            <input 
-              type="email" 
-              id="email" 
-              name="email" 
+            <label for="email"><span data-i18n="form.email">Email Address</span> <span class="required">*</span></label>
+            <input
+              type="email"
+              id="email"
+              name="email"
               required
               placeholder="your.email@example.com"
               aria-required="true"
+              data-i18n-attr="placeholder:form.email_placeholder"
             >
             <span class="error-message" id="emailError"></span>
           </div>
         </div>
-        
+
         <div class="form-row">
           <div class="form-group">
-            <label for="phone">Phone Number <span class="required">*</span></label>
-            <input 
-              type="tel" 
-              id="phone" 
-              name="phone" 
+            <label for="phone"><span data-i18n="form.phone">Phone Number</span> <span class="required">*</span></label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
               required
               placeholder="+82 10-1234-5678"
               aria-required="true"
+              data-i18n-attr="placeholder:form.phone_placeholder"
             >
             <span class="error-message" id="phoneError"></span>
           </div>
-          
+
           <div class="form-group">
-            <label for="country">Country</label>
+            <label for="country" data-i18n="form.country">Country</label>
             <select id="country" name="country">
-              <option value="">Select country</option>
-              <option value="South Korea">South Korea</option>
-              <option value="United States">United States</option>
-              <option value="China">China</option>
-              <option value="Japan">Japan</option>
-              <option value="Vietnam">Vietnam</option>
-              <option value="Thailand">Thailand</option>
-              <option value="Other">Other</option>
+              <option value="" data-i18n="form.country_select">Select country</option>
+              <option value="South Korea" data-i18n="form.country.kr">South Korea</option>
+              <option value="United States" data-i18n="form.country.us">United States</option>
+              <option value="China" data-i18n="form.country.cn">China</option>
+              <option value="Japan" data-i18n="form.country.jp">Japan</option>
+              <option value="Vietnam" data-i18n="form.country.vn">Vietnam</option>
+              <option value="Thailand" data-i18n="form.country.th">Thailand</option>
+              <option value="Other" data-i18n="form.country.other">Other</option>
             </select>
           </div>
         </div>
-        
+
         <div class="form-group">
-          <label for="gradeLevel">Student Grade Level <span class="required">*</span></label>
+          <label for="gradeLevel"><span data-i18n="form.grade">Student Grade Level</span> <span class="required">*</span></label>
           <select id="gradeLevel" name="gradeLevel" required aria-required="true">
-            <option value="">Select grade level</option>
-            <option value="Grade 9 (Freshman)">Grade 9 (Freshman)</option>
-            <option value="Grade 10 (Sophomore)">Grade 10 (Sophomore)</option>
-            <option value="Grade 11 (Junior)">Grade 11 (Junior)</option>
-            <option value="Grade 12 (Senior)">Grade 12 (Senior)</option>
-            <option value="Other / Not applicable">Other / Not applicable</option>
+            <option value="" data-i18n="form.grade_select">Select grade level</option>
+            <option value="Grade 9 (Freshman)" data-i18n="form.grade.9">Grade 9 (Freshman)</option>
+            <option value="Grade 10 (Sophomore)" data-i18n="form.grade.10">Grade 10 (Sophomore)</option>
+            <option value="Grade 11 (Junior)" data-i18n="form.grade.11">Grade 11 (Junior)</option>
+            <option value="Grade 12 (Senior)" data-i18n="form.grade.12">Grade 12 (Senior)</option>
+            <option value="Other / Not applicable" data-i18n="form.grade.other">Other / Not applicable</option>
           </select>
           <span class="error-message" id="gradeLevelError"></span>
         </div>
-        
+
         <div class="form-group">
-          <label for="inquiryType">Inquiry Type <span class="required">*</span></label>
+          <label for="inquiryType"><span data-i18n="form.inquiry">Inquiry Type</span> <span class="required">*</span></label>
           <select id="inquiryType" name="inquiryType" required aria-required="true">
-            <option value="">Select inquiry type</option>
-            <option value="Admission Requirements">Admission Requirements</option>
-            <option value="Campus Tour Request">Campus Tour Request</option>
-            <option value="Tuition & Financial Aid">Tuition & Financial Aid</option>
-            <option value="Academic Programs">Academic Programs</option>
-            <option value="Campus Life">Campus Life</option>
-            <option value="Other Questions">Other Questions</option>
+            <option value="" data-i18n="form.inquiry_select">Select inquiry type</option>
+            <option value="Admission Requirements" data-i18n="form.inquiry.admission">Admission Requirements</option>
+            <option value="Campus Tour Request" data-i18n="form.inquiry.tour">Campus Tour Request</option>
+            <option value="Tuition & Financial Aid" data-i18n="form.inquiry.tuition">Tuition & Financial Aid</option>
+            <option value="Academic Programs" data-i18n="form.inquiry.programs">Academic Programs</option>
+            <option value="Campus Life" data-i18n="form.inquiry.life">Campus Life</option>
+            <option value="Other Questions" data-i18n="form.inquiry.other">Other Questions</option>
           </select>
           <span class="error-message" id="inquiryTypeError"></span>
         </div>
-        
+
         <div class="form-group">
-          <label for="message">Message <span class="required">*</span></label>
-          <textarea 
-            id="message" 
-            name="message" 
-            rows="6" 
+          <label for="message"><span data-i18n="form.message">Message</span> <span class="required">*</span></label>
+          <textarea
+            id="message"
+            name="message"
+            rows="6"
             required
             maxlength="1000"
             placeholder="Please share your questions or comments..."
             aria-required="true"
+            data-i18n-attr="placeholder:form.message_placeholder"
           ></textarea>
           <div class="char-counter">
             <span id="charCount">0</span> / 1000
           </div>
           <span class="error-message" id="messageError"></span>
         </div>
-        
+
         <div class="form-group">
-          <label>Preferred Contact Method</label>
+          <label data-i18n="form.contact_method">Preferred Contact Method</label>
           <div class="radio-group">
             <label class="radio-label">
               <input type="radio" name="contactMethod" value="Email" checked>
-              <span>Email</span>
+              <span data-i18n="form.method.email">Email</span>
             </label>
             <label class="radio-label">
               <input type="radio" name="contactMethod" value="Phone">
-              <span>Phone</span>
+              <span data-i18n="form.method.phone">Phone</span>
             </label>
             <label class="radio-label">
               <input type="radio" name="contactMethod" value="Either">
-              <span>Either</span>
+              <span data-i18n="form.method.either">Either</span>
             </label>
           </div>
         </div>
-        
+
         <button type="submit" class="contact-submit-btn" id="submitBtn">
-          <span class="btn-text">Submit Inquiry</span>
+          <span class="btn-text" data-i18n="form.submit">Submit Inquiry</span>
           <span class="btn-spinner" style="display: none;">
             <svg class="spinner" width="20" height="20" viewBox="0 0 50 50">
               <circle class="spinner-path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
             </svg>
-            Sending...
+            <span data-i18n="form.sending">Sending...</span>
           </span>
         </button>
       </form>
@@ -3496,15 +3593,15 @@
         </svg>
       </div>
       
-      <h2 class="success-title">Thank You for Contacting Us!</h2>
-      
+      <h2 class="success-title" data-i18n="success.title">Thank You for Contacting Us!</h2>
+
       <div class="success-message">
-        <p>We've received your inquiry and will respond within <strong>24 hours</strong>.</p>
-        <p>A confirmation email has been sent to:</p>
+        <p><span data-i18n="success.message1_prefix">We've received your inquiry and will respond within </span><strong data-i18n="success.message1_strong">24 hours</strong><span data-i18n="success.message1_suffix">.</span></p>
+        <p data-i18n="success.message2">A confirmation email has been sent to:</p>
         <p class="success-email" id="confirmEmail"></p>
       </div>
-      
-      <button class="success-close-btn" id="closeSuccessModal">Close</button>
+
+      <button class="success-close-btn" id="closeSuccessModal" data-i18n="success.close">Close</button>
     </div>
   </div>
 
@@ -3513,23 +3610,23 @@
     <div class="footer-container">
       <div class="footer-grid">
         <div class="footer-section">
-          <h3>Admissions</h3>
+          <h3 data-i18n="footer.admissions">Admissions</h3>
           <ul class="footer-links">
-            <li><a href="#">Apply Now</a></li>
-            <li><a href="#">Admission Requirements</a></li>
-            <li><a href="#">Tuition & Financial Aid</a></li>
+            <li><a href="#" data-i18n="footer.apply">Apply Now</a></li>
+            <li><a href="#" data-i18n="footer.requirements">Admission Requirements</a></li>
+            <li><a href="#" data-i18n="footer.tuition">Tuition & Financial Aid</a></li>
           </ul>
         </div>
         <div class="footer-section">
-          <h3>About BDS</h3>
+          <h3 data-i18n="footer.about">About BDS</h3>
           <ul class="footer-links">
-            <li><a href="academic-calendar.html">Academic Calendar</a></li>
-            <li><a href="#">Our Philosophy</a></li>
-            <li><a href="#">Campus Life</a></li>
+            <li><a href="academic-calendar.html" data-i18n="footer.calendar">Academic Calendar</a></li>
+            <li><a href="#" data-i18n="footer.philosophy">Our Philosophy</a></li>
+            <li><a href="#" data-i18n="footer.campus_life">Campus Life</a></li>
           </ul>
         </div>
         <div class="footer-section">
-          <h3>Contact Us</h3>
+          <h3 data-i18n="footer.contact">Contact Us</h3>
           <ul class="footer-links">
             <li><a href="tel:+82-70-7525-5517" style="display: flex; align-items: center; gap: 8px;">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -3549,12 +3646,12 @@
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                 <circle cx="12" cy="10" r="3"></circle>
               </svg>
-              Chungju, South Korea
+              <span data-i18n="footer.location">Chungju, South Korea</span>
             </li>
           </ul>
         </div>
         <div class="footer-section">
-          <h3>Connect With Us</h3>
+          <h3 data-i18n="footer.social">Connect With Us</h3>
           <div style="display: flex; gap: 15px; margin-top: 20px;">
             <a href="#" class="social-link" aria-label="Facebook" style="color: rgba(255,255,255,0.8); transition: color 0.3s;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -3580,12 +3677,14 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>Copyright © 2020-2026 BDS (Beyond Dream Scholars). All rights reserved.</p>
+        <p data-i18n="footer.copyright">Copyright © 2020-2026 BDS (Beyond Dream Scholars). All rights reserved.</p>
       </div>
     </div>
   </footer>
 
 
+  <script src="js/langs.js"></script>
+  <script src="js/i18n.js"></script>
   <script>
     // Search Overlay 토글
     const searchToggle = document.getElementById('searchToggle');
