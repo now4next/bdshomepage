@@ -18,7 +18,7 @@
 (function () {
   'use strict';
 
-  var SUPPORTED = ['en', 'ko', 'ja'];
+  var SUPPORTED = ['en', 'ko', 'ja', 'de'];
   var DEFAULT_LANG = 'en';
   var STORAGE_KEY = 'bds_lang';
   var current = DEFAULT_LANG;
@@ -31,6 +31,7 @@
     var nav = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
     if (nav.indexOf('ko') === 0) return 'ko';
     if (nav.indexOf('ja') === 0) return 'ja';
+    if (nav.indexOf('de') === 0) return 'de';
     return DEFAULT_LANG;
   }
 
