@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <title>Our Campus — BDS at Ongdalsam</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+  <style>
+    :root {
+      --harvard-crimson: #A51C30;
+      --harvard-black: #1a1a1a;
+      --harvard-dark: #1E1E1E;
+      --harvard-gray: #4A4A4A;
+      --harvard-light-gray: #F9F9F9;
+      --harvard-white: #FFFFFF;
+      --text-color: #333333;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--harvard-white);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4, h5, h6, .serif {
+      font-family: 'Merriweather', 'Pretendard Variable', Pretendard, 'Noto Sans KR', Georgia, serif;
+      font-weight: 700;
+      color: var(--harvard-black);
+    }
+
+    /* Header */
+    .page-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e0e0e0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .page-header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .harvard-logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-decoration: none;
+    }
+    .harvard-logo-text-main {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--harvard-crimson);
+      font-family: 'Merriweather', 'Pretendard Variable', Pretendard, serif;
+      letter-spacing: -0.5px;
+    }
+    .harvard-logo-text-sub {
+      font-size: 0.75rem;
+      color: var(--harvard-black);
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--harvard-black);
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 8px 16px;
+      border: 1px solid #e0e0e0;
+      transition: all 0.3s ease;
+    }
+    .back-link:hover {
+      background: var(--harvard-light-gray);
+      border-color: var(--harvard-black);
+    }
+
+    /* Hero */
+    .campus-hero {
+      position: relative;
+      min-height: 560px;
+      background: linear-gradient(rgba(20, 20, 20, 0.45), rgba(20, 20, 20, 0.55)),
+                  url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&q=80') center/cover no-repeat;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px;
+    }
+    .campus-hero-inner {
+      max-width: 900px;
+    }
+    .campus-hero .eyebrow {
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+    .campus-hero h1 {
+      font-size: 3.2rem;
+      font-weight: 400;
+      color: #ffffff;
+      line-height: 1.2;
+      margin-bottom: 28px;
+    }
+    .campus-hero p.lead {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.92);
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* Generic section */
+    .section {
+      padding: 80px 24px;
+    }
+    .section .inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section.alt { background: var(--harvard-light-gray); }
+    .section-eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--harvard-crimson);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 400;
+      color: var(--harvard-black);
+      margin-bottom: 20px;
+      line-height: 1.25;
+    }
+    .section-lead {
+      font-size: 1.05rem;
+      color: var(--text-color);
+      max-width: 780px;
+      margin-bottom: 40px;
+    }
+
+    /* A Campus in the Mountains */
+    .campus-intro-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .campus-intro-stat {
+      background: #ffffff;
+      border-top: 3px solid var(--harvard-crimson);
+      padding: 28px 26px;
+    }
+    .campus-intro-stat .stat {
+      font-family: 'Merriweather', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--harvard-black);
+      margin-bottom: 6px;
+    }
+    .campus-intro-stat .label {
+      font-size: 0.9rem;
+      color: var(--harvard-gray);
+      line-height: 1.5;
+    }
+
+    /* Four Pillars */
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+    .pillar {
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+      padding: 32px 28px;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .pillar:hover {
+      border-color: var(--harvard-crimson);
+      transform: translateY(-2px);
+    }
+    .pillar .pillar-num {
+      font-family: 'Merriweather', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.2em;
+      color: var(--harvard-crimson);
+      margin-bottom: 12px;
+    }
+    .pillar h3 {
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--harvard-black);
+      margin-bottom: 14px;
+      letter-spacing: 0.05em;
+    }
+    .pillar p {
+      font-size: 0.95rem;
+      color: var(--text-color);
+      line-height: 1.65;
+    }
+
+    /* A Day at BDS */
+    .timeline {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 8px 28px;
+      border-left: 2px solid #e5e5e5;
+      padding-left: 28px;
+      margin-left: 12px;
+    }
+    .timeline .t-time {
+      font-family: 'Merriweather', serif;
+      font-size: 0.95rem;
+      color: var(--harvard-crimson);
+      font-weight: 400;
+      padding-top: 2px;
+    }
+    .timeline .t-event {
+      font-size: 0.98rem;
+      color: var(--harvard-black);
+      padding-bottom: 18px;
+    }
+    .timeline .t-event .t-label {
+      font-weight: 500;
+    }
+    .timeline .t-event .t-desc {
+      display: block;
+      font-size: 0.88rem;
+      color: var(--harvard-gray);
+      margin-top: 4px;
+    }
+
+    /* Seven Themes */
+    .seven-themes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 16px;
+    }
+    .theme {
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+      padding: 24px 16px;
+      text-align: center;
+    }
+    .theme .theme-char {
+      font-family: 'Merriweather', 'Noto Sans KR', serif;
+      font-size: 3rem;
+      color: var(--harvard-crimson);
+      font-weight: 400;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .theme .theme-label {
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--harvard-gray);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .theme .theme-desc {
+      font-size: 0.85rem;
+      color: var(--text-color);
+      line-height: 1.5;
+    }
+
+    /* Facilities */
+    .facilities {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .facility {
+      background: #ffffff;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid #e5e5e5;
+    }
+    .facility-image {
+      width: 100%;
+      height: 180px;
+      background-size: cover;
+      background-position: center;
+      background-color: #efefef;
+    }
+    .facility-body {
+      padding: 22px 24px 26px;
+    }
+    .facility h4 {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--harvard-black);
+      margin-bottom: 10px;
+    }
+    .facility p {
+      font-size: 0.9rem;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Gallery */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .gallery-item {
+      width: 100%;
+      padding-top: 75%;
+      background-size: cover;
+      background-position: center;
+      background-color: #efefef;
+    }
+    @media (max-width: 768px) {
+      .gallery { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* For Parents */
+    .parents-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .parent-card {
+      background: #ffffff;
+      padding: 28px 26px;
+      border-left: 3px solid var(--harvard-crimson);
+    }
+    .parent-card h4 {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--harvard-black);
+      margin-bottom: 10px;
+    }
+    .parent-card p {
+      font-size: 0.92rem;
+      color: var(--text-color);
+      line-height: 1.65;
+    }
+
+    /* Final CTA */
+    .final-cta {
+      background: var(--harvard-black);
+      color: #ffffff;
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .final-cta h2 {
+      color: #ffffff;
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+    .final-cta p {
+      color: rgba(255,255,255,0.85);
+      font-size: 1.05rem;
+      max-width: 620px;
+      margin: 0 auto 32px;
+      line-height: 1.65;
+    }
+    .final-cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .cta-btn {
+      display: inline-block;
+      padding: 14px 28px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.8);
+      transition: all 0.25s ease;
+      letter-spacing: 0.02em;
+    }
+    .cta-btn.primary {
+      background: var(--harvard-crimson);
+      border-color: var(--harvard-crimson);
+      color: #ffffff;
+    }
+    .cta-btn.primary:hover {
+      background: #8a1627;
+      border-color: #8a1627;
+    }
+    .cta-btn.secondary {
+      color: #ffffff;
+    }
+    .cta-btn.secondary:hover {
+      background: rgba(255,255,255,0.08);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--harvard-black);
+      color: #ffffff;
+      padding: 40px 0;
+    }
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+      text-align: center;
+    }
+    .footer-text {
+      font-size: 0.9rem;
+      color: #cccccc;
+    }
+
+    /* Language Dropdown */
+    .lang-dropdown {
+      position: relative;
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+    }
+    .lang-dropdown-toggle {
+      background: #ffffff;
+      color: var(--harvard-black);
+      border: 1px solid #e0e0e0;
+      padding: 7px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+      line-height: 1;
+      min-width: 58px;
+      justify-content: center;
+      font-family: inherit;
+    }
+    .lang-dropdown-toggle:hover {
+      background: var(--harvard-light-gray);
+      border-color: var(--harvard-black);
+    }
+    .lang-dropdown-toggle svg {
+      width: 10px;
+      height: 10px;
+      transition: transform 0.2s ease;
+    }
+    .lang-dropdown.open .lang-dropdown-toggle svg { transform: rotate(180deg); }
+    .lang-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 4px);
+      right: 0;
+      min-width: 140px;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      padding: 4px 0;
+      display: none;
+      z-index: 1100;
+    }
+    .lang-dropdown.open .lang-dropdown-menu { display: block; }
+    .lang-dropdown-option {
+      display: block;
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      color: var(--harvard-black);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .lang-dropdown-option:hover { background: var(--harvard-light-gray); }
+    .lang-dropdown-option.active {
+      color: var(--harvard-crimson);
+      font-weight: 600;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .page-header-container { padding: 16px 20px; }
+      .campus-hero { min-height: 420px; padding: 60px 20px; }
+      .campus-hero h1 { font-size: 2rem; }
+      .campus-hero p.lead { font-size: 1rem; }
+      .section { padding: 60px 20px; }
+      .section-title { font-size: 1.7rem; }
+      .timeline { grid-template-columns: 90px 1fr; gap: 6px 18px; padding-left: 18px; }
+      .timeline .t-time { font-size: 0.85rem; }
+      .final-cta { padding: 60px 20px; }
+      .final-cta h2 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="page-header">
+    <div class="page-header-container">
+      <a href="index.html" class="harvard-logo-text">
+        <span class="harvard-logo-text-main">BDS</span>
+        <span class="harvard-logo-text-sub">Beyond Dream Scholars</span>
+      </a>
+      <div class="header-right">
+        <a href="index.html" class="back-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          <span data-i18n="calendar.back">Back to Home</span>
+        </a>
+        <div class="lang-dropdown" id="langDropdown">
+          <button type="button" class="lang-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false">
+            <span class="lang-dropdown-current">EN</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="lang-dropdown-menu" role="listbox" aria-label="Language">
+            <button type="button" class="lang-dropdown-option" role="option" data-lang="en" data-i18n="lang.en">English</button>
+            <button type="button" class="lang-dropdown-option" role="option" data-lang="ko" data-i18n="lang.ko">한국어</button>
+            <button type="button" class="lang-dropdown-option" role="option" data-lang="ja" data-i18n="lang.ja">日本語</button>
+            <button type="button" class="lang-dropdown-option" role="option" data-lang="de" data-i18n="lang.de">Deutsch</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="campus-hero">
+    <div class="campus-hero-inner">
+      <div class="eyebrow" data-i18n="ongdalsam.hero.eyebrow">Our Campus · Ongdalsam</div>
+      <h1 data-i18n="ongdalsam.hero.title">Where Your Child Lives, Learns, and Grows</h1>
+      <p class="lead" data-i18n="ongdalsam.hero.lead">
+        At 800 meters above sea level, deep in a forested mountain range, our campus is not a retreat students visit — it is where they live each day. A quiet, safe, intentional place designed for learning, reflection, and healthy growth.
+      </p>
+    </div>
+  </section>
+
+  <!-- A Campus in the Mountains -->
+  <section class="section">
+    <div class="inner">
+      <div class="section-eyebrow" data-i18n="ongdalsam.intro.eyebrow">A Campus in the Mountains</div>
+      <h2 class="section-title" data-i18n="ongdalsam.intro.title">A place shaped by twenty-three years of intention</h2>
+      <p class="section-lead" data-i18n="ongdalsam.intro.lead">
+        Our campus grew from a vision first set down in 2003 — to build a learning home where young minds can rest, focus, and reach further. What began as a dream is now the everyday setting of BDS: forest air, mountain stillness, and a rhythm that protects the conditions for real growth.
+      </p>
+      <div class="campus-intro-grid">
+        <div class="campus-intro-stat">
+          <div class="stat" data-i18n="ongdalsam.intro.stat1_num">800 m</div>
+          <div class="label" data-i18n="ongdalsam.intro.stat1_label">Elevation above sea level — clean mountain air, cooler summers, and quiet surroundings</div>
+        </div>
+        <div class="campus-intro-stat">
+          <div class="stat" data-i18n="ongdalsam.intro.stat2_num">23 years</div>
+          <div class="label" data-i18n="ongdalsam.intro.stat2_label">Of continuous work to shape this place into a home for learning and inner growth</div>
+        </div>
+        <div class="campus-intro-stat">
+          <div class="stat" data-i18n="ongdalsam.intro.stat3_num">4 seasons</div>
+          <div class="label" data-i18n="ongdalsam.intro.stat3_label">Of active programming — every season offers its own way of learning and living</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Four Pillars -->
+  <section class="section alt">
+    <div class="inner">
+      <div class="section-eyebrow" data-i18n="ongdalsam.pillars.eyebrow">Four Foundations of Daily Life</div>
+      <h2 class="section-title" data-i18n="ongdalsam.pillars.title">How each day is built</h2>
+      <p class="section-lead" data-i18n="ongdalsam.pillars.lead">
+        Students at BDS do not just attend classes — they live a structured day built on four foundations that support focused learning and steady personal growth.
+      </p>
+      <div class="pillars">
+        <div class="pillar">
+          <div class="pillar-num">I · REST</div>
+          <h3 data-i18n="ongdalsam.pillar1.title">Rest</h3>
+          <p data-i18n="ongdalsam.pillar1.desc">
+            The day begins gently. Students arrive at calm surroundings and wind down from the speed of the outside world, so that real focus and real sleep are possible.
+          </p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">II · MOVEMENT</div>
+          <h3 data-i18n="ongdalsam.pillar2.title">Movement</h3>
+          <p data-i18n="ongdalsam.pillar2.desc">
+            Daily body practice — breathing, walking meditation, martial arts, and outdoor activity — keeps the body capable and the mind clear.
+          </p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">III · MEDITATION</div>
+          <h3 data-i18n="ongdalsam.pillar3.title">Meditation</h3>
+          <p data-i18n="ongdalsam.pillar3.desc">
+            Guided meditation is a daily practice, not an occasional class. Students learn to focus, to notice their emotions, and to return to stillness before and after studying.
+          </p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">IV · INWARD PRACTICE</div>
+          <h3 data-i18n="ongdalsam.pillar4.title">Inward Practice</h3>
+          <p data-i18n="ongdalsam.pillar4.desc">
+            Reading, writing, quiet reflection, and honest conversation. These are treated as essential skills for university, work, and life — not extras.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- A Day at BDS -->
+  <section class="section">
+    <div class="inner">
+      <div class="section-eyebrow" data-i18n="ongdalsam.day.eyebrow">A Day on Our Campus</div>
+      <h2 class="section-title" data-i18n="ongdalsam.day.title">The rhythm of a day at BDS</h2>
+      <p class="section-lead" data-i18n="ongdalsam.day.lead">
+        A typical day moves from quiet beginnings into focused academic work and then back into reflection. Meals, movement, and silence are treated as parts of the education — not interruptions to it.
+      </p>
+      <div class="timeline">
+        <div class="t-time">7:00 AM</div>
+        <div class="t-event"><span class="t-label" data-i18n="ongdalsam.day.t1_label">Morning meditation</span><span class="t-desc" data-i18n="ongdalsam.day.t1_desc">A gentle start — breath, posture, and focus before the day begins.</span></div>
+
+        <div class="t-time">8:00 AM</div>
+        <div class="t-event"><span class="t-label" data-i18n="ongdalsam.day.t2_label">Breakfast</span><span class="t-desc" data-i18n="ongdalsam.day.t2_desc">Fresh, organic temple-style meals shared together in the dining hall.</span></div>
+
+        <div class="t-time">9:00 AM</div>
+        <div class="t-event"><span class="t-label" data-i18n="ongdalsam.day.t3_label">Academic classes</span><span class="t-desc" data-i18n="ongdalsam.day.t3_desc">Small-group instruction in English — discussion, writing, science, and the arts.</span></div>
+
+        <div class="t-time">12:30 PM</div>
+        <div class="t-event"><span class="t-label" data-i18n="ongdalsam.day.t4_label">Lunch &amp; forest walk</span><span class="t-desc" data-i18n="ongdalsam.day.t4_desc">A midday reset — real food, real air, and time off the page.</span></div>
+
+        <div class="t-time">2:00 PM</div>
+        <div class="t-event"><span class="t-label" data-i18n="ongdalsam.day.t5_label">Electives &amp; movement</span><span class="t-desc" data-i18n="ongdalsam.day.t5_desc">Sports, arts, martial arts, and talent programs chosen by each student.</span></div>
+
+        <div class="t-time">5:00 PM</div>
+        <div class="t-event"><span class="t-label" data-i18n="ongdalsam.day.t6_label">Reading &amp; reflection</span><span class="t-desc" data-i18n="ongdalsam.day.t6_desc">Quiet time to read, write, and think before the evening.</span></div>
+
+        <div class="t-time">6:30 PM</div>
+        <div class="t-event"><span class="t-label" data-i18n="ongdalsam.day.t7_label">Dinner</span><span class="t-desc" data-i18n="ongdalsam.day.t7_desc">A shared meal in the community — unhurried and plant-forward.</span></div>
+
+        <div class="t-time">7:30 PM</div>
+        <div class="t-event"><span class="t-label" data-i18n="ongdalsam.day.t8_label">Evening study &amp; closing meditation</span><span class="t-desc" data-i18n="ongdalsam.day.t8_desc">Focused study with mentors, followed by a short meditation to close the day.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seven Themes -->
+  <section class="section alt">
+    <div class="inner">
+      <div class="section-eyebrow" data-i18n="ongdalsam.themes.eyebrow">The Seven-Day Rhythm</div>
+      <h2 class="section-title" data-i18n="ongdalsam.themes.title">A theme for every day of the week</h2>
+      <p class="section-lead" data-i18n="ongdalsam.themes.lead">
+        Each day of the week carries a guiding theme — a Chinese character with a long tradition of meaning. Together they shape a weekly rhythm that helps students move between study, movement, stillness, and community.
+      </p>
+      <div class="seven-themes">
+        <div class="theme"><div class="theme-char">正</div><div class="theme-label" data-i18n="ongdalsam.theme1.label">Uprightness</div><div class="theme-desc" data-i18n="ongdalsam.theme1.desc">Acting with honesty</div></div>
+        <div class="theme"><div class="theme-char">靜</div><div class="theme-label" data-i18n="ongdalsam.theme2.label">Stillness</div><div class="theme-desc" data-i18n="ongdalsam.theme2.desc">Settling the mind</div></div>
+        <div class="theme"><div class="theme-char">動</div><div class="theme-label" data-i18n="ongdalsam.theme3.label">Movement</div><div class="theme-desc" data-i18n="ongdalsam.theme3.desc">Healthy action</div></div>
+        <div class="theme"><div class="theme-char">止</div><div class="theme-label" data-i18n="ongdalsam.theme4.label">Pausing</div><div class="theme-desc" data-i18n="ongdalsam.theme4.desc">Stopping to notice</div></div>
+        <div class="theme"><div class="theme-char">觀</div><div class="theme-label" data-i18n="ongdalsam.theme5.label">Observation</div><div class="theme-desc" data-i18n="ongdalsam.theme5.desc">Seeing clearly</div></div>
+        <div class="theme"><div class="theme-char">和</div><div class="theme-label" data-i18n="ongdalsam.theme6.label">Harmony</div><div class="theme-desc" data-i18n="ongdalsam.theme6.desc">Living with others</div></div>
+        <div class="theme"><div class="theme-char">淸</div><div class="theme-label" data-i18n="ongdalsam.theme7.label">Clarity</div><div class="theme-desc" data-i18n="ongdalsam.theme7.desc">A clean, clear mind</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Facilities -->
+  <section class="section">
+    <div class="inner">
+      <div class="section-eyebrow" data-i18n="ongdalsam.facilities.eyebrow">Where Students Live</div>
+      <h2 class="section-title" data-i18n="ongdalsam.facilities.title">Homes and spaces built for learning</h2>
+      <p class="section-lead" data-i18n="ongdalsam.facilities.lead">
+        Every space on our campus has a purpose — to rest the body, to feed it well, to focus the mind, and to bring students together. Parents are welcome to visit and see each one in person.
+      </p>
+      <div class="facilities">
+        <!-- TODO: replace Unsplash placeholders with official Ongdalsam photos (BDS has rights) -->
+        <div class="facility">
+          <div class="facility-image" style="background-image: url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80');"></div>
+          <div class="facility-body">
+            <h4 data-i18n="ongdalsam.facility1.title">Green Ondol House</h4>
+            <p data-i18n="ongdalsam.facility1.desc">Traditional warm-floor residences — small, clean, and designed for real rest. Students sleep here in calm, safe rooms supervised by residential staff.</p>
+          </div>
+        </div>
+        <div class="facility">
+          <div class="facility-image" style="background-image: url('https://images.unsplash.com/photo-1520637836862-4d197d17c55a?w=800&q=80');"></div>
+          <div class="facility-body">
+            <h4 data-i18n="ongdalsam.facility2.title">White Sky House</h4>
+            <p data-i18n="ongdalsam.facility2.desc">Open, light-filled living spaces overlooking the forest. Reading, small conversations, and quiet recovery take place here every day.</p>
+          </div>
+        </div>
+        <div class="facility">
+          <div class="facility-image" style="background-image: url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80');"></div>
+          <div class="facility-body">
+            <h4 data-i18n="ongdalsam.facility3.title">Dining Hall</h4>
+            <p data-i18n="ongdalsam.facility3.desc">Temple-style meals — fresh, seasonal, and mostly plant-based. Meals are shared slowly, together, as part of the daily practice.</p>
+          </div>
+        </div>
+        <div class="facility">
+          <div class="facility-image" style="background-image: url('https://images.unsplash.com/photo-1507901747481-84a4f64fda6d?w=800&q=80');"></div>
+          <div class="facility-body">
+            <h4 data-i18n="ongdalsam.facility4.title">Meditation Hall</h4>
+            <p data-i18n="ongdalsam.facility4.desc">A quiet hall for morning meditation and evening closing practice. Students learn here what it means to settle the mind.</p>
+          </div>
+        </div>
+        <div class="facility">
+          <div class="facility-image" style="background-image: url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&q=80');"></div>
+          <div class="facility-body">
+            <h4 data-i18n="ongdalsam.facility5.title">Library &amp; Reading Rooms</h4>
+            <p data-i18n="ongdalsam.facility5.desc">A collection of books in English, Korean, and other languages. Quiet, warm, with long hours for reading and research.</p>
+          </div>
+        </div>
+        <div class="facility">
+          <div class="facility-image" style="background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80');"></div>
+          <div class="facility-body">
+            <h4 data-i18n="ongdalsam.facility6.title">Forest Paths &amp; Outdoor Spaces</h4>
+            <p data-i18n="ongdalsam.facility6.desc">Walking trails, outdoor practice areas, and open ground for movement, sport, and seasonal events.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="section alt">
+    <div class="inner">
+      <div class="section-eyebrow" data-i18n="ongdalsam.gallery.eyebrow">The Place</div>
+      <h2 class="section-title" data-i18n="ongdalsam.gallery.title">A look at our campus</h2>
+      <p class="section-lead" data-i18n="ongdalsam.gallery.lead">
+        A small window into the setting where BDS students spend their days. Families are always welcome to visit and see it in person.
+      </p>
+      <div class="gallery">
+        <!-- TODO: replace with official Ongdalsam photography -->
+        <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800&q=80');"></div>
+        <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80');"></div>
+        <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80');"></div>
+        <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?w=800&q=80');"></div>
+        <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1480497490787-505ec076689f?w=800&q=80');"></div>
+        <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80');"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- For Parents -->
+  <section class="section">
+    <div class="inner">
+      <div class="section-eyebrow" data-i18n="ongdalsam.parents.eyebrow">For Parents</div>
+      <h2 class="section-title" data-i18n="ongdalsam.parents.title">What matters most, for families</h2>
+      <p class="section-lead" data-i18n="ongdalsam.parents.lead">
+        Sending a child to a boarding campus is a meaningful decision. These are the things we believe matter most — and that we work on every day.
+      </p>
+      <div class="parents-grid">
+        <div class="parent-card">
+          <h4 data-i18n="ongdalsam.parent1.title">Safety and care</h4>
+          <p data-i18n="ongdalsam.parent1.desc">Residential staff live on campus. Rooms are supervised, health is monitored, and families are kept informed of their child's wellbeing.</p>
+        </div>
+        <div class="parent-card">
+          <h4 data-i18n="ongdalsam.parent2.title">Healthy daily life</h4>
+          <p data-i18n="ongdalsam.parent2.desc">Fresh mountain air, temple-style meals, real sleep, and a balanced rhythm of study, movement, and rest.</p>
+        </div>
+        <div class="parent-card">
+          <h4 data-i18n="ongdalsam.parent3.title">Focused learning</h4>
+          <p data-i18n="ongdalsam.parent3.desc">A campus away from urban distraction, small classes, and mentors who know each student by name.</p>
+        </div>
+        <div class="parent-card">
+          <h4 data-i18n="ongdalsam.parent4.title">Open to families</h4>
+          <p data-i18n="ongdalsam.parent4.desc">Parents are invited to visit, to observe a day on campus, and to speak with teachers and residential staff directly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="final-cta">
+    <h2 data-i18n="ongdalsam.cta.title">Come see our campus in person</h2>
+    <p data-i18n="ongdalsam.cta.lead">
+      The best way to understand BDS is to stand in the forest, share a meal, and watch a day unfold. We warmly invite families to visit and meet us.
+    </p>
+    <div class="final-cta-buttons">
+      <a href="index.html#contactAdmissionsBtn" class="cta-btn primary" data-i18n="ongdalsam.cta.visit">Schedule a Visit</a>
+      <a href="index.html#contactAdmissionsBtn" class="cta-btn secondary" data-i18n="ongdalsam.cta.contact">Contact Admissions</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <p class="footer-text" data-i18n="footer.copyright">Copyright © 2020-2026 BDS (Beyond Dream Scholars). All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/langs.js"></script>
+  <script src="js/i18n.js"></script>
+</body>
+</html>
