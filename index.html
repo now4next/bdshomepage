@@ -3348,12 +3348,19 @@
     .faq-section .faq-answer {
       max-height: 0 !important;
       overflow: hidden !important;
-      transition: max-height 0.4s ease !important;
+      /* visibility: hidden prevents descendant list-style markers from
+         escaping the overflow:hidden clip (a mobile WebKit/Blink quirk with
+         list-style-position: outside). Delayed on collapse so the transition
+         animation still plays. */
+      visibility: hidden !important;
+      transition: max-height 0.4s ease, visibility 0s 0.4s !important;
       display: block !important;
     }
-    
+
     .faq-section .faq-item.active .faq-answer {
       max-height: 2000px !important;
+      visibility: visible !important;
+      transition: max-height 0.4s ease, visibility 0s 0s !important;
     }
     
     .faq-section .faq-answer > div {
@@ -3372,13 +3379,16 @@
     }
     
     .faq-section .faq-answer ul {
+      /* list-style-position: inside keeps markers inside the LI content box,
+         avoiding a mobile Blink/WebKit quirk where 'outside' markers render
+         at the viewport left edge in narrow containers. */
       list-style-type: disc !important;
-      list-style-position: outside !important;
-      padding: 0 0 0 28px !important;
+      list-style-position: inside !important;
+      padding: 0 0 0 8px !important;
       margin: 16px 0 !important;
       display: block !important;
     }
-    
+
     .faq-section .faq-answer li {
       font-family: 'Inter', 'Noto Sans KR', sans-serif !important;
       font-size: 0.95rem !important;
@@ -3388,7 +3398,9 @@
       margin: 0 0 8px 0 !important;
       display: list-item !important;
       list-style-type: disc !important;
-      list-style-position: outside !important;
+      list-style-position: inside !important;
+      text-indent: -1.2em !important;
+      padding-left: 1.2em !important;
     }
     
     .faq-section .faq-answer li strong {
