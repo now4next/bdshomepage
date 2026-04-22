@@ -2664,6 +2664,20 @@
         font-size: 0.7rem;
         min-width: 52px;
       }
+      /* On mobile the sub-text 'Beyond Dream Scholars' eats ~240px of the
+         header row, pushing menu/lang off-screen. Hide the sub-text and
+         the 'Menu' label (keep icon) to make room. */
+      .harvard-logo-text-sub {
+        display: none !important;
+      }
+      #menuToggle {
+        font-size: 0 !important;
+        padding: 0 8px !important;
+      }
+      #menuToggle .header-nav-icon {
+        width: 22px;
+        height: 22px;
+      }
     }
   </style>
 </head>
@@ -2684,7 +2698,7 @@
           </div>
         </div>
         <div class="header-right-black">
-          <button class="header-nav-item" id="searchToggle" style="background: none; border: none; cursor: pointer;">
+          <button class="header-nav-item" id="searchToggle" style="display: none; background: none; border: none; cursor: pointer;">
             <svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="11" cy="11" r="8"></circle>
               <path d="m21 21-4.35-4.35"></path>
