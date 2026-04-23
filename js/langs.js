@@ -235,7 +235,9 @@ window.BDS_LANGS = {
     'footer.philosophy': 'Our Philosophy',
     'footer.campus_life': 'Campus Life',
     'footer.contact': 'Contact Us',
-    'footer.location': 'Chungju, South Korea',
+    'footer.phone_admin': 'Administration',
+    'footer.phone_admissions': 'Admissions',
+    'footer.location': '201-61 Useong 1-gil, Noeun-myeon, Chungju, Chungbuk, South Korea',
     'footer.social': 'Connect With Us',
     'footer.copyright': 'Copyright © 2020-2026 BDS (Beyond Dream Scholars). All rights reserved.',
 
@@ -581,7 +583,9 @@ window.BDS_LANGS = {
     'footer.philosophy': '교육 철학',
     'footer.campus_life': '캠퍼스 생활',
     'footer.contact': '문의하기',
-    'footer.location': '대한민국 충주',
+    'footer.phone_admin': '행정실',
+    'footer.phone_admissions': '입학처',
+    'footer.location': '충북 충주시 노은면 우성1길 201-61',
     'footer.social': '소셜 미디어',
     'footer.copyright': 'Copyright © 2020-2026 BDS (Beyond Dream Scholars). All rights reserved.',
 
@@ -924,7 +928,9 @@ window.BDS_LANGS = {
     'footer.philosophy': '教育理念',
     'footer.campus_life': 'キャンパスライフ',
     'footer.contact': 'お問い合わせ',
-    'footer.location': '韓国 忠州',
+    'footer.phone_admin': '行政室',
+    'footer.phone_admissions': '入学事務局',
+    'footer.location': '大韓民国 忠清北道 忠州市 老隠面 ウソン1ギル 201-61',
     'footer.social': 'ソーシャルメディア',
     'footer.copyright': 'Copyright © 2020-2026 BDS (Beyond Dream Scholars). All rights reserved.',
 
@@ -1267,7 +1273,9 @@ window.BDS_LANGS = {
     'footer.philosophy': 'Unsere Philosophie',
     'footer.campus_life': 'Campusleben',
     'footer.contact': 'Kontakt',
-    'footer.location': 'Chungju, Südkorea',
+    'footer.phone_admin': 'Verwaltung',
+    'footer.phone_admissions': 'Zulassung',
+    'footer.location': '201-61 Useong 1-gil, Noeun-myeon, Chungju, Chungbuk, Südkorea',
     'footer.social': 'Folgen Sie uns',
     'footer.copyright': 'Copyright © 2020-2026 BDS (Beyond Dream Scholars). Alle Rechte vorbehalten.',
 
