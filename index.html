@@ -2854,7 +2854,7 @@
         Beyond Dream Scholars nurtures passionate learners who dream beyond themselves, combining rigorous academics with daily meditation and character development.
       </p>
       <div class="hero-cta-buttons">
-        <a href="#" class="cta-button cta-primary">
+        <a href="#" class="cta-button cta-primary" id="applyNowBtn" data-inquiry="Admission Requirements">
           <span data-i18n="cta.apply">Apply Now</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 8px;">
             <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -2863,7 +2863,7 @@
         <a href="academic-calendar.html" class="cta-button cta-secondary" data-i18n="cta.calendar">
           View Academic Calendar
         </a>
-        <a href="#" class="cta-button cta-secondary" data-i18n="cta.visit">
+        <a href="#" class="cta-button cta-secondary" id="scheduleVisitBtn" data-inquiry="Campus Tour Request" data-i18n="cta.visit">
           Schedule a Visit
         </a>
       </div>
@@ -4094,24 +4094,48 @@
       });
     }
     
-    // Open contact modal
+    // Open contact modal (shared helper)
+    const openContactModal = (prefilledInquiry) => {
+      console.log('[BDS Contact] Opening contact modal', prefilledInquiry ? `(inquiry: ${prefilledInquiry})` : '');
+      contactModal.style.display = 'flex';
+      setTimeout(() => {
+        contactModal.classList.add('active');
+      }, 10);
+      document.body.style.overflow = 'hidden';
+
+      // Pre-select inquiry type if a CTA requested one
+      if (prefilledInquiry) {
+        const inquirySelect = document.getElementById('inquiryType');
+        if (inquirySelect) {
+          const match = [...inquirySelect.options].find(o => o.value === prefilledInquiry);
+          if (match) inquirySelect.value = prefilledInquiry;
+        }
+      }
+
+      // Focus first input
+      const firstInput = document.getElementById('fullName');
+      if (firstInput) {
+        setTimeout(() => firstInput.focus(), 300);
+      }
+    };
+
     if (contactAdmissionsBtn) {
       contactAdmissionsBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        console.log('[BDS Contact] Opening contact modal');
-        contactModal.style.display = 'flex';
-        setTimeout(() => {
-          contactModal.classList.add('active');
-        }, 10);
-        document.body.style.overflow = 'hidden';
-        
-        // Focus first input
-        const firstInput = document.getElementById('fullName');
-        if (firstInput) {
-          setTimeout(() => firstInput.focus(), 300);
-        }
+        openContactModal();
       });
     }
+
+    // Apply Now / Schedule a Visit — same modal, pre-filled inquiry type
+    ['applyNowBtn', 'scheduleVisitBtn'].forEach((id) => {
+      const btn = document.getElementById(id);
+      if (btn) {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          openContactModal(btn.getAttribute('data-inquiry'));
+        });
+      }
+    });
     
     // Close contact modal
     const closeContact = () => {
@@ -4240,51 +4264,60 @@
         document.querySelector('.btn-spinner').style.display = 'inline-flex';
         
         try {
-          // Create email body
-          const emailBody = `
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  NEW ADMISSION INQUIRY
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          // 1) Persist submission locally so the admin page can list it.
+          //    Keyed under 'bds_submissions' as an append-only JSON array.
+          const submissionRecord = {
+            id: 'sub_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+            ...formData,
+            emailSent: false
+          };
+          try {
+            const existing = JSON.parse(localStorage.getItem('bds_submissions') || '[]');
+            existing.push(submissionRecord);
+            localStorage.setItem('bds_submissions', JSON.stringify(existing));
+            console.log('[BDS Contact] Saved to localStorage, id:', submissionRecord.id);
+          } catch (storageErr) {
+            console.warn('[BDS Contact] localStorage save failed:', storageErr);
+          }
 
-Submitted: ${formData.timestamp}
+          // 2) Auto-send via FormSubmit AJAX endpoint.
+          //    Primary recipient: nowfornext@naver.com (encoded in the URL)
+          //    CC: admin@bds-korea.org (via _cc field — comma-separated supported)
+          //    First-time use requires one-time activation click in the primary inbox.
+          const formSubmitResp = await fetch('https://formsubmit.co/ajax/nowfornext@naver.com', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              _subject: `[BDS Website] 신규 문의 - ${formData.inquiryType}`,
+              _cc: 'admin@bds-korea.org',
+              _template: 'table',
+              _captcha: 'false',
+              '제출 시각': formData.timestamp,
+              '이름': formData.fullName,
+              '이메일': formData.email,
+              '전화번호': formData.phone,
+              '국가': formData.country || '미지정',
+              '학년': formData.gradeLevel,
+              '문의 유형': formData.inquiryType,
+              '선호 연락 방법': formData.contactMethod,
+              '메시지': formData.message
+            })
+          });
+          const sendOk = formSubmitResp.ok;
+          console.log('[BDS Contact] FormSubmit response:', formSubmitResp.status, sendOk);
 
-CONTACT INFORMATION
-──────────────────────────────────
-Name:              ${formData.fullName}
-Email:             ${formData.email}
-Phone:             ${formData.phone}
-Country:           ${formData.country || 'Not specified'}
-Preferred Contact: ${formData.contactMethod}
-
-STUDENT INFORMATION
-──────────────────────────────────
-Grade Level:       ${formData.gradeLevel}
-Inquiry Type:      ${formData.inquiryType}
-
-MESSAGE
-──────────────────────────────────
-${formData.message}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-This inquiry was submitted through the BDS website contact form.
-Please respond within 24 hours.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          `.trim();
-          
-          // Create mailto link
-          const subject = encodeURIComponent(`[BDS Website] New Admission Inquiry - ${formData.inquiryType}`);
-          const body = encodeURIComponent(emailBody);
-          const mailtoLink = `mailto:admin@bds-korea.org?subject=${subject}&body=${body}`;
-          
-          // Open email client
-          window.location.href = mailtoLink;
-          
-          // Simulate sending delay
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          
-          console.log('[BDS Contact] Email client opened');
+          // Update the stored record to reflect send status
+          try {
+            const current = JSON.parse(localStorage.getItem('bds_submissions') || '[]');
+            const idx = current.findIndex(s => s.id === submissionRecord.id);
+            if (idx >= 0) {
+              current[idx].emailSent = sendOk;
+              localStorage.setItem('bds_submissions', JSON.stringify(current));
+            }
+          } catch (_) { /* ignore */ }
           
           // Close contact modal
           closeContact();

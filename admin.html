@@ -1,0 +1,618 @@
+<!--
+  BDS Admin — Submissions Viewer
+  ================================
+  IMPORTANT (security note for maintainers):
+  This is a client-side-only demo/prototype admin panel. The "password"
+  check runs in the browser and anyone can read ADMIN_EMAIL/ADMIN_PASS
+  from this file's source. Submissions are stored in localStorage so
+  they are only visible in the SAME browser where the form was submitted.
+  For real production use (cross-device data, secure auth), migrate to
+  a Cloudflare Worker + D1 backend (see CLAUDE.md).
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <title>BDS 관리자 — 문의 현황</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+  <style>
+    :root {
+      --crimson: #A51C30;
+      --crimson-dark: #8a1627;
+      --black: #1a1a1a;
+      --gray: #4a4a4a;
+      --light-gray: #f5f5f5;
+      --border: #e0e0e0;
+      --success: #2e7d32;
+      --warning: #b26a00;
+      --error: #c62828;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', 'Pretendard Variable', Pretendard, 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--light-gray);
+      color: var(--black);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+    a { color: var(--crimson); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Header */
+    .admin-header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .admin-brand {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .admin-brand-main {
+      font-family: 'Merriweather', serif;
+      font-size: 1.4rem;
+      color: var(--crimson);
+      font-weight: 700;
+    }
+    .admin-brand-sub {
+      font-size: 0.8rem;
+      color: var(--gray);
+      letter-spacing: 0.05em;
+    }
+    .admin-header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+      background: none;
+      color: inherit;
+      font-family: inherit;
+    }
+    .btn-primary {
+      background: var(--crimson);
+      color: #fff;
+      border-color: var(--crimson);
+    }
+    .btn-primary:hover { background: var(--crimson-dark); border-color: var(--crimson-dark); }
+    .btn-ghost {
+      background: #fff;
+      color: var(--black);
+      border-color: var(--border);
+    }
+    .btn-ghost:hover { background: var(--light-gray); border-color: var(--black); }
+    .btn-danger {
+      color: var(--error);
+      border-color: transparent;
+    }
+    .btn-danger:hover { background: rgba(198, 40, 40, 0.08); }
+
+    /* Login view */
+    .login-wrap {
+      min-height: calc(100vh - 60px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .login-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 380px;
+      border-radius: 4px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+    }
+    .login-card h1 {
+      font-family: 'Merriweather', serif;
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+      color: var(--black);
+    }
+    .login-card .sub {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-bottom: 28px;
+    }
+    .form-row { margin-bottom: 16px; }
+    .form-row label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--gray);
+      margin-bottom: 6px;
+    }
+    .form-row input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--black);
+      transition: border-color 0.15s ease;
+    }
+    .form-row input:focus {
+      outline: none;
+      border-color: var(--crimson);
+    }
+    .login-error {
+      background: rgba(198, 40, 40, 0.08);
+      color: var(--error);
+      font-size: 0.8rem;
+      padding: 10px 12px;
+      border-radius: 3px;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .login-error.active { display: block; }
+    .login-submit {
+      width: 100%;
+      padding: 11px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    /* Dashboard */
+    .dashboard {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+    .dashboard-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .dashboard-title {
+      font-family: 'Merriweather', serif;
+      font-size: 1.4rem;
+    }
+    .dashboard-meta {
+      color: var(--gray);
+      font-size: 0.85rem;
+    }
+    .dashboard-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .stat {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 16px 18px;
+      border-radius: 4px;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+    .stat-value {
+      font-family: 'Merriweather', serif;
+      font-size: 1.6rem;
+      color: var(--black);
+    }
+
+    .notice {
+      background: #fff8e1;
+      border-left: 3px solid var(--warning);
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+      color: #7a4e00;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* Submissions list */
+    .submissions {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .empty {
+      padding: 80px 28px;
+      text-align: center;
+      color: var(--gray);
+    }
+    .empty-icon {
+      font-size: 2.5rem;
+      opacity: 0.4;
+      margin-bottom: 12px;
+    }
+    .empty h2 {
+      font-family: 'Merriweather', serif;
+      font-size: 1.1rem;
+      color: var(--black);
+      margin-bottom: 6px;
+    }
+    .empty p { font-size: 0.9rem; }
+
+    .sub-row {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+      transition: background 0.15s ease;
+    }
+    .sub-row:last-child { border-bottom: none; }
+    .sub-row:hover { background: #fafafa; }
+    .sub-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .sub-name {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--black);
+    }
+    .sub-name .inquiry-tag {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 2px 8px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      background: var(--light-gray);
+      color: var(--gray);
+      border-radius: 3px;
+      vertical-align: middle;
+    }
+    .sub-time {
+      font-size: 0.8rem;
+      color: var(--gray);
+      white-space: nowrap;
+    }
+    .sub-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-weight: 500;
+    }
+    .sub-badge.sent { background: rgba(46, 125, 50, 0.1); color: var(--success); }
+    .sub-badge.failed { background: rgba(198, 40, 40, 0.08); color: var(--error); }
+    .sub-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 4px 20px;
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-bottom: 10px;
+    }
+    .sub-meta div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sub-meta strong {
+      color: var(--black);
+      font-weight: 500;
+      margin-right: 4px;
+    }
+    .sub-message {
+      background: var(--light-gray);
+      padding: 12px 14px;
+      border-radius: 3px;
+      font-size: 0.9rem;
+      color: var(--black);
+      white-space: pre-wrap;
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+    .sub-actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="admin-header">
+    <div class="admin-brand">
+      <span class="admin-brand-main">BDS</span>
+      <span class="admin-brand-sub">Admin Console</span>
+    </div>
+    <div class="admin-header-actions">
+      <a href="index.html" class="btn btn-ghost">← 홈으로</a>
+      <button type="button" class="btn btn-ghost" id="logoutBtn" style="display: none;">로그아웃</button>
+    </div>
+  </header>
+
+  <!-- Login -->
+  <main id="loginView" class="login-wrap">
+    <div class="login-card">
+      <h1>관리자 로그인</h1>
+      <p class="sub">문의 내역을 확인하려면 로그인해 주세요.</p>
+      <form id="loginForm" autocomplete="off">
+        <div class="form-row">
+          <label for="loginEmail">이메일</label>
+          <input type="email" id="loginEmail" required placeholder="admin@bdskorea.org" autocomplete="username">
+        </div>
+        <div class="form-row">
+          <label for="loginPassword">비밀번호</label>
+          <input type="password" id="loginPassword" required autocomplete="current-password">
+        </div>
+        <div class="login-error" id="loginError">이메일 또는 비밀번호가 일치하지 않습니다.</div>
+        <button type="submit" class="btn btn-primary login-submit">로그인</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Dashboard (hidden until login) -->
+  <main id="dashboardView" class="dashboard" style="display: none;">
+    <div class="dashboard-top">
+      <div>
+        <div class="dashboard-title">문의 현황</div>
+        <div class="dashboard-meta" id="dashMeta">— 건의 문의가 접수되었습니다.</div>
+      </div>
+      <div class="dashboard-actions">
+        <button type="button" class="btn btn-ghost" id="refreshBtn">새로고침</button>
+        <button type="button" class="btn btn-ghost" id="exportBtn">CSV 내보내기</button>
+        <button type="button" class="btn btn-danger" id="clearBtn">전체 삭제</button>
+      </div>
+    </div>
+
+    <div class="notice">
+      ⓘ 이 데이터는 <strong>이 브라우저의 로컬 저장소(localStorage)</strong>에 저장된 내역입니다.
+      다른 브라우저·기기에서 제출된 문의는 보이지 않습니다. 폼 제출 시 자동 발송된 이메일은
+      nowfornext@naver.com 과 admin@bds-korea.org 로 전달됩니다.
+    </div>
+
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-label">전체 문의</div>
+        <div class="stat-value" id="statTotal">0</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">이메일 발송 완료</div>
+        <div class="stat-value" id="statSent">0</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">오늘 접수</div>
+        <div class="stat-value" id="statToday">0</div>
+      </div>
+    </div>
+
+    <div class="submissions" id="submissionsList"></div>
+  </main>
+
+  <script>
+    // ⚠️ CLIENT-SIDE DEMO AUTH ONLY — visible in source. See top-of-file note.
+    const ADMIN_EMAIL = 'admin@bdskorea.org';
+    const ADMIN_PASS = '1234';
+    const AUTH_KEY = 'bds_admin_auth';
+    const STORE_KEY = 'bds_submissions';
+
+    const loginView = document.getElementById('loginView');
+    const dashboardView = document.getElementById('dashboardView');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const loginForm = document.getElementById('loginForm');
+    const loginError = document.getElementById('loginError');
+
+    function isAuthed() {
+      try { return sessionStorage.getItem(AUTH_KEY) === 'true'; }
+      catch (_) { return false; }
+    }
+
+    function showDashboard() {
+      loginView.style.display = 'none';
+      dashboardView.style.display = 'block';
+      logoutBtn.style.display = 'inline-flex';
+      render();
+    }
+
+    function showLogin() {
+      loginView.style.display = 'flex';
+      dashboardView.style.display = 'none';
+      logoutBtn.style.display = 'none';
+    }
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+      const pass = document.getElementById('loginPassword').value;
+      if (email === ADMIN_EMAIL.toLowerCase() && pass === ADMIN_PASS) {
+        try { sessionStorage.setItem(AUTH_KEY, 'true'); } catch (_) {}
+        loginError.classList.remove('active');
+        showDashboard();
+      } else {
+        loginError.classList.add('active');
+      }
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      try { sessionStorage.removeItem(AUTH_KEY); } catch (_) {}
+      showLogin();
+    });
+
+    // Dashboard rendering
+    function loadSubmissions() {
+      try {
+        return JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function saveSubmissions(list) {
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(list)); }
+      catch (_) {}
+    }
+
+    function escapeHTML(str) {
+      return String(str == null ? '' : str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function render() {
+      const subs = loadSubmissions().slice().reverse(); // newest first
+      const total = subs.length;
+      const sent = subs.filter(s => s.emailSent).length;
+      // "Today" count — parse year/month/day out of whatever date format the
+      // timestamp was stored in (we emit ko-KR style "2026. 04. 24. 09:20",
+      // but stay permissive in case the format changes).
+      const today = (() => {
+        const now = new Date();
+        const y = now.getFullYear(), m = now.getMonth() + 1, d = now.getDate();
+        return subs.filter(s => {
+          if (!s.timestamp) return false;
+          const match = String(s.timestamp).match(/(\d{4})[.\-/\s]+(\d{1,2})[.\-/\s]+(\d{1,2})/);
+          if (!match) return false;
+          return parseInt(match[1], 10) === y
+            && parseInt(match[2], 10) === m
+            && parseInt(match[3], 10) === d;
+        }).length;
+      })();
+
+      document.getElementById('statTotal').textContent = total;
+      document.getElementById('statSent').textContent = sent;
+      document.getElementById('statToday').textContent = today;
+      document.getElementById('dashMeta').textContent = `${total}건의 문의가 접수되었습니다.`;
+
+      const list = document.getElementById('submissionsList');
+      if (total === 0) {
+        list.innerHTML = `
+          <div class="empty">
+            <div class="empty-icon">📭</div>
+            <h2>아직 접수된 문의가 없습니다</h2>
+            <p>메인 페이지에서 문의 폼을 제출하면 이 곳에 표시됩니다.</p>
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = subs.map(s => {
+        const badge = s.emailSent
+          ? '<span class="sub-badge sent">● 이메일 발송됨</span>'
+          : '<span class="sub-badge failed">○ 이메일 실패</span>';
+        return `
+          <div class="sub-row" data-id="${escapeHTML(s.id)}">
+            <div class="sub-head">
+              <div>
+                <span class="sub-name">${escapeHTML(s.fullName)}</span>
+                <span class="inquiry-tag">${escapeHTML(s.inquiryType || '')}</span>
+              </div>
+              <div style="display: flex; gap: 10px; align-items: center;">
+                ${badge}
+                <span class="sub-time">${escapeHTML(s.timestamp || '')}</span>
+              </div>
+            </div>
+            <div class="sub-meta">
+              <div><strong>이메일</strong> <a href="mailto:${escapeHTML(s.email)}">${escapeHTML(s.email)}</a></div>
+              <div><strong>전화</strong> <a href="tel:${escapeHTML(s.phone)}">${escapeHTML(s.phone)}</a></div>
+              <div><strong>국가</strong> ${escapeHTML(s.country || '미지정')}</div>
+              <div><strong>학년</strong> ${escapeHTML(s.gradeLevel || '')}</div>
+              <div><strong>선호 연락</strong> ${escapeHTML(s.contactMethod || '')}</div>
+            </div>
+            ${s.message ? `<div class="sub-message">${escapeHTML(s.message)}</div>` : ''}
+            <div class="sub-actions">
+              <button type="button" class="btn btn-ghost" data-action="reply" data-id="${escapeHTML(s.id)}">답장 보내기</button>
+              <button type="button" class="btn btn-danger" data-action="delete" data-id="${escapeHTML(s.id)}">삭제</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Wire row actions
+      list.querySelectorAll('[data-action]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const action = btn.getAttribute('data-action');
+          const id = btn.getAttribute('data-id');
+          if (action === 'delete') {
+            if (confirm('이 문의를 삭제할까요? (되돌릴 수 없습니다)')) {
+              const all = loadSubmissions().filter(s => s.id !== id);
+              saveSubmissions(all);
+              render();
+            }
+          } else if (action === 'reply') {
+            const sub = loadSubmissions().find(s => s.id === id);
+            if (sub) {
+              const subject = encodeURIComponent(`[BDS] 문의 회신 — ${sub.inquiryType || ''}`);
+              const body = encodeURIComponent(`안녕하세요 ${sub.fullName}님,\n\n문의 주셔서 감사합니다.\n\n`);
+              location.href = `mailto:${sub.email}?subject=${subject}&body=${body}`;
+            }
+          }
+        });
+      });
+    }
+
+    document.getElementById('refreshBtn').addEventListener('click', render);
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      if (confirm('모든 문의 데이터를 삭제할까요? 이 작업은 되돌릴 수 없습니다.')) {
+        saveSubmissions([]);
+        render();
+      }
+    });
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const subs = loadSubmissions();
+      if (subs.length === 0) { alert('내보낼 데이터가 없습니다.'); return; }
+      const headers = ['timestamp','fullName','email','phone','country','gradeLevel','inquiryType','contactMethod','message','emailSent'];
+      const esc = (v) => {
+        const s = String(v == null ? '' : v).replace(/"/g, '""');
+        return `"${s}"`;
+      };
+      const rows = [headers.join(',')].concat(subs.map(s => headers.map(h => esc(s[h])).join(',')));
+      const csv = '\uFEFF' + rows.join('\r\n'); // BOM for Excel UTF-8
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `bds-submissions-${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // Boot
+    if (isAuthed()) showDashboard(); else showLogin();
+  </script>
+</body>
+</html>
