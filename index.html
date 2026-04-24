@@ -4281,10 +4281,10 @@
           }
 
           // 2) Auto-send via FormSubmit AJAX endpoint.
-          //    Primary recipient: admin@bds-korea.org (encoded in the URL)
-          //    CC: nowfornext@naver.com (via _cc field — comma-separated supported)
+          //    Primary recipient: nowfornext@naver.com (encoded in the URL)
+          //    CC: admin@bds-korea.org (via _cc field — comma-separated supported)
           //    First-time use requires one-time activation click in the primary inbox.
-          const formSubmitResp = await fetch('https://formsubmit.co/ajax/admin@bds-korea.org', {
+          const formSubmitResp = await fetch('https://formsubmit.co/ajax/nowfornext@naver.com', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -4292,7 +4292,7 @@
             },
             body: JSON.stringify({
               _subject: `[BDS Website] 신규 문의 - ${formData.inquiryType}`,
-              _cc: 'nowfornext@naver.com',
+              _cc: 'admin@bds-korea.org',
               _template: 'table',
               _captcha: 'false',
               '제출 시각': formData.timestamp,
