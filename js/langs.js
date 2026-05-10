@@ -768,7 +768,7 @@ window.BDS_LANGS = {
     'ongdalsam.gallery.lead': 'BDS 학생들이 하루를 보내는 공간의 작은 창. 가족 여러분께서 직접 방문하실 수 있도록 언제든 열려 있습니다.',
     'ongdalsam.parents.eyebrow': '학부모님께',
     'ongdalsam.parents.title': '가족에게 가장 중요한 것들',
-    'ongdalsam.parents.lead': '아이를 기숙 캠퍼스에 보내는 것은 의미 있는 결정입니다. 저희가 가장 중요하다고 믿고, 매일 돌보는 것들을 나눕니다.',
+    'ongdalsam.parents.lead': '저희가 가장 중요하다고 믿고, 매일 실천하는 것들을 나눕니다.',
     'ongdalsam.parent1.title': '안전과 돌봄',
     'ongdalsam.parent1.desc': '기숙 담당 교직원이 캠퍼스에서 함께 생활합니다. 방은 안전하게 관리되고 건강 상태를 살피며, 아이의 안녕을 가족에게 전합니다.',
     'ongdalsam.parent2.title': '건강한 일상',
