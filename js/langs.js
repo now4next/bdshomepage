@@ -236,6 +236,7 @@ window.BDS_LANGS = {
     'placements.cmu.desc': 'CMU Tepper School of Business — entrepreneurship scholarship. A new Ivy League pioneer.',
     'placements.saic.desc': "Full scholarship to one of the world's top 3 art schools. World-class skills, world-class recognition.",
     'placements.clemson.desc': 'A prestigious Southern US public university. Pioneering the future of creative space design in the AI era.',
+    'placements.ubc.desc': "Canada's top research university and one of the world's leading institutions. Admission to the prestigious SALA Architecture program.",
     'placements.note': '100% of BDS graduates have been accepted to university — many with scholarships.',
 
     // Student Life Gallery
@@ -622,6 +623,7 @@ window.BDS_LANGS = {
     'placements.cmu.desc': '카네기 멜런대학교 경영학부 창업지원 장학생 선발. 글로벌 리더를 키우는 세계 TOP 명문대.',
     'placements.saic.desc': '세계 3대 아트 스쿨 전액 장학생 합격. 세계적 수준의 실기 중심 교육이 선택한 재능.',
     'placements.clemson.desc': '미국 남부 명문 주립대. AI시대 다시 떠오르는 창의적 공간디자인 전문가의 길을 열다.',
+    'placements.ubc.desc': '캐나다 최고의 연구중심 대학이자 세계 최상위 대학 중 하나. UBC 명문 SALA 건축학과 합격.',
     'placements.note': 'BDS 졸업생 100%가 대학에 합격했으며, 다수가 장학금을 받았습니다.',
 
     // Student Life Gallery
@@ -1003,6 +1005,7 @@ window.BDS_LANGS = {
     'placements.cmu.desc': 'カーネギーメロン大学経営学部 起業支援奨学生選抜。グローバルリーダーを育てる世界TOP大学。',
     'placements.saic.desc': '世界3大アートスクールへの全額奨学金合格。世界クラスのスキルが世界クラスの評価を受けた証。',
     'placements.clemson.desc': '米国南部名門州立大学。AI時代に再注目される創造的空間デザインの専門家への道。',
+    'placements.ubc.desc': 'カナダトップの研究大学であり、世界屈指の名門。UBC名門SALA建築学科合格。',
     'placements.note': 'BDS卒業生の100%が大学に合格しており、多くが奨学金を受けています。',
 
     // Student Life Gallery
@@ -1384,6 +1387,7 @@ window.BDS_LANGS = {
     'placements.cmu.desc': 'CMU Tepper School of Business — Unternehmensstipendium. Ein neuer Ivy-League-Pionier.',
     'placements.saic.desc': 'Vollstipendium an einer der Top-3-Kunstschulen der Welt. Weltklasse-Können wird mit Weltklasse-Anerkennung belohnt.',
     'placements.clemson.desc': 'Eine renommierte öffentliche Universität im Süden der USA. Pionierarbeit für kreatives Raumdesign im KI-Zeitalter.',
+    'placements.ubc.desc': 'Kanadas führende Forschungsuniversität und eine der weltweit besten Institutionen. Zulassung zum renommierten SALA-Architekturprogramm der UBC.',
     'placements.note': '100 % der BDS-Absolventinnen und -Absolventen wurden an einer Universität zugelassen — viele mit Stipendium.',
 
     // Student Life Gallery
