@@ -1,64 +1,69 @@
-# BDS Homepage — Claude 작업 가이드
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## 프로젝트 개요
 
-BDS (Beyond Dream Scholars) 웹사이트. 빌드 도구 없는 순수 정적 HTML/CSS/JavaScript 사이트. 모든 스타일/스크립트는 `index.html`에 인라인으로 포함.
+BDS (Beyond Dream Scholars) 학교 홈페이지. 빌드 도구 없는 순수 정적 HTML/CSS/JS 사이트.
 
 - **GitHub**: https://github.com/now4next/bdshomepage
 - **프로덕션 URL**: https://bdshomepage.pages.dev
 - **메인 브랜치**: `main`
 
-## 배포 워크플로우 (중요)
+## 배포 워크플로우
 
-이 프로젝트는 **GitHub `main` → Cloudflare Pages 자동 배포** 파이프라인이 구성되어 있다.
-
-### 개발 작업 완료 후 기본 절차
-
-특별히 로컬에서만 수정·확인이 필요한 경우가 아니라면, 개발 작업이 끝나면 **항상 commit & push 까지 수행해 프로덕션에 바로 반영**한다:
+`git push origin HEAD:main` → Cloudflare Pages 자동 배포 (1–3분 소요).
 
 ```bash
-git add <변경 파일>
-git commit -m "<메시지>"
-git push origin main
-# → 1-3분 내 https://bdshomepage.pages.dev 에 자동 배포
+git add <변경 파일>       # git add . 금지 — 변경 파일만 명시
+git commit -m "feat|fix|refactor: <설명>"
+git push origin HEAD:main
 ```
 
-- 파일 스테이징은 `git add .` 대신 변경한 파일을 명시해서 추가한다.
-- 커밋 메시지 스타일은 기존 커밋 히스토리(`feat:`, `fix:`, `docs:`, `refactor:` 등 Conventional Commits)를 따른다.
-- 푸시 후에는 Cloudflare Pages 자동 배포가 1-3분 내 완료됨을 사용자에게 알려준다.
+로컬 전용(실험적 수정, 사용자 리뷰 필요)인 경우만 push를 보류한다.
 
-### 로컬 전용 작업인 경우
+### CDN 캐시 무효화
 
-다음과 같은 경우는 push하지 않고 로컬에서만 작업 후 사용자 확인을 받는다:
-- 실험적/탐색적 수정
-- 프로덕션에 반영하기 전 사용자 리뷰가 필요한 변경
-- 사용자가 명시적으로 "push 하지 마"라고 지시한 경우
+배포 후 변경이 반영되지 않으면 `.cloudflare-cache-bust` 파일의 `version`·`last_update`를 올린 뒤 재push한다.
 
 ## 로컬 미리보기
 
-작업 중에는 Claude Code의 **Preview** 기능을 사용해 오른쪽 패널에 사이트를 띄운다.
+`.claude/launch.json`의 `bds-static` 서버(Python http.server, 포트 8000)를 사용한다.  
+시작: `mcp__Claude_Preview__preview_start` / 변경 확인: 브라우저 Ctrl+Shift+R
 
-- `.claude/launch.json` 에 `bds-static` 서버 설정이 등록되어 있음 (Python http.server, 포트 8000).
-- 작업 시작 시 `mcp__Claude_Preview__preview_start` 로 서버를 기동한다 (이미 실행 중이면 재사용됨).
-- 변경 후 브라우저에서 강력 새로고침(Ctrl+Shift+R)으로 확인한다.
+## 아키텍처
 
-## 파일 구조
+### 페이지 구성
+| 파일 | 역할 |
+|---|---|
+| `index.html` | 메인 페이지 — 모든 CSS/JS 인라인 (~4500+ 줄) |
+| `ongdalsam.html` | 캠퍼스 소개 페이지 (시설, 갤러리, 학부모 섹션) |
+| `academic-calendar.html` | 학사 일정 페이지 |
+| `admin.html` | 문의 관리 대시보드 (현재 클라이언트사이드 데모) |
 
+### 다국어(i18n) 시스템
+- **`js/langs.js`** — `window.BDS_LANGS = { en, ko, ja, de }` 딕셔너리 정의
+- **`js/i18n.js`** — 페이지 로드 시 `data-i18n` 속성을 순회하며 텍스트를 교체. `localStorage('bds_lang')`로 언어 상태 유지
+- 마크업: `<el data-i18n="key">fallback text</el>`
+- 새 텍스트 추가 시 langs.js의 **en·ko·ja·de 4개 블록 모두** 동시 수정 필요
+- **키 미등록 시 키 이름 자체가 화면에 노출됨** (i18n 엔진 fallback 동작)
+
+### 이미지 구조
 ```
-bdshomepage/
-├── index.html                    # 메인 페이지 (모든 CSS/JS 인라인)
-├── academic-calendar.html        # 학사 일정 페이지
-├── harvard_style_sections.html   # Harvard 스타일 섹션 템플릿
-├── modern_sections.html          # 모던 섹션 템플릿
-├── _redirects                    # SPA 라우팅 리다이렉트
-├── wrangler.toml                 # Cloudflare Wrangler 설정
-├── .cloudflare-cache-bust        # CDN 캐시 무효화 트리거
-├── *.py                          # 최적화 보조 스크립트
-└── *.md                          # 변경 이력/가이드 문서
+images/
+├── campus/       # 캠퍼스 시설 사진 (18장)
+├── students/     # 학생 활동 사진 (32장)
+└── achievements/ # 대학 합격 성과 사진 (5장)
 ```
+
+### 관리자 페이지 (admin.html) — 현재 한계
+- 인증: 클라이언트 JS에 `ADMIN_EMAIL / ADMIN_PASS` 하드코딩 → 소스 보기로 노출
+- 데이터: `localStorage`에 저장 → 다른 브라우저·기기에서 제출된 문의 열람 불가
+- 실 운영 전환 시 **Cloudflare Workers + D1** 또는 **Supabase** 백엔드 필요
 
 ## 주의사항
 
-- `index.html` 은 단일 파일에 모든 마크업/스타일/스크립트가 포함되어 매우 큼. 수정 시 Edit 도구로 구체적인 블록만 바꾸고 전체 재작성은 피한다.
-- 외부 리소스(Google Fonts, Unsplash 이미지)는 CDN 로드이므로 오프라인 환경에서는 스타일이 일부 깨질 수 있다.
-- 강력한 CDN 캐시 때문에 배포 후 변경이 안 보이면 `.cloudflare-cache-bust` 파일을 갱신하거나 하드 리프레시를 안내한다.
+- `index.html`은 단일 파일에 모든 마크업·스타일·스크립트 포함. Edit 도구로 구체적 블록만 수정하고 전체 재작성 금지.
+- 한국어 텍스트 줄바꿈 제어: `word-break: keep-all` 사용.
+- 디자인 시스템: Harvard Crimson `#A51C30`, Merriweather(제목) + Inter·Pretendard(본문), max-width 1200–1400px.
+- 외부 리소스(Google Fonts)는 CDN 로드이므로 오프라인 환경에서는 폰트가 깨질 수 있다.
