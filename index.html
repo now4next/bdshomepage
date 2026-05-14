@@ -4060,7 +4060,7 @@
       if (!btn || !label) return;
       if (BDS_AUTH.isLoggedIn()) {
         const u = BDS_AUTH.getUser();
-        label.textContent = u ? u.name.split(' ')[0] + ' 님' : '포털';
+        label.textContent = u ? u.name.split(' ')[0] : '포털';
         btn.href = 'dashboard.html';
       } else {
         label.textContent = '로그인';
