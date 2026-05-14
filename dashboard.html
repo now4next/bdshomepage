@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>회원 포털 — BDS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+  <style>
+    :root {
+      --crimson: #A51C30;
+      --black: #1a1a1a;
+      --gray: #555;
+      --light-gray: #f5f5f5;
+      --border: #e0e0e0;
+      --success: #2e7d32;
+      --error: #c62828;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', 'Pretendard Variable', Pretendard, sans-serif;
+      background: var(--light-gray);
+      color: var(--black);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .header {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .logo-main { font-family: 'Merriweather', serif; font-size: 1.4rem; font-weight: 700; color: var(--crimson); }
+    .logo-sub  { font-size: 0.68rem; color: var(--gray); }
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .user-badge {
+      font-size: 0.8rem; color: var(--gray);
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 7px 14px; font-size: 0.82rem; font-weight: 500;
+      border: 1px solid var(--border); background: #fff;
+      cursor: pointer; font-family: inherit; color: var(--black);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn:hover { background: var(--light-gray); border-color: var(--black); }
+    .btn-crimson { background: var(--crimson); color: #fff; border-color: var(--crimson); }
+    .btn-crimson:hover { background: #8a1627; border-color: #8a1627; }
+
+    /* Layout */
+    .layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: calc(100vh - 60px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: #fff;
+      border-right: 1px solid var(--border);
+      padding: 24px 0;
+    }
+    .sidebar-menu { list-style: none; }
+    .sidebar-menu li a, .sidebar-menu li button {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 24px; font-size: 0.88rem;
+      color: var(--gray); text-decoration: none;
+      cursor: pointer; background: none; border: none;
+      width: 100%; text-align: left; font-family: inherit;
+      transition: background 0.15s, color 0.15s;
+    }
+    .sidebar-menu li a:hover, .sidebar-menu li button:hover {
+      background: var(--light-gray); color: var(--black);
+    }
+    .sidebar-menu li.active a {
+      background: rgba(165,28,48,0.07);
+      color: var(--crimson); font-weight: 600;
+      border-left: 3px solid var(--crimson);
+    }
+
+    /* Content panels */
+    .content { padding: 32px; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    .panel-title {
+      font-family: 'Merriweather', serif;
+      font-size: 1.3rem; margin-bottom: 6px;
+    }
+    .panel-sub { color: var(--gray); font-size: 0.85rem; margin-bottom: 28px; }
+
+    /* Cards */
+    .card {
+      background: #fff; border: 1px solid var(--border);
+      padding: 24px; margin-bottom: 12px;
+    }
+    .card-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; }
+    .card-meta  { font-size: 0.78rem; color: var(--gray); margin-bottom: 10px; }
+    .card-body  { font-size: 0.88rem; color: #444; white-space: pre-wrap; line-height: 1.65; }
+    .badge {
+      display: inline-block; padding: 2px 8px; font-size: 0.7rem;
+      font-weight: 600; letter-spacing: 0.05em;
+    }
+    .badge-public { background: #e8f5e9; color: var(--success); }
+    .badge-member { background: #fff3e0; color: #e65100; }
+
+    /* Empty state */
+    .empty {
+      text-align: center; padding: 60px 20px; color: var(--gray);
+    }
+    .empty-icon { font-size: 2.4rem; margin-bottom: 12px; opacity: 0.4; }
+
+    /* Profile form */
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block; font-size: 0.78rem; font-weight: 500;
+      color: var(--gray); margin-bottom: 6px;
+    }
+    .form-group input {
+      width: 100%; max-width: 400px;
+      padding: 10px 12px; border: 1px solid var(--border);
+      font-size: 0.9rem; font-family: inherit; color: var(--black);
+    }
+    .form-group input:focus { outline: none; border-color: var(--crimson); }
+    .form-group input:disabled { background: var(--light-gray); color: var(--gray); }
+    .form-divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+    .alert {
+      padding: 10px 14px; font-size: 0.85rem; margin-bottom: 16px; display: none;
+    }
+    .alert.show { display: block; }
+    .alert-ok  { background: #e8f5e9; color: var(--success); }
+    .alert-err { background: rgba(198,40,40,0.07); color: var(--error); }
+
+    /* Contact submissions */
+    .sub-row {
+      background: #fff; border: 1px solid var(--border);
+      padding: 18px 20px; margin-bottom: 10px;
+    }
+    .sub-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+    .sub-name { font-weight: 600; font-size: 0.92rem; }
+    .sub-time { font-size: 0.75rem; color: var(--gray); }
+    .sub-tag  { font-size: 0.72rem; background: var(--light-gray); color: var(--gray); padding: 2px 7px; margin-left: 6px; }
+    .sub-message { background: var(--light-gray); padding: 10px 12px; font-size: 0.86rem; margin-top: 10px; white-space: pre-wrap; }
+
+    /* Admin notice form */
+    textarea {
+      width: 100%; max-width: 600px; padding: 10px 12px;
+      border: 1px solid var(--border); font-family: inherit;
+      font-size: 0.9rem; resize: vertical; min-height: 100px; color: var(--black);
+    }
+    textarea:focus { outline: none; border-color: var(--crimson); }
+    .checkbox-row { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; font-size: 0.88rem; }
+    input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--crimson); }
+
+    @media (max-width: 700px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid var(--border); padding: 12px 0; }
+      .sidebar-menu { display: flex; overflow-x: auto; }
+      .sidebar-menu li a, .sidebar-menu li button { white-space: nowrap; }
+      .sidebar-menu li.active a { border-left: none; border-bottom: 2px solid var(--crimson); }
+      .content { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div>
+      <div class="logo-main">BDS</div>
+      <div class="logo-sub">회원 포털</div>
+    </div>
+    <div class="header-right">
+      <span class="user-badge" id="userBadge"></span>
+      <a href="index.html" class="btn">홈</a>
+      <button class="btn" id="logoutBtn">로그아웃</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <ul class="sidebar-menu" id="sidebarMenu">
+        <li class="active" data-panel="notices">
+          <a href="#">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            공지사항
+          </a>
+        </li>
+        <li data-panel="mycontacts">
+          <a href="#">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            문의 내역
+          </a>
+        </li>
+        <li data-panel="profile">
+          <a href="#">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            프로필
+          </a>
+        </li>
+        <!-- Admin only -->
+        <li data-panel="admin-notices" class="admin-only" style="display:none;">
+          <a href="#">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v3m0 16v3M4.22 4.22l2.12 2.12m11.32 11.32 2.12 2.12M1 12h3m16 0h3M4.22 19.78l2.12-2.12M18.66 5.34l2.12-2.12"/></svg>
+            공지 관리
+          </a>
+        </li>
+        <li data-panel="admin-contacts" class="admin-only" style="display:none;">
+          <a href="#">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            문의 관리
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- 공지사항 -->
+      <div class="panel active" id="panel-notices">
+        <div class="panel-title">공지사항</div>
+        <div class="panel-sub">BDS의 새 소식과 학사 공지를 확인하세요.</div>
+        <div id="noticesList"><p style="color:#aaa;font-size:.85rem">불러오는 중…</p></div>
+      </div>
+
+      <!-- 문의 내역 (내가 제출한 것) -->
+      <div class="panel" id="panel-mycontacts">
+        <div class="panel-title">문의 내역</div>
+        <div class="panel-sub">내가 제출한 입학 문의를 확인합니다.</div>
+        <div id="myContactsList"><p style="color:#aaa;font-size:.85rem">불러오는 중…</p></div>
+      </div>
+
+      <!-- 프로필 -->
+      <div class="panel" id="panel-profile">
+        <div class="panel-title">프로필</div>
+        <div class="panel-sub">기본 정보와 비밀번호를 수정합니다.</div>
+        <div class="alert alert-ok" id="profileOk">저장되었습니다.</div>
+        <div class="alert alert-err" id="profileErr"></div>
+        <form id="profileForm">
+          <div class="form-group">
+            <label>이름</label>
+            <input type="text" id="profileName" required>
+          </div>
+          <div class="form-group">
+            <label>이메일 (변경 불가)</label>
+            <input type="email" id="profileEmail" disabled>
+          </div>
+          <hr class="form-divider">
+          <div class="panel-sub" style="margin-bottom:18px;">비밀번호 변경 (선택)</div>
+          <div class="form-group">
+            <label>현재 비밀번호</label>
+            <input type="password" id="currentPw" placeholder="변경 시에만 입력">
+          </div>
+          <div class="form-group">
+            <label>새 비밀번호 (8자 이상)</label>
+            <input type="password" id="newPw" placeholder="변경 시에만 입력">
+          </div>
+          <button type="submit" class="btn btn-crimson">저장</button>
+        </form>
+      </div>
+
+      <!-- Admin: 공지 작성 -->
+      <div class="panel" id="panel-admin-notices">
+        <div class="panel-title">공지 관리</div>
+        <div class="panel-sub">새 공지를 작성합니다.</div>
+        <div class="alert alert-ok"  id="noticeOk">공지가 등록되었습니다.</div>
+        <div class="alert alert-err" id="noticeErr"></div>
+        <form id="noticeForm">
+          <div class="form-group">
+            <label>제목</label>
+            <input type="text" id="noticeTitle" required style="max-width:600px;">
+          </div>
+          <div class="form-group">
+            <label>내용</label>
+            <textarea id="noticeContent" rows="6"></textarea>
+          </div>
+          <div class="checkbox-row">
+            <input type="checkbox" id="noticePublic">
+            <label for="noticePublic">전체 공개 (비로그인 사용자도 열람 가능)</label>
+          </div>
+          <button type="submit" class="btn btn-crimson">공지 등록</button>
+        </form>
+      </div>
+
+      <!-- Admin: 전체 문의 -->
+      <div class="panel" id="panel-admin-contacts">
+        <div class="panel-title">문의 관리</div>
+        <div class="panel-sub">접수된 모든 문의를 확인합니다.</div>
+        <div id="allContactsList"><p style="color:#aaa;font-size:.85rem">불러오는 중…</p></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/auth-client.js"></script>
+  <script>
+    // 보호된 페이지 — 비로그인 시 리다이렉트
+    if (!BDS_AUTH.requireLogin()) throw new Error('not logged in');
+
+    const user = BDS_AUTH.getUser();
+    document.getElementById('userBadge').textContent = user.name + ' 님';
+
+    // 관리자 메뉴 표시
+    if (user.role === 'admin') {
+      document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
+    }
+
+    // 프로필 초기값
+    document.getElementById('profileName').value  = user.name;
+    document.getElementById('profileEmail').value = user.email;
+
+    /* ── 탭 전환 ── */
+    const menu = document.getElementById('sidebarMenu');
+    menu.querySelectorAll('[data-panel]').forEach(li => {
+      li.querySelector('a, button').addEventListener('click', (e) => {
+        e.preventDefault();
+        switchPanel(li.dataset.panel);
+      });
+    });
+
+    function switchPanel(name) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('[data-panel]').forEach(li => li.classList.remove('active'));
+      document.getElementById('panel-' + name).classList.add('active');
+      menu.querySelector(`[data-panel="${name}"]`).classList.add('active');
+      loadPanel(name);
+    }
+
+    /* ── 데이터 로딩 ── */
+    const loaded = {};
+
+    function loadPanel(name) {
+      if (loaded[name]) return;
+      loaded[name] = true;
+      if (name === 'notices')        loadNotices();
+      if (name === 'mycontacts')     loadMyContacts();
+      if (name === 'admin-contacts') loadAllContacts();
+    }
+
+    // 초기 로드
+    loadPanel('notices');
+
+    async function loadNotices() {
+      const el = document.getElementById('noticesList');
+      try {
+        const res = await BDS_AUTH.authFetch('/api/notices');
+        const { notices } = await res.json();
+        if (!notices.length) {
+          el.innerHTML = '<div class="empty"><div class="empty-icon">📋</div><p>등록된 공지가 없습니다.</p></div>';
+          return;
+        }
+        el.innerHTML = notices.map(n => `
+          <div class="card">
+            <div class="card-meta">
+              ${n.is_public
+                ? '<span class="badge badge-public">전체공개</span>'
+                : '<span class="badge badge-member">회원전용</span>'}
+              <span style="margin-left:10px;">${n.created_at.slice(0,10)}</span>
+            </div>
+            <div class="card-title">${esc(n.title)}</div>
+            ${n.content ? `<div class="card-body" style="margin-top:10px;">${esc(n.content)}</div>` : ''}
+          </div>
+        `).join('');
+      } catch {
+        el.innerHTML = '<p style="color:#c62828">불러오기 실패</p>';
+      }
+    }
+
+    async function loadMyContacts() {
+      // 로그인 사용자의 이메일로 필터 (서버가 모든 contacts 반환 안 하므로 클라이언트 필터)
+      const el = document.getElementById('myContactsList');
+      if (user.role !== 'admin') {
+        el.innerHTML = `
+          <div class="empty">
+            <div class="empty-icon">💬</div>
+            <p style="font-size:.88rem">문의하신 내역은 이메일로 확인하실 수 있습니다.<br>추가 문의는 <a href="index.html#contact" style="color:var(--crimson)">홈 페이지 문의 폼</a>을 이용해 주세요.</p>
+          </div>`;
+        return;
+      }
+      // 관리자는 전체 문의 링크 안내
+      el.innerHTML = `<p style="font-size:.88rem;color:var(--gray)">관리자는 <strong>문의 관리</strong> 탭에서 전체 내역을 확인할 수 있습니다.</p>`;
+    }
+
+    async function loadAllContacts() {
+      const el = document.getElementById('allContactsList');
+      try {
+        const res = await BDS_AUTH.authFetch('/api/contacts');
+        const { submissions } = await res.json();
+        if (!submissions.length) {
+          el.innerHTML = '<div class="empty"><div class="empty-icon">📭</div><p>접수된 문의가 없습니다.</p></div>';
+          return;
+        }
+        el.innerHTML = submissions.map(s => `
+          <div class="sub-row">
+            <div class="sub-head">
+              <div>
+                <span class="sub-name">${esc(s.full_name)}</span>
+                <span class="sub-tag">${esc(s.inquiry_type || '')}</span>
+              </div>
+              <span class="sub-time">${(s.created_at || '').slice(0,16)}</span>
+            </div>
+            <div style="font-size:.82rem;color:var(--gray);display:flex;gap:18px;flex-wrap:wrap;">
+              <span>📧 <a href="mailto:${esc(s.email)}" style="color:var(--crimson)">${esc(s.email)}</a></span>
+              ${s.phone ? `<span>📞 ${esc(s.phone)}</span>` : ''}
+              ${s.country ? `<span>🌏 ${esc(s.country)}</span>` : ''}
+              ${s.grade_level ? `<span>📚 ${esc(s.grade_level)}</span>` : ''}
+            </div>
+            ${s.message ? `<div class="sub-message">${esc(s.message)}</div>` : ''}
+          </div>
+        `).join('');
+      } catch {
+        el.innerHTML = '<p style="color:#c62828">불러오기 실패</p>';
+      }
+    }
+
+    /* ── 프로필 저장 ── */
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const ok  = document.getElementById('profileOk');
+      const err = document.getElementById('profileErr');
+      ok.classList.remove('show'); err.classList.remove('show');
+      try {
+        const name = document.getElementById('profileName').value.trim();
+        const curPw = document.getElementById('currentPw').value;
+        const newPw = document.getElementById('newPw').value;
+        await BDS_AUTH.updateProfile(name, curPw || undefined, newPw || undefined);
+        document.getElementById('userBadge').textContent = name + ' 님';
+        ok.classList.add('show');
+        document.getElementById('currentPw').value = '';
+        document.getElementById('newPw').value = '';
+      } catch (e) {
+        err.textContent = e.message;
+        err.classList.add('show');
+      }
+    });
+
+    /* ── 공지 작성 (관리자) ── */
+    document.getElementById('noticeForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const ok  = document.getElementById('noticeOk');
+      const err = document.getElementById('noticeErr');
+      ok.classList.remove('show'); err.classList.remove('show');
+      try {
+        const res = await BDS_AUTH.authFetch('/api/notices', {
+          method: 'POST',
+          body: {
+            title: document.getElementById('noticeTitle').value,
+            content: document.getElementById('noticeContent').value,
+            is_public: document.getElementById('noticePublic').checked,
+          }
+        });
+        if (!res.ok) { const d = await res.json(); throw new Error(d.error); }
+        ok.classList.add('show');
+        e.target.reset();
+        delete loaded['notices']; // 다음 탭 전환 시 새로 로드
+      } catch (e) {
+        err.textContent = e.message;
+        err.classList.add('show');
+      }
+    });
+
+    /* ── 로그아웃 ── */
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await BDS_AUTH.logout();
+      location.replace('index.html');
+    });
+
+    /* ── XSS 방어 ── */
+    function esc(str) {
+      return String(str == null ? '' : str)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  </script>
+</body>
+</html>

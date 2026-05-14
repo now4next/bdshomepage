@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>로그인 / 회원가입 — BDS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+  <style>
+    :root {
+      --crimson: #A51C30;
+      --black: #1a1a1a;
+      --gray: #4a4a4a;
+      --light-gray: #f5f5f5;
+      --border: #e0e0e0;
+      --error: #c62828;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', 'Pretendard Variable', Pretendard, sans-serif;
+      background: var(--light-gray);
+      color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .header {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo-main { font-family: 'Merriweather', serif; font-size: 1.6rem; font-weight: 700; color: var(--crimson); }
+    .logo-sub  { font-size: 0.72rem; color: var(--gray); margin-top: 2px; }
+    .back-link {
+      font-size: 0.85rem; color: var(--black); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border: 1px solid var(--border);
+      transition: border-color 0.2s;
+    }
+    .back-link:hover { border-color: var(--black); }
+
+    /* Card */
+    .main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 44px 40px 40px;
+      width: 100%; max-width: 420px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+    .tab {
+      flex: 1; text-align: center; padding: 12px 0;
+      font-size: 0.9rem; font-weight: 500; cursor: pointer;
+      border-bottom: 2px solid transparent; margin-bottom: -1px;
+      color: var(--gray); transition: color 0.2s, border-color 0.2s;
+      background: none; border-top: none; border-left: none; border-right: none;
+      font-family: inherit;
+    }
+    .tab.active { color: var(--crimson); border-bottom-color: var(--crimson); }
+
+    /* Form */
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block; font-size: 0.78rem; font-weight: 500;
+      color: var(--gray); margin-bottom: 6px; letter-spacing: 0.02em;
+    }
+    .form-group input {
+      width: 100%; padding: 11px 13px;
+      border: 1px solid var(--border); font-size: 0.9rem;
+      font-family: inherit; color: var(--black);
+      transition: border-color 0.2s; background: #fff;
+    }
+    .form-group input:focus { outline: none; border-color: var(--crimson); }
+
+    .error-msg {
+      display: none; background: rgba(198,40,40,0.07);
+      color: var(--error); font-size: 0.8rem;
+      padding: 10px 12px; margin-bottom: 16px;
+    }
+    .error-msg.show { display: block; }
+
+    .submit-btn {
+      width: 100%; padding: 12px;
+      background: var(--crimson); color: #fff;
+      border: none; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+      transition: background 0.2s; margin-top: 4px;
+    }
+    .submit-btn:hover { background: #8a1627; }
+    .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+    .divider { display: none; }
+
+    /* Footer */
+    .footer {
+      text-align: center; padding: 24px;
+      font-size: 0.8rem; color: #aaa;
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 32px 24px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div>
+      <div class="logo-main">BDS</div>
+      <div class="logo-sub">Beyond Dream Scholars</div>
+    </div>
+    <a href="index.html" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      홈으로
+    </a>
+  </header>
+
+  <main class="main">
+    <div class="card">
+      <!-- Tabs -->
+      <div class="tabs">
+        <button type="button" class="tab active" id="tabLogin">로그인</button>
+        <button type="button" class="tab" id="tabSignup">회원가입</button>
+      </div>
+
+      <!-- Error -->
+      <div class="error-msg" id="errorMsg"></div>
+
+      <!-- Login Form -->
+      <form id="loginForm" autocomplete="off">
+        <div class="form-group">
+          <label for="loginEmail">이메일</label>
+          <input type="email" id="loginEmail" placeholder="example@email.com" autocomplete="username" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">비밀번호</label>
+          <input type="password" id="loginPassword" placeholder="비밀번호" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="submit-btn" id="loginBtn">로그인</button>
+      </form>
+
+      <!-- Signup Form (hidden) -->
+      <form id="signupForm" style="display:none;" autocomplete="off">
+        <div class="form-group">
+          <label for="signupName">이름</label>
+          <input type="text" id="signupName" placeholder="홍길동" required>
+        </div>
+        <div class="form-group">
+          <label for="signupEmail">이메일</label>
+          <input type="email" id="signupEmail" placeholder="example@email.com" autocomplete="username" required>
+        </div>
+        <div class="form-group">
+          <label for="signupPassword">비밀번호 (8자 이상)</label>
+          <input type="password" id="signupPassword" placeholder="8자 이상 입력" autocomplete="new-password" required>
+        </div>
+        <div class="form-group">
+          <label for="signupPasswordConfirm">비밀번호 확인</label>
+          <input type="password" id="signupPasswordConfirm" placeholder="비밀번호 재입력" autocomplete="new-password" required>
+        </div>
+        <button type="submit" class="submit-btn" id="signupBtn">회원가입</button>
+      </form>
+    </div>
+  </main>
+
+  <footer class="footer">
+    © 2020-2026 BDS (Beyond Dream Scholars)
+  </footer>
+
+  <script src="js/auth-client.js"></script>
+  <script>
+    // 이미 로그인된 경우 리다이렉트
+    if (BDS_AUTH.isLoggedIn()) {
+      const next = new URLSearchParams(location.search).get('next') || 'dashboard.html';
+      location.replace(next);
+    }
+
+    const tabLogin  = document.getElementById('tabLogin');
+    const tabSignup = document.getElementById('tabSignup');
+    const loginForm  = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const errorMsg   = document.getElementById('errorMsg');
+
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      errorMsg.classList.add('show');
+    }
+    function clearError() { errorMsg.classList.remove('show'); }
+
+    function switchTab(active) {
+      clearError();
+      if (active === 'login') {
+        tabLogin.classList.add('active');
+        tabSignup.classList.remove('active');
+        loginForm.style.display = '';
+        signupForm.style.display = 'none';
+      } else {
+        tabSignup.classList.add('active');
+        tabLogin.classList.remove('active');
+        signupForm.style.display = '';
+        loginForm.style.display = 'none';
+      }
+    }
+
+    // URL hash로 탭 선택
+    if (location.hash === '#signup') switchTab('signup');
+
+    tabLogin.addEventListener('click',  () => switchTab('login'));
+    tabSignup.addEventListener('click', () => switchTab('signup'));
+
+    // Login
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearError();
+      const btn = document.getElementById('loginBtn');
+      btn.disabled = true;
+      btn.textContent = '로그인 중…';
+      try {
+        await BDS_AUTH.login(
+          document.getElementById('loginEmail').value.trim(),
+          document.getElementById('loginPassword').value
+        );
+        const next = new URLSearchParams(location.search).get('next') || 'dashboard.html';
+        location.replace(next);
+      } catch (err) {
+        showError(err.message);
+        btn.disabled = false;
+        btn.textContent = '로그인';
+      }
+    });
+
+    // Signup
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearError();
+      const pw  = document.getElementById('signupPassword').value;
+      const pw2 = document.getElementById('signupPasswordConfirm').value;
+      if (pw !== pw2) { showError('비밀번호가 일치하지 않습니다.'); return; }
+
+      const btn = document.getElementById('signupBtn');
+      btn.disabled = true;
+      btn.textContent = '처리 중…';
+      try {
+        await BDS_AUTH.signup(
+          document.getElementById('signupName').value.trim(),
+          document.getElementById('signupEmail').value.trim(),
+          pw
+        );
+        const next = new URLSearchParams(location.search).get('next') || 'dashboard.html';
+        location.replace(next);
+      } catch (err) {
+        showError(err.message);
+        btn.disabled = false;
+        btn.textContent = '회원가입';
+      }
+    });
+  </script>
+</body>
+</html>

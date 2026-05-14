@@ -2726,6 +2726,14 @@
             </svg>
             Menu
           </button>
+          <!-- 로그인/회원 포털 버튼 -->
+          <a href="auth.html" id="headerAuthBtn" class="header-nav-item" style="text-decoration:none;">
+            <svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span id="headerAuthLabel">로그인</span>
+          </a>
           <div class="lang-dropdown" id="langDropdown">
             <button type="button" class="lang-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false">
               <span class="lang-dropdown-current">EN</span>
@@ -4043,7 +4051,23 @@
 
   <script src="js/langs.js"></script>
   <script src="js/i18n.js"></script>
+  <script src="js/auth-client.js"></script>
   <script>
+    // ── 헤더 로그인/포털 버튼 ──
+    (function () {
+      const btn   = document.getElementById('headerAuthBtn');
+      const label = document.getElementById('headerAuthLabel');
+      if (!btn || !label) return;
+      if (BDS_AUTH.isLoggedIn()) {
+        const u = BDS_AUTH.getUser();
+        label.textContent = u ? u.name.split(' ')[0] + ' 님' : '포털';
+        btn.href = 'dashboard.html';
+      } else {
+        label.textContent = '로그인';
+        btn.href = 'auth.html';
+      }
+    })();
+
     // Search Overlay 토글
     const searchToggle = document.getElementById('searchToggle');
     const searchOverlay = document.getElementById('searchOverlay');
@@ -4460,32 +4484,33 @@
         document.querySelector('.btn-spinner').style.display = 'inline-flex';
         
         try {
-          // 1) Persist submission locally so the admin page can list it.
-          //    Keyed under 'bds_submissions' as an append-only JSON array.
-          const submissionRecord = {
-            id: 'sub_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
-            ...formData,
-            emailSent: false
-          };
+          // 1) D1 DB에 문의 저장 (Cloudflare Pages Function)
+          let sendOk = false;
           try {
-            const existing = JSON.parse(localStorage.getItem('bds_submissions') || '[]');
-            existing.push(submissionRecord);
-            localStorage.setItem('bds_submissions', JSON.stringify(existing));
-            console.log('[BDS Contact] Saved to localStorage, id:', submissionRecord.id);
-          } catch (storageErr) {
-            console.warn('[BDS Contact] localStorage save failed:', storageErr);
+            const dbRes = await fetch('/api/contacts', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                fullName:      formData.fullName,
+                email:         formData.email,
+                phone:         formData.phone,
+                country:       formData.country,
+                gradeLevel:    formData.gradeLevel,
+                inquiryType:   formData.inquiryType,
+                contactMethod: formData.contactMethod,
+                message:       formData.message,
+                emailSent:     false
+              })
+            });
+            console.log('[BDS Contact] D1 save:', dbRes.status);
+          } catch (dbErr) {
+            console.warn('[BDS Contact] D1 save failed:', dbErr);
           }
 
-          // 2) Auto-send via FormSubmit AJAX endpoint.
-          //    Primary recipient: nowfornext@naver.com (encoded in the URL)
-          //    CC: admin@bds-korea.org (via _cc field — comma-separated supported)
-          //    First-time use requires one-time activation click in the primary inbox.
+          // 2) 이메일 발송 (FormSubmit)
           const formSubmitResp = await fetch('https://formsubmit.co/ajax/nowfornext@naver.com', {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
             body: JSON.stringify({
               _subject: `[BDS Website] 신규 문의 - ${formData.inquiryType}`,
               _cc: 'admin@bds-korea.org',
@@ -4502,18 +4527,8 @@
               '메시지': formData.message
             })
           });
-          const sendOk = formSubmitResp.ok;
-          console.log('[BDS Contact] FormSubmit response:', formSubmitResp.status, sendOk);
-
-          // Update the stored record to reflect send status
-          try {
-            const current = JSON.parse(localStorage.getItem('bds_submissions') || '[]');
-            const idx = current.findIndex(s => s.id === submissionRecord.id);
-            if (idx >= 0) {
-              current[idx].emailSent = sendOk;
-              localStorage.setItem('bds_submissions', JSON.stringify(current));
-            }
-          } catch (_) { /* ignore */ }
+          sendOk = formSubmitResp.ok;
+          console.log('[BDS Contact] FormSubmit:', formSubmitResp.status, sendOk);
           
           // Close contact modal
           closeContact();
