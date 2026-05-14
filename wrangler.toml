@@ -5,5 +5,5 @@ pages_build_output_dir = "."
 [[d1_databases]]
 binding = "DB"
 database_name = "bds-db"
-database_id = "REPLACE_WITH_YOUR_DATABASE_ID"
+database_id = "65220438-63d1-4d60-8d81-b49ba92740f5"
 
