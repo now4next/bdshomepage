@@ -22,18 +22,27 @@ export async function onRequest({ request, env }) {
   if (request.method === 'GET') {
     const session = await validateSession(request, env.DB);
     const userRole = session?.role || null;
+    const userId   = session?.id   || null;
 
-    const { results } = await env.DB.prepare(
-      `SELECT id, title, description, thumbnail_key, total_pages, required_role, created_at
-       FROM ebooks WHERE is_active = 1 ORDER BY created_at DESC`
-    ).all();
+    // SQL CASE로 개별 재정의 → role 기본값 순서로 접근 여부 결정
+    const { results } = await env.DB.prepare(`
+      SELECT
+        e.id, e.title, e.description, e.thumbnail_key,
+        e.total_pages, e.required_role, e.created_at,
+        CASE
+          WHEN ?1 = 'admin'             THEN 1
+          WHEN uea.can_access IS NOT NULL THEN uea.can_access
+          WHEN e.required_role = 'member' AND ?1 = 'member' THEN 1
+          ELSE 0
+        END AS canAccess
+      FROM ebooks e
+      LEFT JOIN user_ebook_access uea
+        ON uea.ebook_id = e.id AND uea.user_id = ?2
+      WHERE e.is_active = 1
+      ORDER BY e.created_at DESC
+    `).bind(userRole || '', userId || '').all();
 
-    const ebooks = results.map(b => ({
-      ...b,
-      canAccess: canAccess(userRole, b.required_role),
-    }));
-
-    return json({ ebooks });
+    return json({ ebooks: results });
   }
 
   /* ── POST: 등록 (admin) ── */

@@ -174,6 +174,54 @@
     .role-select:focus { outline: none; border-color: var(--crimson); }
     .table-wrap { overflow-x: auto; }
 
+    /* 자료실 권한 모달 */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.45);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 200; padding: 16px;
+    }
+    .modal-overlay.hidden { display: none; }
+    .modal-box {
+      background: #fff; width: 100%; max-width: 600px;
+      max-height: 85vh; display: flex; flex-direction: column;
+      box-shadow: 0 8px 40px rgba(0,0,0,.2);
+    }
+    .modal-head {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .modal-head-title { font-weight: 600; font-size: .95rem; }
+    .modal-head-sub   { font-size: .78rem; color: var(--gray); margin-top: 3px; }
+    .modal-close {
+      background: none; border: none; cursor: pointer;
+      font-size: 1.2rem; color: var(--gray); padding: 4px 8px;
+      line-height: 1; font-family: inherit;
+    }
+    .modal-close:hover { color: var(--black); }
+    .modal-body { padding: 8px 0; overflow-y: auto; flex: 1; }
+    .access-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 24px; border-bottom: 1px solid #f0f0f0;
+    }
+    .access-row:last-child { border-bottom: none; }
+    .access-row-info { flex: 1; min-width: 0; }
+    .access-row-title { font-size: .88rem; font-weight: 500; }
+    .access-row-meta  { font-size: .73rem; color: var(--gray); margin-top: 2px; }
+    .access-badge {
+      display: inline-block; padding: 1px 7px; font-size: .68rem; font-weight: 600;
+    }
+    .access-badge-ok   { background: #e8f5e9; color: var(--success); }
+    .access-badge-deny { background: rgba(198,40,40,.08); color: var(--error); }
+    .access-badge-default { background: var(--light-gray); color: var(--gray); }
+    .access-select {
+      padding: 5px 8px; font-size: .8rem; font-family: inherit;
+      border: 1px solid var(--border); background: #fff; color: var(--black);
+      cursor: pointer; min-width: 80px;
+    }
+    .access-select:focus { outline: none; border-color: var(--crimson); }
+
     /* Admin notice form */
     textarea {
       width: 100%; max-width: 600px; padding: 10px 12px;
@@ -356,6 +404,22 @@
         <div id="adminEbooksList"><p style="color:#aaa;font-size:.85rem">불러오는 중…</p></div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- 자료실 권한 설정 모달 -->
+  <div class="modal-overlay hidden" id="ebookAccessOverlay" onclick="closeEbookAccessModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div class="modal-head">
+        <div>
+          <div class="modal-head-title" id="ebookAccessTitle">자료실 접근 권한 설정</div>
+          <div class="modal-head-sub" id="ebookAccessSub"></div>
+        </div>
+        <button class="modal-close" onclick="closeEbookAccessModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="ebookAccessList"><p style="padding:20px;color:#aaa;font-size:.85rem">불러오는 중…</p></div>
+      </div>
     </div>
   </div>
 
@@ -638,10 +702,16 @@
                     <td>
                       ${u.id === user.id
                         ? '<span style="font-size:.75rem;color:var(--gray);">(본인)</span>'
-                        : `<select class="role-select" data-uid="${esc(u.id)}" onchange="changeUserRole('${esc(u.id)}', this)">
-                            <option value="member"${u.role === 'member' ? ' selected' : ''}>회원</option>
-                            <option value="admin"${u.role === 'admin'  ? ' selected' : ''}>관리자</option>
-                           </select>`
+                        : `<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+                            <select class="role-select" data-uid="${esc(u.id)}" onchange="changeUserRole('${esc(u.id)}', this)">
+                              <option value="member"${u.role === 'member' ? ' selected' : ''}>회원</option>
+                              <option value="admin"${u.role === 'admin'  ? ' selected' : ''}>관리자</option>
+                            </select>
+                            <button class="btn" style="font-size:.74rem;padding:4px 10px;"
+                              onclick="openEbookAccessModal('${esc(u.id)}','${esc(u.name)}','${esc(u.role)}')">
+                              자료실 권한
+                            </button>
+                           </div>`
                       }
                     </td>
                   </tr>
@@ -688,6 +758,88 @@
         sel.disabled = false;
       }
     }
+
+    /* ── 자료실 접근 권한 모달 ── */
+    let _ebookAccessUid = null;
+
+    async function openEbookAccessModal(uid, name, role) {
+      _ebookAccessUid = uid;
+      document.getElementById('ebookAccessTitle').textContent = name + ' 님의 자료실 접근 권한';
+      document.getElementById('ebookAccessSub').textContent =
+        role === 'admin' ? '관리자 계정 — 모든 자료에 자동으로 접근 가능합니다.' : '';
+      document.getElementById('ebookAccessList').innerHTML =
+        '<p style="padding:20px;color:#aaa;font-size:.85rem">불러오는 중…</p>';
+      document.getElementById('ebookAccessOverlay').classList.remove('hidden');
+      await loadUserEbookAccess(uid);
+    }
+
+    function closeEbookAccessModal() {
+      document.getElementById('ebookAccessOverlay').classList.add('hidden');
+      _ebookAccessUid = null;
+    }
+
+    async function loadUserEbookAccess(uid) {
+      const el = document.getElementById('ebookAccessList');
+      try {
+        const res = await BDS_AUTH.authFetch('/api/admin/users/' + uid + '/ebook-access');
+        if (!res.ok) throw new Error((await res.json()).error || '불러오기 실패');
+        const { ebooks } = await res.json();
+
+        if (!ebooks.length) {
+          el.innerHTML = '<p style="padding:20px;color:#aaa;font-size:.85rem">등록된 자료가 없습니다.</p>';
+          return;
+        }
+
+        el.innerHTML = ebooks.map(b => {
+          const overrideVal = b.override === null ? 'default'
+                            : b.override === 1    ? '1' : '0';
+          const effLabel = b.effective
+            ? `<span class="access-badge access-badge-ok">허용</span>`
+            : `<span class="access-badge access-badge-deny">차단</span>`;
+          const roleLabel = b.required_role === 'admin' ? '관리자 전용' : '회원 전용';
+          return `
+            <div class="access-row">
+              <div class="access-row-info">
+                <div class="access-row-title">${esc(b.title)}</div>
+                <div class="access-row-meta">기본 권한: ${roleLabel} &nbsp;|&nbsp; 실효: ${effLabel}</div>
+              </div>
+              <select class="access-select"
+                data-ebid="${esc(b.id)}"
+                onchange="setUserEbookAccess('${esc(b.id)}', this)">
+                <option value="default"${overrideVal === 'default' ? ' selected' : ''}>기본값</option>
+                <option value="1"${overrideVal === '1' ? ' selected' : ''}>허용 (강제)</option>
+                <option value="0"${overrideVal === '0' ? ' selected' : ''}>차단 (강제)</option>
+              </select>
+            </div>`;
+        }).join('');
+      } catch (e) {
+        el.innerHTML = `<p style="padding:20px;color:#c62828;font-size:.85rem">불러오기 실패: ${esc(e.message)}</p>`;
+      }
+    }
+
+    async function setUserEbookAccess(ebookId, sel) {
+      if (!_ebookAccessUid) return;
+      const val = sel.value === 'default' ? null : Number(sel.value);
+      sel.disabled = true;
+      try {
+        const res = await BDS_AUTH.authFetch('/api/admin/users/' + _ebookAccessUid + '/ebook-access', {
+          method: 'PATCH',
+          body: { ebook_id: ebookId, can_access: val }
+        });
+        if (!res.ok) throw new Error((await res.json()).error || '변경 실패');
+        // 실효 배지 업데이트
+        await loadUserEbookAccess(_ebookAccessUid);
+      } catch (e) {
+        alert('권한 변경 실패: ' + e.message);
+      } finally {
+        sel.disabled = false;
+      }
+    }
+
+    // ESC 키로 모달 닫기
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeEbookAccessModal();
+    });
 
     /* ── 로그아웃 ── */
     document.getElementById('logoutBtn').addEventListener('click', async () => {

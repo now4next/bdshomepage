@@ -67,6 +67,16 @@ CREATE TABLE IF NOT EXISTS ebook_views (
   PRIMARY KEY (ebook_id, user_id)
 );
 
+-- 자료실 개별 권한 (사용자별 ebook 접근 재정의)
+CREATE TABLE IF NOT EXISTS user_ebook_access (
+  user_id     TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  ebook_id    TEXT NOT NULL REFERENCES ebooks(id) ON DELETE CASCADE,
+  can_access  INTEGER NOT NULL DEFAULT 1,   -- 1=허용, 0=차단
+  granted_by  TEXT REFERENCES users(id),
+  granted_at  TEXT DEFAULT (datetime('now')),
+  PRIMARY KEY (user_id, ebook_id)
+);
+
 -- 인덱스
 CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id);
 CREATE INDEX IF NOT EXISTS idx_sessions_expires_at ON sessions(expires_at);
@@ -74,6 +84,8 @@ CREATE INDEX IF NOT EXISTS idx_notices_created_at ON notices(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_contacts_created_at ON contact_submissions(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_ebooks_active ON ebooks(is_active, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_ebook_views_user ON ebook_views(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_ebook_access_user ON user_ebook_access(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_ebook_access_ebook ON user_ebook_access(ebook_id);
 
 -- 초기 관리자 계정은 첫 회원가입 후 아래 SQL로 role 변경:
 -- UPDATE users SET role = 'admin' WHERE email = 'admin@bdskorea.org';

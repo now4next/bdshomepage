@@ -11,11 +11,19 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Authorization',
 };
 
-function canAccess(userRole, requiredRole) {
+async function canAccess(userId, userRole, ebookId, requiredRole, db) {
   if (!userRole) return false;
   if (userRole === 'admin') return true;
-  if (requiredRole === 'member' && userRole === 'member') return true;
-  return false;
+
+  // 사용자별 개별 재정의 확인 (관리자가 명시적으로 허용/차단한 경우)
+  const override = await db.prepare(
+    `SELECT can_access FROM user_ebook_access WHERE user_id = ? AND ebook_id = ?`
+  ).bind(userId, ebookId).first();
+
+  if (override !== null) return Boolean(override.can_access);
+
+  // 개별 설정 없으면 role 기반 기본값
+  return requiredRole === 'member' && userRole === 'member';
 }
 
 export async function onRequest({ request, env, params }) {
@@ -33,8 +41,8 @@ export async function onRequest({ request, env, params }) {
 
   if (!ebook) return err('찾을 수 없습니다', 404);
 
-  /* 권한 확인 */
-  if (!canAccess(session.role, ebook.required_role)) {
+  /* 권한 확인 (개별 재정의 → role 기본값 순서) */
+  if (!await canAccess(session.id, session.role, ebook.id, ebook.required_role, env.DB)) {
     return err('열람 권한이 없습니다', 403);
   }
 
