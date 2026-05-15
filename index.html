@@ -3293,14 +3293,14 @@
 
   <!-- University Placements Section -->
   <section class="content-section" style="background: #1a1a1a; padding: 80px 0 90px;">
-    <div style="max-width: 1100px; margin: 0 auto; padding: 0 40px;">
+    <div id="placements-inner" style="max-width: 1100px; margin: 0 auto; padding: 0 40px;">
       <div style="margin-bottom: 48px;">
         <div style="font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: #A51C30; font-weight: 600; margin-bottom: 12px;" data-i18n="placements.eyebrow">University Placements</div>
         <h2 style="font-size: 2rem; font-weight: 400; color: #ffffff; font-family: 'Merriweather', 'Pretendard Variable', Pretendard, serif; margin-bottom: 14px;" data-i18n="placements.title">Where Our Graduates Go</h2>
         <p style="font-size: 1rem; color: rgba(255,255,255,0.65); max-width: 600px; line-height: 1.6;" data-i18n="placements.subtitle">BDS graduates earn admissions and scholarships at leading universities around the world.</p>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 40px;">
+      <div id="placements-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 40px;">
 
         <div style="background: #2a2a2a; padding: 36px 28px; border-top: 3px solid #A51C30;">
           <div style="font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #A51C30; margin-bottom: 10px; font-weight: 600;">Business &middot; Scholarship</div>
@@ -3491,14 +3491,14 @@
 
   <!-- BDS Archive Section -->
   <section style="background:#fff; padding: 80px 0; border-top: 1px solid #f0f0f0;">
-    <div style="max-width: 1100px; margin: 0 auto; padding: 0 40px;">
+    <div id="archive-inner" style="max-width: 1100px; margin: 0 auto; padding: 0 40px;">
 
       <!-- 헤더 -->
       <div style="display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:40px; flex-wrap:wrap; gap:16px;">
         <div>
           <div style="font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:#A51C30; font-weight:600; margin-bottom:12px;" data-i18n="archive.eyebrow">아카이브</div>
           <h2 style="font-size:2rem; font-weight:400; color:#1a1a1a; font-family:'Merriweather','Pretendard Variable',Pretendard,serif; margin-bottom:10px; line-height:1.25;" data-i18n="archive.title">BDS Library</h2>
-          <p style="font-size:0.95rem; color:#555; max-width:800px; line-height:1.65; white-space:nowrap;" data-i18n="archive.subtitle">주간 뉴스레터, 국내/해외 스페셜 활동, 체험학습, Year Book 등 주요 자료를 전자책으로 열람하세요.</p>
+          <p style="font-size:0.95rem; color:#555; max-width:800px; line-height:1.65; word-break:keep-all;" data-i18n="archive.subtitle">주간 뉴스레터, 국내/해외 스페셜 활동, 체험학습, Year Book 등 주요 자료를 전자책으로 열람하세요.</p>
         </div>
         <a href="library.html" id="archiveMoreBtn" style="display:inline-flex; align-items:center; gap:8px; border:1.5px solid #1a1a1a; color:#1a1a1a; text-decoration:none; padding:11px 22px; font-size:0.85rem; font-weight:600; font-family:'Inter',sans-serif; transition:all .2s; white-space:nowrap; border-radius:4px;" onmouseover="this.style.background='#1a1a1a';this.style.color='#fff';" onmouseout="this.style.background='';this.style.color='#1a1a1a';">
           <span data-i18n="archive.more">전체 자료 보기</span>
@@ -3532,6 +3532,44 @@
       border-radius: 10px;
     }
     @keyframes archShimmer { to { background-position:-200% 0; } }
+
+    /* ── 대학 합격 현황 모바일 ── */
+    @media (max-width: 900px) {
+      #placements-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+    @media (max-width: 600px) {
+      #placements-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1px !important;
+      }
+      #placements-inner {
+        padding: 0 20px !important;
+      }
+    }
+
+    /* ── BDS Archive 모바일 ── */
+    @media (max-width: 900px) {
+      #archiveGrid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 16px !important;
+      }
+    }
+    @media (max-width: 600px) {
+      #archive-inner {
+        padding: 0 20px !important;
+      }
+      #archiveGrid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+      }
+      /* 헤더 행: 세로 정렬, 버튼 왼쪽 정렬 */
+      #archive-inner > div:first-child {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+      }
+    }
 
     .arch-card {
       border-radius: 10px;
