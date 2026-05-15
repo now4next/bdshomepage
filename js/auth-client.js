@@ -145,7 +145,8 @@
     const token = getToken();
     const headers = { ...(options.headers || {}) };
     if (token) headers['Authorization'] = `Bearer ${token}`;
-    if (options.body && typeof options.body === 'object') {
+    // FormData는 브라우저가 Content-Type(boundary 포함)을 자동 설정 — 건드리면 안 됨
+    if (options.body && typeof options.body === 'object' && !(options.body instanceof FormData)) {
       headers['Content-Type'] = 'application/json';
       options.body = JSON.stringify(options.body);
     }
