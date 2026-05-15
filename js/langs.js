@@ -15,7 +15,7 @@ window.BDS_LANGS = {
     // Archive section (index.html)
     'archive.eyebrow': 'Resources',
     'archive.title': 'BDS Library',
-    'archive.subtitle': 'Browse key materials — admissions guides, curriculum overviews, and school updates — as interactive eBooks.',
+    'archive.subtitle': 'Weekly newsletters, domestic & international special activities, field trips, Year Books, and more — available as interactive eBooks.',
     'archive.more': 'View All Resources',
     'archive.login_note': 'Log in to access the full library.',
     'archive.login_link': 'Sign in →',
@@ -425,7 +425,7 @@ window.BDS_LANGS = {
     // Archive section
     'archive.eyebrow': '자료실',
     'archive.title': 'BDS Library',
-    'archive.subtitle': '입학 안내, 교육과정, 학교 소식 등 주요 자료를 전자책으로 열람하세요.',
+    'archive.subtitle': '주간 뉴스레터, 국내/해외 스페셜 활동, 체험학습, Year Book 등 주요 자료를 전자책으로 열람하세요.',
     'archive.more': '전체 자료 보기',
     'archive.login_note': '로그인 후 전체 자료를 열람하실 수 있습니다.',
     'archive.login_link': '로그인하기 →',
@@ -820,7 +820,7 @@ window.BDS_LANGS = {
     // Archive section
     'archive.eyebrow': 'リソース',
     'archive.title': 'BDS Library',
-    'archive.subtitle': '入学案内、カリキュラム概要、学校ニュースなどの主要資料を電子書籍でご覧いただけます。',
+    'archive.subtitle': '週刊ニュースレター、国内外のスペシャル活動、体験学習、Year Bookなどの主要資料を電子書籍でご覧いただけます。',
     'archive.more': '全資料を見る',
     'archive.login_note': 'ログイン後、全ての資料をご覧いただけます。',
     'archive.login_link': 'ログインする →',
@@ -1214,7 +1214,7 @@ window.BDS_LANGS = {
     // Archive section
     'archive.eyebrow': 'Ressourcen',
     'archive.title': 'BDS Library',
-    'archive.subtitle': 'Wichtige Materialien – Aufnahmeleitfäden, Lehrplanübersichten und Schulneuigkeiten – als interaktive eBooks.',
+    'archive.subtitle': 'Wöchentliche Newsletter, In- und Auslandsaktivitäten, Exkursionen, Year Books und mehr – als interaktive eBooks.',
     'archive.more': 'Alle Ressourcen anzeigen',
     'archive.login_note': 'Melden Sie sich an, um die vollständige Bibliothek zu nutzen.',
     'archive.login_link': 'Anmelden →',
