@@ -220,6 +220,12 @@
             문의 관리
           </a>
         </li>
+        <li data-panel="admin-ebooks" class="admin-only" style="display:none;">
+          <a href="#">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            자료실 관리
+          </a>
+        </li>
       </ul>
     </nav>
 
@@ -299,6 +305,19 @@
         <div id="allContactsList"><p style="color:#aaa;font-size:.85rem">불러오는 중…</p></div>
       </div>
 
+      <!-- Admin: 자료실 관리 -->
+      <div class="panel" id="panel-admin-ebooks">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:12px;">
+          <div class="panel-title" style="margin:0;">자료실 관리</div>
+          <a href="library.html" class="btn btn-crimson" style="font-size:.8rem;padding:7px 14px;text-decoration:none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            새 자료 업로드
+          </a>
+        </div>
+        <div class="panel-sub">등록된 전자책 자료를 관리합니다. 업로드는 자료실 페이지에서 할 수 있습니다.</div>
+        <div id="adminEbooksList"><p style="color:#aaa;font-size:.85rem">불러오는 중…</p></div>
+      </div>
+
     </div>
   </div>
 
@@ -345,6 +364,7 @@
       if (name === 'notices')        loadNotices();
       if (name === 'mycontacts')     loadMyContacts();
       if (name === 'admin-contacts') loadAllContacts();
+      if (name === 'admin-ebooks')   loadAdminEbooks();
     }
 
     // 초기 로드
@@ -468,6 +488,53 @@
         err.classList.add('show');
       }
     });
+
+    /* ── 자료실 관리 (관리자) ── */
+    async function loadAdminEbooks() {
+      const el = document.getElementById('adminEbooksList');
+      try {
+        const res = await BDS_AUTH.authFetch('/api/ebooks');
+        const { ebooks } = await res.json();
+        if (!ebooks.length) {
+          el.innerHTML = '<div class="empty"><div class="empty-icon">📚</div><p>등록된 자료가 없습니다.<br><a href="library.html" style="color:var(--crimson)">자료실</a>에서 새 자료를 업로드할 수 있습니다.</p></div>';
+          return;
+        }
+        el.innerHTML = ebooks.map(b => `
+          <div class="sub-row" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:0;">
+              <div class="sub-name">${esc(b.title)}</div>
+              <div style="font-size:.78rem;color:var(--gray);margin-top:4px;display:flex;gap:12px;flex-wrap:wrap;">
+                <span>📄 ${b.total_pages > 0 ? b.total_pages + '페이지' : '페이지 미등록'}</span>
+                <span>🔒 ${b.required_role === 'admin' ? '관리자 전용' : '회원 전용'}</span>
+                <span>🕐 ${(b.created_at || '').slice(0,10)}</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;flex-shrink:0;">
+              <a href="viewer.html?id=${esc(b.id)}" class="btn" style="font-size:.78rem;padding:5px 10px;text-decoration:none;">열람</a>
+              <button class="btn" style="font-size:.78rem;padding:5px 10px;color:#c62828;" onclick="deleteEbook('${esc(b.id)}', this)">삭제</button>
+            </div>
+          </div>
+        `).join('');
+      } catch {
+        el.innerHTML = '<p style="color:#c62828">불러오기 실패</p>';
+      }
+    }
+
+    async function deleteEbook(id, btn) {
+      if (!confirm('이 자료를 삭제하시겠습니까? 복구할 수 없습니다.')) return;
+      btn.disabled = true;
+      btn.textContent = '삭제 중…';
+      try {
+        const res = await BDS_AUTH.authFetch('/api/ebooks/' + id, { method: 'DELETE' });
+        if (!res.ok) throw new Error('삭제 실패');
+        delete loaded['admin-ebooks'];
+        loadAdminEbooks();
+      } catch (e) {
+        alert('삭제 중 오류: ' + e.message);
+        btn.disabled = false;
+        btn.textContent = '삭제';
+      }
+    }
 
     /* ── 로그아웃 ── */
     document.getElementById('logoutBtn').addEventListener('click', async () => {

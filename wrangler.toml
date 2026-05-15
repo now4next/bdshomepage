@@ -7,3 +7,7 @@ binding = "DB"
 database_name = "bds-db"
 database_id = "65220438-63d1-4d60-8d81-b49ba92740f5"
 
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "bds-ebooks"
+

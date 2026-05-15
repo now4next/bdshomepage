@@ -44,11 +44,36 @@ CREATE TABLE IF NOT EXISTS contact_submissions (
   created_at      TEXT DEFAULT (datetime('now'))
 );
 
+-- 전자책
+CREATE TABLE IF NOT EXISTS ebooks (
+  id            TEXT PRIMARY KEY,
+  title         TEXT NOT NULL,
+  description   TEXT,
+  r2_key        TEXT NOT NULL,          -- R2 오브젝트 키 (e.g. ebooks/uuid/original.pdf)
+  thumbnail_key TEXT,                   -- R2 썸네일 키
+  total_pages   INTEGER DEFAULT 0,
+  required_role TEXT DEFAULT 'member',  -- 'member' | 'admin'
+  is_active     INTEGER DEFAULT 1,
+  created_at    TEXT DEFAULT (datetime('now')),
+  created_by    TEXT REFERENCES users(id)
+);
+
+-- 열람 진행 상태 (이어읽기)
+CREATE TABLE IF NOT EXISTS ebook_views (
+  ebook_id    TEXT NOT NULL REFERENCES ebooks(id) ON DELETE CASCADE,
+  user_id     TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  last_page   INTEGER DEFAULT 1,
+  updated_at  TEXT DEFAULT (datetime('now')),
+  PRIMARY KEY (ebook_id, user_id)
+);
+
 -- 인덱스
 CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id);
 CREATE INDEX IF NOT EXISTS idx_sessions_expires_at ON sessions(expires_at);
 CREATE INDEX IF NOT EXISTS idx_notices_created_at ON notices(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_contacts_created_at ON contact_submissions(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_ebooks_active ON ebooks(is_active, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_ebook_views_user ON ebook_views(user_id);
 
 -- 초기 관리자 계정은 첫 회원가입 후 아래 SQL로 role 변경:
 -- UPDATE users SET role = 'admin' WHERE email = 'admin@bdskorea.org';

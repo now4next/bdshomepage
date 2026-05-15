@@ -9,6 +9,9 @@
 window.BDS_LANGS = {
 
   en: {
+    // Nav
+    'nav.library': 'Library',
+
     // Hero
     'hero.subtext': 'Each day, BDS students, faculty, staff, and alumni worldwide commit their skills, knowledge, and energy to advancing the public good and making a lasting impact on society.',
 
@@ -408,6 +411,9 @@ window.BDS_LANGS = {
   },
 
   ko: {
+    // Nav
+    'nav.library': '자료실',
+
     'hero.subtext': '매일 전 세계의 BDS 학생, 교수진, 교직원, 동문들은 자신의 역량과 지식, 에너지를 공익을 위해 헌신하며 사회에 지속적인 영향을 만들어 갑니다.',
 
     'cta.title_line1': '목적과 탁월함, 그리고 마음챙김으로',
@@ -792,6 +798,9 @@ window.BDS_LANGS = {
   },
 
   ja: {
+    // Nav
+    'nav.library': 'ライブラリ',
+
     'hero.subtext': '世界中のBDSの学生、教員、職員、卒業生は日々、自らのスキルと知識、エネルギーを公益のために注ぎ、社会に永続的な影響を与えることに取り組んでいます。',
 
     'cta.title_line1': '目的・卓越性・マインドフルネスで',
@@ -1175,6 +1184,9 @@ window.BDS_LANGS = {
   },
 
   de: {
+    // Nav
+    'nav.library': 'Bibliothek',
+
     'hero.subtext': 'Tag für Tag setzen BDS-Schülerinnen und -Schüler, Lehrkräfte, Mitarbeitende und Ehemalige weltweit ihre Fähigkeiten, ihr Wissen und ihre Energie für das Gemeinwohl ein und hinterlassen nachhaltige Spuren in der Gesellschaft.',
 
     'cta.title_line1': 'Globale Führungspersönlichkeiten bilden –',

@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>자료 열람 — BDS</title>
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- StPageFlip -->
+  <script src="https://unpkg.com/page-flip/dist/js/page-flip.browser.js"></script>
+  <script src="js/auth-client.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --crimson: #A51C30;
+      --black: #1a1a1a;
+      --white: #fff;
+    }
+
+    html, body {
+      height: 100%;
+      background: #1a1a1a;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* ── 상단바 ── */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 56px;
+      background: rgba(0,0,0,.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 200;
+      gap: 16px;
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+    .btn-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,.75);
+      text-decoration: none;
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: all .2s;
+      white-space: nowrap;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn-back:hover { background: rgba(255,255,255,.1); color: var(--white); }
+    .topbar-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .topbar-page {
+      font-size: 13px;
+      color: rgba(255,255,255,.65);
+      white-space: nowrap;
+    }
+    .btn-icon {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,.65);
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      transition: all .2s;
+    }
+    .btn-icon:hover { background: rgba(255,255,255,.1); color: var(--white); }
+
+    /* ── 뷰어 영역 ── */
+    .viewer-wrap {
+      position: fixed;
+      inset: 56px 0 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #book-container {
+      position: relative;
+    }
+
+    /* StPageFlip이 생성하는 .page 스타일 */
+    .page {
+      background: #fff;
+      overflow: hidden;
+    }
+    .page canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ── 하단 컨트롤 ── */
+    .controls {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 72px;
+      background: rgba(0,0,0,.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      z-index: 200;
+    }
+    .btn-nav {
+      background: rgba(255,255,255,.1);
+      border: none;
+      color: rgba(255,255,255,.8);
+      cursor: pointer;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all .2s;
+      font-family: inherit;
+    }
+    .btn-nav:hover:not(:disabled) { background: rgba(255,255,255,.18); color: var(--white); }
+    .btn-nav:disabled { opacity: .35; cursor: default; }
+    .btn-nav-primary {
+      background: var(--crimson);
+      color: var(--white);
+      padding: 10px 20px;
+    }
+    .btn-nav-primary:hover:not(:disabled) { background: #8a1828; }
+
+    /* 진행바 */
+    .progress-wrap {
+      position: fixed;
+      bottom: 72px; left: 0; right: 0;
+      height: 3px;
+      background: rgba(255,255,255,.1);
+      z-index: 200;
+    }
+    .progress-bar {
+      height: 100%;
+      background: var(--crimson);
+      transition: width .4s ease;
+    }
+
+    /* ── 로딩 ── */
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 500;
+      gap: 20px;
+      color: var(--white);
+    }
+    .loading-spinner {
+      width: 44px;
+      height: 44px;
+      border: 3px solid rgba(255,255,255,.1);
+      border-top-color: var(--crimson);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 15px; color: rgba(255,255,255,.7); }
+    .loading-sub { font-size: 12px; color: rgba(255,255,255,.4); }
+    .loading-pct { font-size: 28px; font-weight: 700; color: var(--white); }
+
+    /* ── 오류 화면 ── */
+    .error-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--black);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 500;
+      gap: 16px;
+      color: var(--white);
+      padding: 20px;
+      text-align: center;
+    }
+    .error-screen.show { display: flex; }
+    .error-icon {
+      width: 72px;
+      height: 72px;
+      background: rgba(165,28,48,.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .error-title { font-size: 20px; font-weight: 700; }
+    .error-msg { font-size: 14px; color: rgba(255,255,255,.6); max-width: 360px; line-height: 1.6; word-break: keep-all; }
+    .btn-error-back {
+      margin-top: 8px;
+      background: var(--crimson);
+      color: var(--white);
+      border: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* 우클릭/드래그 방지 */
+    .viewer-wrap { -webkit-user-drag: none; }
+
+    /* 전체화면 */
+    .fullscreen .topbar { display: none; }
+    .fullscreen .controls { display: none; }
+    .fullscreen .progress-wrap { display: none; }
+    .fullscreen .viewer-wrap { inset: 0; }
+
+    @media (max-width: 640px) {
+      .btn-nav span { display: none; }
+      .btn-nav { padding: 10px 12px; }
+      .topbar-title { max-width: 140px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 로딩 -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-spinner"></div>
+  <div class="loading-pct" id="loadingPct">0%</div>
+  <div class="loading-text" id="loadingText">자료를 불러오는 중...</div>
+  <div class="loading-sub">잠시만 기다려 주세요</div>
+</div>
+
+<!-- 오류 -->
+<div class="error-screen" id="errorScreen">
+  <div class="error-icon">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#A51C30" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+  </div>
+  <div class="error-title" id="errorTitle">열람 권한이 없습니다</div>
+  <div class="error-msg" id="errorMsg">이 자료는 열람 권한이 있는 회원만 볼 수 있습니다.</div>
+  <button class="btn-error-back" onclick="history.back()">← 자료실로 돌아가기</button>
+</div>
+
+<!-- 상단바 -->
+<div class="topbar" id="topbar">
+  <div class="topbar-left">
+    <button class="btn-back" onclick="goBack()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      자료실
+    </button>
+    <span class="topbar-title" id="ebookTitle">—</span>
+  </div>
+  <div class="topbar-right">
+    <span class="topbar-page" id="pageLabel">— / —</span>
+    <button class="btn-icon" id="btnFullscreen" title="전체화면" onclick="toggleFullscreen()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- 진행바 -->
+<div class="progress-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+
+<!-- 뷰어 -->
+<div class="viewer-wrap" id="viewerWrap">
+  <div id="book-container">
+    <div id="book"></div>
+  </div>
+</div>
+
+<!-- 하단 컨트롤 -->
+<div class="controls">
+  <button class="btn-nav" id="btnFirst" onclick="goFirst()" title="처음으로">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/></svg>
+    <span>처음</span>
+  </button>
+  <button class="btn-nav" id="btnPrev" onclick="flipPrev()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    <span>이전</span>
+  </button>
+  <button class="btn-nav btn-nav-primary" id="btnNext" onclick="flipNext()">
+    <span>다음</span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+  <button class="btn-nav" id="btnLast" onclick="goLast()" title="마지막">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+    <span>끝</span>
+  </button>
+</div>
+
+<script>
+  /* ──────────────────────────────────────────
+     설정
+  ────────────────────────────────────────── */
+  const params = new URLSearchParams(location.search);
+  const EBOOK_ID = params.get('id');
+
+  // PDF.js 워커
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  let pdfDoc = null;
+  let pageFlip = null;
+  let totalPages = 0;
+  let currentPage = 1;
+  let renderedPages = new Set();
+  let renderQueue = [];
+  let isRendering = false;
+  let progressSaveTimer = null;
+
+  /* ──────────────────────────────────────────
+     진입
+  ────────────────────────────────────────── */
+  async function init() {
+    if (!EBOOK_ID) { showError('잘못된 접근입니다', '자료 ID가 없습니다.'); return; }
+
+    // 로그인 확인
+    if (!BDS_AUTH.isLoggedIn()) {
+      showError('로그인이 필요합니다', '로그인 후 이 자료를 열람할 수 있습니다.');
+      document.querySelector('.btn-error-back').textContent = '로그인 하러 가기';
+      document.querySelector('.btn-error-back').onclick = () => {
+        location.href = 'auth.html?next=' + encodeURIComponent(location.href);
+      };
+      return;
+    }
+
+    // 세션 온라인 검증
+    const verified = await BDS_AUTH.verify();
+    if (!verified) {
+      showError('세션이 만료됐습니다', '다시 로그인해주세요.');
+      return;
+    }
+
+    try {
+      // 1. 메타데이터 로드
+      setLoadingText('자료 정보 확인 중...');
+      const meta = await loadMeta();
+      if (!meta) return;
+
+      document.getElementById('ebookTitle').textContent = meta.title;
+      document.title = meta.title + ' — BDS';
+
+      // 2. 이어읽기 위치 조회
+      let startPage = 1;
+      try {
+        const progRes = await BDS_AUTH.authFetch(`/api/ebooks/${EBOOK_ID}/progress`);
+        if (progRes.ok) {
+          const p = await progRes.json();
+          if (p.last_page > 1) startPage = p.last_page;
+        }
+      } catch { /* ignore */ }
+
+      // 3. PDF 스트리밍 + 로드
+      setLoadingText('PDF 불러오는 중...');
+      await loadPDF(startPage);
+
+    } catch (e) {
+      showError('오류가 발생했습니다', e.message || '다시 시도해주세요.');
+    }
+  }
+
+  async function loadMeta() {
+    const res = await BDS_AUTH.authFetch(`/api/ebooks/${EBOOK_ID}`);
+    if (res.status === 403) {
+      showError('열람 권한이 없습니다', '이 자료는 열람 권한이 있는 회원만 볼 수 있습니다.');
+      return null;
+    }
+    if (!res.ok) {
+      showError('자료를 찾을 수 없습니다', '삭제되었거나 잘못된 자료입니다.');
+      return null;
+    }
+    const data = await res.json();
+    if (!data.canAccess) {
+      showError('열람 권한이 없습니다', '이 자료는 열람 권한이 있는 회원만 볼 수 있습니다.');
+      return null;
+    }
+    return data;
+  }
+
+  async function loadPDF(startPage) {
+    setLoadingText('PDF 다운로드 중...');
+
+    // 인증 헤더로 PDF 스트리밍 (URL 비노출)
+    const token = BDS_AUTH.getToken();
+    const response = await fetch(`/api/ebooks/${EBOOK_ID}/stream`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    if (response.status === 403) {
+      showError('열람 권한이 없습니다', '이 자료는 열람 권한이 있는 회원만 볼 수 있습니다.');
+      return;
+    }
+    if (!response.ok) throw new Error('PDF 로드 실패 (status ' + response.status + ')');
+
+    // 진행률 표시하며 다운로드
+    const contentLength = response.headers.get('Content-Length');
+    const total = contentLength ? parseInt(contentLength) : 0;
+    const reader = response.body.getReader();
+    const chunks = [];
+    let received = 0;
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value);
+      received += value.length;
+      if (total) {
+        const pct = Math.round((received / total) * 60);
+        setProgress(pct);
+        document.getElementById('loadingPct').textContent = pct + '%';
+      }
+    }
+
+    const buffer = new Uint8Array(received);
+    let offset = 0;
+    for (const chunk of chunks) { buffer.set(chunk, offset); offset += chunk.length; }
+
+    setLoadingText('PDF 렌더링 중...');
+    setProgress(65);
+    document.getElementById('loadingPct').textContent = '65%';
+
+    pdfDoc = await pdfjsLib.getDocument({ data: buffer.buffer }).promise;
+    totalPages = pdfDoc.numPages;
+
+    setProgress(75);
+    document.getElementById('loadingPct').textContent = '75%';
+
+    await setupFlipbook(startPage);
+  }
+
+  /* ──────────────────────────────────────────
+     StPageFlip 초기화
+  ────────────────────────────────────────── */
+  async function setupFlipbook(startPage) {
+    setLoadingText('뷰어 초기화 중...');
+
+    const wrap = document.getElementById('viewerWrap');
+    const wW = wrap.offsetWidth;
+    const wH = wrap.offsetHeight;
+
+    // 책 크기 계산 (2페이지 spread, 화면 맞춤)
+    const ratio = 0.707; // A4 비율
+    let bookH = Math.min(wH * 0.9, 800);
+    let pageW = Math.min((wW * 0.9) / 2, bookH * ratio);
+    bookH = pageW / ratio;
+    if (bookH > wH * 0.9) { bookH = wH * 0.9; pageW = bookH * ratio; }
+
+    // 페이지 div 생성
+    const bookEl = document.getElementById('book');
+    bookEl.innerHTML = '';
+    for (let i = 1; i <= totalPages; i++) {
+      const div = document.createElement('div');
+      div.className = 'page';
+      div.setAttribute('data-pn', i);
+      div.style.width = pageW + 'px';
+      div.style.height = bookH + 'px';
+      div.style.background = '#fff';
+      bookEl.appendChild(div);
+    }
+
+    // StPageFlip 생성
+    pageFlip = new St.PageFlip(bookEl, {
+      width: pageW,
+      height: bookH,
+      showCover: true,
+      usePortrait: wW < 640,
+      startPage: startPage - 1,
+      drawShadow: true,
+      flippingTime: 700,
+      useMouseEvents: true,
+      swipeDistance: 30,
+    });
+
+    pageFlip.loadFromHTML(bookEl.querySelectorAll('.page'));
+
+    // 이벤트
+    pageFlip.on('flip', onFlip);
+    pageFlip.on('changeState', updateNav);
+
+    // 초기 페이지 렌더
+    currentPage = startPage;
+    await renderAround(startPage);
+
+    setProgress(100);
+    document.getElementById('loadingPct').textContent = '100%';
+
+    // 로딩 숨김
+    setTimeout(() => {
+      document.getElementById('loadingScreen').style.opacity = '0';
+      document.getElementById('loadingScreen').style.transition = 'opacity .4s';
+      setTimeout(() => document.getElementById('loadingScreen').style.display = 'none', 400);
+    }, 300);
+
+    updatePageLabel();
+    updateNav();
+  }
+
+  /* ──────────────────────────────────────────
+     페이지 렌더링
+  ────────────────────────────────────────── */
+  async function renderPage(pageNum) {
+    if (renderedPages.has(pageNum)) return;
+    if (pageNum < 1 || pageNum > totalPages) return;
+
+    renderedPages.add(pageNum);
+
+    const el = document.querySelector(`[data-pn="${pageNum}"]`);
+    if (!el) return;
+
+    try {
+      const page = await pdfDoc.getPage(pageNum);
+      const containerW = el.offsetWidth || 400;
+      const containerH = el.offsetHeight || 565;
+
+      // DPR 고려한 고해상도 렌더
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const viewport = page.getViewport({ scale: 1 });
+      const scaleX = containerW / viewport.width;
+      const scaleY = containerH / viewport.height;
+      const scale = Math.min(scaleX, scaleY) * dpr;
+
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const vp = page.getViewport({ scale });
+
+      canvas.width = vp.width;
+      canvas.height = vp.height;
+      canvas.style.width = containerW + 'px';
+      canvas.style.height = containerH + 'px';
+
+      await page.render({ canvasContext: ctx, viewport: vp }).promise;
+
+      // 기존 내용 교체
+      el.innerHTML = '';
+      el.appendChild(canvas);
+    } catch (e) {
+      renderedPages.delete(pageNum); // 재시도 허용
+    }
+  }
+
+  async function renderAround(center) {
+    const range = [-1, 0, 1, 2, 3];
+    for (const offset of range) {
+      const pn = center + offset;
+      if (pn >= 1 && pn <= totalPages && !renderedPages.has(pn)) {
+        await renderPage(pn);
+      }
+    }
+  }
+
+  /* ──────────────────────────────────────────
+     플립 이벤트
+  ────────────────────────────────────────── */
+  function onFlip(e) {
+    currentPage = e.data + 1;
+    updatePageLabel();
+    updateProgressBar();
+    updateNav();
+
+    // 주변 페이지 렌더 (비동기)
+    renderAround(currentPage);
+
+    // 진행 상태 저장 (디바운스)
+    clearTimeout(progressSaveTimer);
+    progressSaveTimer = setTimeout(() => saveProgress(currentPage), 2000);
+  }
+
+  async function saveProgress(pageNum) {
+    try {
+      await BDS_AUTH.authFetch(`/api/ebooks/${EBOOK_ID}/progress`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ last_page: pageNum }),
+      });
+    } catch { /* ignore */ }
+  }
+
+  /* ──────────────────────────────────────────
+     UI 업데이트
+  ────────────────────────────────────────── */
+  function updatePageLabel() {
+    const spread = pageFlip ? pageFlip.getCurrentPageIndex() : 0;
+    const left = spread + 1;
+    const right = spread + 2;
+    let label;
+    if (right > totalPages) {
+      label = `${left} / ${totalPages}`;
+    } else {
+      label = `${left}–${right} / ${totalPages}`;
+    }
+    document.getElementById('pageLabel').textContent = label;
+  }
+
+  function updateProgressBar() {
+    const pct = totalPages > 1 ? ((currentPage - 1) / (totalPages - 1)) * 100 : 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  function updateNav() {
+    if (!pageFlip) return;
+    const idx = pageFlip.getCurrentPageIndex();
+    document.getElementById('btnFirst').disabled = idx === 0;
+    document.getElementById('btnPrev').disabled = idx === 0;
+    document.getElementById('btnNext').disabled = idx >= totalPages - 1;
+    document.getElementById('btnLast').disabled = idx >= totalPages - 1;
+  }
+
+  /* ──────────────────────────────────────────
+     네비게이션
+  ────────────────────────────────────────── */
+  function flipNext() { if (pageFlip) pageFlip.flipNext(); }
+  function flipPrev() { if (pageFlip) pageFlip.flipPrev(); }
+  function goFirst() { if (pageFlip) pageFlip.flip(0); }
+  function goLast()  { if (pageFlip) pageFlip.flip(totalPages - 1); }
+
+  function goBack() {
+    if (currentPage > 1) saveProgress(currentPage);
+    history.back();
+  }
+
+  // 키보드 단축키
+  document.addEventListener('keydown', e => {
+    if (!pageFlip) return;
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); flipNext(); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); flipPrev(); }
+    if (e.key === 'Home') goFirst();
+    if (e.key === 'End')  goLast();
+    if (e.key === 'Escape') { if (document.fullscreenElement) document.exitFullscreen(); }
+  });
+
+  /* ──────────────────────────────────────────
+     전체화면
+  ────────────────────────────────────────── */
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  }
+  document.addEventListener('fullscreenchange', () => {
+    if (document.fullscreenElement) {
+      document.body.classList.add('fullscreen');
+    } else {
+      document.body.classList.remove('fullscreen');
+    }
+  });
+
+  /* ──────────────────────────────────────────
+     다운로드/우클릭 방지
+  ────────────────────────────────────────── */
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('dragstart', e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    // Ctrl+S, Ctrl+P 차단
+    if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'p')) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  /* ──────────────────────────────────────────
+     헬퍼
+  ────────────────────────────────────────── */
+  function setLoadingText(text) {
+    document.getElementById('loadingText').textContent = text;
+  }
+  function setProgress(pct) {
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+  function showError(title, msg) {
+    document.getElementById('loadingScreen').style.display = 'none';
+    document.getElementById('errorTitle').textContent = title;
+    document.getElementById('errorMsg').textContent = msg;
+    document.getElementById('errorScreen').classList.add('show');
+  }
+
+  /* ── 시작 ── */
+  init();
+</script>
+</body>
+</html>
