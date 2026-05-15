@@ -151,6 +151,29 @@
     .sub-tag  { font-size: 0.72rem; background: var(--light-gray); color: var(--gray); padding: 2px 7px; margin-left: 6px; }
     .sub-message { background: var(--light-gray); padding: 10px 12px; font-size: 0.86rem; margin-top: 10px; white-space: pre-wrap; }
 
+    /* User management table */
+    .users-table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+    .users-table th {
+      text-align: left; padding: 10px 12px;
+      background: var(--light-gray); border-bottom: 2px solid var(--border);
+      font-weight: 600; font-size: .78rem; color: var(--gray); letter-spacing: .03em;
+    }
+    .users-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .users-table tr:last-child td { border-bottom: none; }
+    .users-table tbody tr:hover td { background: #fafafa; }
+    .role-badge {
+      display: inline-block; padding: 2px 9px; font-size: .7rem; font-weight: 600;
+    }
+    .role-badge-admin  { background: rgba(165,28,48,.1); color: var(--crimson); }
+    .role-badge-member { background: #e3f2fd; color: #1565c0; }
+    .role-select {
+      padding: 4px 8px; font-size: .8rem; font-family: inherit;
+      border: 1px solid var(--border); cursor: pointer;
+      background: #fff; color: var(--black);
+    }
+    .role-select:focus { outline: none; border-color: var(--crimson); }
+    .table-wrap { overflow-x: auto; }
+
     /* Admin notice form */
     textarea {
       width: 100%; max-width: 600px; padding: 10px 12px;
@@ -224,6 +247,12 @@
           <a href="#">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
             자료실 관리
+          </a>
+        </li>
+        <li data-panel="admin-users" class="admin-only" style="display:none;">
+          <a href="#">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            회원관리
           </a>
         </li>
       </ul>
@@ -305,6 +334,15 @@
         <div id="allContactsList"><p style="color:#aaa;font-size:.85rem">불러오는 중…</p></div>
       </div>
 
+      <!-- Admin: 회원관리 -->
+      <div class="panel" id="panel-admin-users">
+        <div class="panel-title">회원관리</div>
+        <div class="panel-sub">가입된 회원 목록을 확인하고 권한을 변경합니다.</div>
+        <div class="alert alert-ok"  id="usersOk"></div>
+        <div class="alert alert-err" id="usersErr"></div>
+        <div id="adminUsersList"><p style="color:#aaa;font-size:.85rem">불러오는 중…</p></div>
+      </div>
+
       <!-- Admin: 자료실 관리 -->
       <div class="panel" id="panel-admin-ebooks">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:12px;">
@@ -365,6 +403,7 @@
       if (name === 'mycontacts')     loadMyContacts();
       if (name === 'admin-contacts') loadAllContacts();
       if (name === 'admin-ebooks')   loadAdminEbooks();
+      if (name === 'admin-users')    loadAdminUsers();
     }
 
     // 초기 로드
@@ -503,10 +542,16 @@
           <div class="sub-row" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
             <div style="flex:1;min-width:0;">
               <div class="sub-name">${esc(b.title)}</div>
-              <div style="font-size:.78rem;color:var(--gray);margin-top:4px;display:flex;gap:12px;flex-wrap:wrap;">
+              <div style="font-size:.78rem;color:var(--gray);margin-top:4px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
                 <span>📄 ${b.total_pages > 0 ? b.total_pages + '페이지' : '페이지 미등록'}</span>
-                <span>🔒 ${b.required_role === 'admin' ? '관리자 전용' : '회원 전용'}</span>
                 <span>🕐 ${(b.created_at || '').slice(0,10)}</span>
+                <label style="display:flex;align-items:center;gap:5px;font-size:.78rem;color:var(--gray);">
+                  🔒 접근 권한:
+                  <select class="role-select" onchange="changeEbookRole('${esc(b.id)}', this)">
+                    <option value="member"${b.required_role === 'member' ? ' selected' : ''}>회원 전용</option>
+                    <option value="admin"${b.required_role === 'admin' ? ' selected' : ''}>관리자 전용</option>
+                  </select>
+                </label>
               </div>
             </div>
             <div style="display:flex;gap:8px;flex-shrink:0;">
@@ -517,6 +562,24 @@
         `).join('');
       } catch {
         el.innerHTML = '<p style="color:#c62828">불러오기 실패</p>';
+      }
+    }
+
+    async function changeEbookRole(id, sel) {
+      const prev = sel.dataset.prev || sel.querySelector('[selected]')?.value;
+      sel.dataset.prev = sel.value;
+      try {
+        const res = await BDS_AUTH.authFetch('/api/ebooks/' + id, {
+          method: 'PATCH',
+          body: { required_role: sel.value }
+        });
+        if (!res.ok) throw new Error((await res.json()).error || '변경 실패');
+        // 시각적 피드백
+        sel.style.borderColor = '#2e7d32';
+        setTimeout(() => sel.style.borderColor = '', 1200);
+      } catch (e) {
+        alert('권한 변경 실패: ' + e.message);
+        if (prev) sel.value = prev;
       }
     }
 
@@ -533,6 +596,96 @@
         alert('삭제 중 오류: ' + e.message);
         btn.disabled = false;
         btn.textContent = '삭제';
+      }
+    }
+
+    /* ── 회원관리 (관리자) ── */
+    async function loadAdminUsers() {
+      const el = document.getElementById('adminUsersList');
+      const okEl  = document.getElementById('usersOk');
+      const errEl = document.getElementById('usersErr');
+      try {
+        const res = await BDS_AUTH.authFetch('/api/admin/users');
+        if (!res.ok) throw new Error((await res.json()).error || '불러오기 실패');
+        const { users } = await res.json();
+        if (!users.length) {
+          el.innerHTML = '<div class="empty"><div class="empty-icon">👤</div><p>가입된 회원이 없습니다.</p></div>';
+          return;
+        }
+        el.innerHTML = `
+          <div class="table-wrap">
+            <table class="users-table">
+              <thead>
+                <tr>
+                  <th>이름</th>
+                  <th>이메일</th>
+                  <th>권한</th>
+                  <th>가입일</th>
+                  <th>관리</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${users.map(u => `
+                  <tr id="user-row-${esc(u.id)}">
+                    <td style="font-weight:500;">${esc(u.name)}</td>
+                    <td style="color:var(--gray);">${esc(u.email)}</td>
+                    <td>
+                      <span class="role-badge role-badge-${esc(u.role)}" id="user-badge-${esc(u.id)}">
+                        ${u.role === 'admin' ? '관리자' : '회원'}
+                      </span>
+                    </td>
+                    <td style="color:var(--gray);font-size:.78rem;">${(u.created_at || '').slice(0,10)}</td>
+                    <td>
+                      ${u.id === user.id
+                        ? '<span style="font-size:.75rem;color:var(--gray);">(본인)</span>'
+                        : `<select class="role-select" data-uid="${esc(u.id)}" onchange="changeUserRole('${esc(u.id)}', this)">
+                            <option value="member"${u.role === 'member' ? ' selected' : ''}>회원</option>
+                            <option value="admin"${u.role === 'admin'  ? ' selected' : ''}>관리자</option>
+                           </select>`
+                      }
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>`;
+      } catch (e) {
+        el.innerHTML = '<p style="color:#c62828">불러오기 실패: ' + esc(e.message) + '</p>';
+      }
+    }
+
+    async function changeUserRole(uid, sel) {
+      const okEl  = document.getElementById('usersOk');
+      const errEl = document.getElementById('usersErr');
+      okEl.classList.remove('show'); errEl.classList.remove('show');
+
+      const prevVal = sel.dataset.prev || (sel.value === 'admin' ? 'member' : 'admin');
+      sel.dataset.prev = sel.value;
+      sel.disabled = true;
+
+      try {
+        const res = await BDS_AUTH.authFetch('/api/admin/users/' + uid, {
+          method: 'PATCH',
+          body: { role: sel.value }
+        });
+        if (!res.ok) throw new Error((await res.json()).error || '변경 실패');
+
+        // 배지 업데이트
+        const badge = document.getElementById('user-badge-' + uid);
+        if (badge) {
+          badge.className = 'role-badge role-badge-' + sel.value;
+          badge.textContent = sel.value === 'admin' ? '관리자' : '회원';
+        }
+        sel.dataset.prev = sel.value;
+        okEl.textContent = '권한이 변경되었습니다.';
+        okEl.classList.add('show');
+        setTimeout(() => okEl.classList.remove('show'), 2500);
+      } catch (e) {
+        errEl.textContent = '변경 실패: ' + e.message;
+        errEl.classList.add('show');
+        sel.value = prevVal;
+      } finally {
+        sel.disabled = false;
       }
     }
 
