@@ -14,6 +14,11 @@ export async function onRequest({ request, env }) {
   if (request.method === 'OPTIONS') return preflight();
   if (request.method !== 'POST') return err('Method not allowed', 405);
 
+  // R2 바인딩 확인
+  if (!env.R2) {
+    return err('R2 스토리지가 연결되지 않았습니다. Cloudflare Pages 바인딩을 확인해주세요.', 503);
+  }
+
   const session = await validateSession(request, env.DB);
   if (!session) return err('로그인이 필요합니다', 401);
   if (session.role !== 'admin') return err('관리자 권한이 필요합니다', 403);
@@ -21,8 +26,8 @@ export async function onRequest({ request, env }) {
   let formData;
   try {
     formData = await request.formData();
-  } catch {
-    return err('multipart/form-data 형식으로 전송해주세요', 400);
+  } catch (e) {
+    return err('multipart/form-data 파싱 실패: ' + e.message, 400);
   }
 
   const file = formData.get('file');
@@ -35,9 +40,20 @@ export async function onRequest({ request, env }) {
   const contentType = type === 'thumbnail' ? 'image/jpeg' : 'application/pdf';
   const key = `ebooks/${ebookId}/${type === 'thumbnail' ? 'thumbnail' : 'original'}.${ext}`;
 
-  await env.R2.put(key, file.stream(), {
-    httpMetadata: { contentType },
-  });
+  try {
+    // arrayBuffer()로 읽어 R2에 업로드 (stream() 호환성 문제 방지)
+    const buffer = await file.arrayBuffer();
+
+    await env.R2.put(key, buffer, {
+      httpMetadata: { contentType },
+      customMetadata: {
+        originalName: file.name || 'file',
+        uploadedAt: new Date().toISOString(),
+      },
+    });
+  } catch (e) {
+    return err('R2 업로드 실패: ' + e.message, 500);
+  }
 
   return json({ ok: true, key, ebook_id: ebookId }, 201);
 }
