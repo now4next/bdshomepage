@@ -12,6 +12,14 @@ window.BDS_LANGS = {
     // Nav
     'nav.library': 'Library',
 
+    // Archive section (index.html)
+    'archive.eyebrow': 'Resources',
+    'archive.title': 'BDS Archive for\nParents & Students',
+    'archive.subtitle': 'Browse key materials — admissions guides, curriculum overviews, and school updates — as interactive eBooks.',
+    'archive.more': 'View All Resources',
+    'archive.login_note': 'Log in to access the full library.',
+    'archive.login_link': 'Sign in →',
+
     // Hero
     'hero.subtext': 'Each day, BDS students, faculty, staff, and alumni worldwide commit their skills, knowledge, and energy to advancing the public good and making a lasting impact on society.',
 
@@ -414,6 +422,14 @@ window.BDS_LANGS = {
     // Nav
     'nav.library': '자료실',
 
+    // Archive section
+    'archive.eyebrow': '자료실',
+    'archive.title': 'BDS 학부모 및 학생을\n위한 아카이브',
+    'archive.subtitle': '입학 안내, 교육과정, 학교 소식 등 주요 자료를 전자책으로 열람하세요.',
+    'archive.more': '전체 자료 보기',
+    'archive.login_note': '로그인 후 전체 자료를 열람하실 수 있습니다.',
+    'archive.login_link': '로그인하기 →',
+
     'hero.subtext': '매일 전 세계의 BDS 학생, 교수진, 교직원, 동문들은 자신의 역량과 지식, 에너지를 공익을 위해 헌신하며 사회에 지속적인 영향을 만들어 갑니다.',
 
     'cta.title_line1': '목적과 탁월함, 그리고 마음챙김으로',
@@ -801,6 +817,14 @@ window.BDS_LANGS = {
     // Nav
     'nav.library': 'ライブラリ',
 
+    // Archive section
+    'archive.eyebrow': 'リソース',
+    'archive.title': '保護者・生徒のための\nBDSアーカイブ',
+    'archive.subtitle': '入学案内、カリキュラム概要、学校ニュースなどの主要資料を電子書籍でご覧いただけます。',
+    'archive.more': '全資料を見る',
+    'archive.login_note': 'ログイン後、全ての資料をご覧いただけます。',
+    'archive.login_link': 'ログインする →',
+
     'hero.subtext': '世界中のBDSの学生、教員、職員、卒業生は日々、自らのスキルと知識、エネルギーを公益のために注ぎ、社会に永続的な影響を与えることに取り組んでいます。',
 
     'cta.title_line1': '目的・卓越性・マインドフルネスで',
@@ -1186,6 +1210,14 @@ window.BDS_LANGS = {
   de: {
     // Nav
     'nav.library': 'Bibliothek',
+
+    // Archive section
+    'archive.eyebrow': 'Ressourcen',
+    'archive.title': 'BDS-Archiv für\nEltern & Schüler',
+    'archive.subtitle': 'Wichtige Materialien – Aufnahmeleitfäden, Lehrplanübersichten und Schulneuigkeiten – als interaktive eBooks.',
+    'archive.more': 'Alle Ressourcen anzeigen',
+    'archive.login_note': 'Melden Sie sich an, um die vollständige Bibliothek zu nutzen.',
+    'archive.login_link': 'Anmelden →',
 
     'hero.subtext': 'Tag für Tag setzen BDS-Schülerinnen und -Schüler, Lehrkräfte, Mitarbeitende und Ehemalige weltweit ihre Fähigkeiten, ihr Wissen und ihre Energie für das Gemeinwohl ein und hinterlassen nachhaltige Spuren in der Gesellschaft.',
 

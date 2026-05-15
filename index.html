@@ -2726,14 +2726,6 @@
             </svg>
             Menu
           </button>
-          <!-- 자료실 버튼 -->
-          <a href="library.html" class="header-nav-item" style="text-decoration:none;">
-            <svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-            </svg>
-            <span data-i18n="nav.library">자료실</span>
-          </a>
           <!-- 로그인/회원 포털 버튼 -->
           <a href="auth.html" id="headerAuthBtn" class="header-nav-item" style="text-decoration:none;">
             <svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -3492,6 +3484,190 @@
       </script>
     </div>
   </section>
+
+  <!-- BDS Archive Section -->
+  <section style="background:#fff; padding: 80px 0; border-top: 1px solid #f0f0f0;">
+    <div style="max-width: 1100px; margin: 0 auto; padding: 0 40px;">
+
+      <!-- 헤더 -->
+      <div style="display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:40px; flex-wrap:wrap; gap:16px;">
+        <div>
+          <div style="font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:#A51C30; font-weight:600; margin-bottom:12px;" data-i18n="archive.eyebrow">Resources</div>
+          <h2 style="font-size:2rem; font-weight:400; color:#1a1a1a; font-family:'Merriweather','Pretendard Variable',Pretendard,serif; margin-bottom:10px; line-height:1.25;" data-i18n="archive.title">BDS 학부모 및 학생을<br>위한 아카이브</h2>
+          <p style="font-size:0.95rem; color:#555; max-width:500px; line-height:1.65;" data-i18n="archive.subtitle">입학 안내, 교육과정, 학교 소식 등 주요 자료를 전자책으로 열람하세요.</p>
+        </div>
+        <a href="library.html" id="archiveMoreBtn" style="display:inline-flex; align-items:center; gap:8px; border:1.5px solid #1a1a1a; color:#1a1a1a; text-decoration:none; padding:11px 22px; font-size:0.85rem; font-weight:600; font-family:'Inter',sans-serif; transition:all .2s; white-space:nowrap; border-radius:4px;" onmouseover="this.style.background='#1a1a1a';this.style.color='#fff';" onmouseout="this.style.background='';this.style.color='#1a1a1a';">
+          <span data-i18n="archive.more">전체 자료 보기</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+      </div>
+
+      <!-- 카드 그리드 -->
+      <div id="archiveGrid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:24px;">
+        <!-- 스켈레톤 -->
+        <div class="arch-skeleton"></div>
+        <div class="arch-skeleton"></div>
+        <div class="arch-skeleton"></div>
+        <div class="arch-skeleton"></div>
+      </div>
+
+      <!-- 비로그인 안내 (숨김 상태로 시작) -->
+      <div id="archiveLoginNote" style="display:none; margin-top:24px; text-align:center; padding:16px; background:#fafafa; border-radius:8px; border:1px solid #eee;">
+        <span style="font-size:0.88rem; color:#777;" data-i18n="archive.login_note">로그인 후 전체 자료를 열람하실 수 있습니다.</span>
+        <a href="auth.html" style="margin-left:10px; color:#A51C30; font-weight:600; font-size:0.88rem; text-decoration:none;" data-i18n="archive.login_link">로그인하기 →</a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .arch-skeleton {
+      aspect-ratio: 3/4;
+      background: linear-gradient(90deg,#f0f0f0 25%,#e4e4e4 50%,#f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: archShimmer 1.4s infinite;
+      border-radius: 10px;
+    }
+    @keyframes archShimmer { to { background-position:-200% 0; } }
+
+    .arch-card {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,.08);
+      cursor: pointer;
+      transition: transform .25s, box-shadow .25s;
+      background: #fff;
+      text-decoration: none;
+      display: block;
+      position: relative;
+    }
+    .arch-card:hover { transform: translateY(-5px); box-shadow: 0 8px 32px rgba(0,0,0,.15); }
+
+    .arch-cover {
+      aspect-ratio: 3/4;
+      position: relative;
+      overflow: hidden;
+      background: #1a1a1a;
+    }
+    .arch-cover img { width:100%; height:100%; object-fit:cover; display:block; transition: transform .35s; }
+    .arch-card:hover .arch-cover img { transform: scale(1.04); }
+
+    .arch-cover-placeholder {
+      width:100%; height:100%;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      background: linear-gradient(145deg, #2d0a12 0%, #1a1a1a 100%);
+      color:#fff; padding:24px; text-align:center; gap:12px;
+    }
+    .arch-cover-placeholder-title {
+      font-family:'Merriweather',serif; font-size:13px; font-weight:700;
+      line-height:1.4; color:rgba(255,255,255,.85); word-break:keep-all;
+    }
+
+    .arch-hover-overlay {
+      position:absolute; inset:0;
+      background: rgba(165,28,48,.72);
+      display:flex; align-items:center; justify-content:center;
+      opacity:0; transition:opacity .25s;
+    }
+    .arch-card:hover .arch-hover-overlay { opacity:1; }
+    .arch-hover-label {
+      color:#fff; font-size:14px; font-weight:700;
+      display:flex; align-items:center; gap:7px;
+    }
+
+    .arch-lock-overlay {
+      position:absolute; inset:0;
+      background: rgba(0,0,0,.45);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:8px; backdrop-filter:blur(2px);
+      opacity:0; transition:opacity .25s;
+    }
+    .arch-card:hover .arch-lock-overlay { opacity:1; }
+    .arch-lock-label { color:rgba(255,255,255,.9); font-size:12px; font-weight:500; }
+
+    .arch-body { padding:14px 16px 16px; }
+    .arch-title {
+      font-family:'Merriweather',serif; font-size:13px; font-weight:700;
+      line-height:1.45; color:#1a1a1a; margin-bottom:5px;
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+      word-break:keep-all;
+    }
+    .arch-pages { font-size:11px; color:#999; display:flex; align-items:center; gap:4px; }
+
+    @media (max-width: 900px) {
+      #archiveGrid { grid-template-columns: repeat(2,1fr) !important; }
+    }
+    @media (max-width: 480px) {
+      #archiveGrid { grid-template-columns: repeat(2,1fr) !important; gap:12px !important; }
+    }
+  </style>
+
+  <script>
+    (function(){
+      var token = (function(){ try { return localStorage.getItem('bds_token'); } catch(e){ return null; } })();
+      var userStr = (function(){ try { return localStorage.getItem('bds_user'); } catch(e){ return null; } })();
+      var userRole = null;
+      try { if(userStr) userRole = JSON.parse(userStr).role; } catch(e){}
+
+      function canAccess(requiredRole) {
+        if (!userRole) return false;
+        if (userRole === 'admin') return true;
+        if (requiredRole === 'member') return true;
+        return false;
+      }
+
+      function esc(s) {
+        return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+
+      function buildCard(book) {
+        var ok = canAccess(book.required_role);
+        var href = ok ? 'viewer.html?id=' + esc(book.id) : 'auth.html?next=' + encodeURIComponent('library.html');
+
+        var coverHtml;
+        if (book.thumbnail_key) {
+          coverHtml = '<img src="/api/ebooks/' + esc(book.id) + '/thumbnail" alt="' + esc(book.title) + '" loading="lazy" onerror="this.parentNode.innerHTML=\'<div class=arch-cover-placeholder><svg width=36 height=36 viewBox=\\\'0 0 24 24\\\' fill=none stroke=white stroke-width=1><path d=\\\'M4 19.5A2.5 2.5 0 0 1 6.5 17H20\\\'/><path d=\\\'M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z\\\'/></svg><div class=arch-cover-placeholder-title>' + esc(book.title).replace(/'/g, "\\'") + '</div></div>\'">';
+        } else {
+          coverHtml = '<div class="arch-cover-placeholder"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><div class="arch-cover-placeholder-title">' + esc(book.title) + '</div></div>';
+        }
+
+        var overlayHtml = ok
+          ? '<div class="arch-hover-overlay"><span class="arch-hover-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>열람하기</span></div>'
+          : '<div class="arch-lock-overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span class="arch-lock-label">로그인 필요</span></div>';
+
+        return '<a class="arch-card" href="' + href + '">'
+          + '<div class="arch-cover">' + coverHtml + overlayHtml + '</div>'
+          + '<div class="arch-body">'
+          + '<div class="arch-title">' + esc(book.title) + '</div>'
+          + (book.total_pages > 0 ? '<div class="arch-pages"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>' + book.total_pages + 'p</div>' : '')
+          + '</div></a>';
+      }
+
+      var headers = {};
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+
+      fetch('/api/ebooks', { headers: headers })
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+          var grid = document.getElementById('archiveGrid');
+          var books = (data.ebooks || []).slice(0, 4);
+
+          if (!books.length) {
+            grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 0;color:#aaa;font-size:.9rem;">등록된 자료가 없습니다.</div>';
+            return;
+          }
+
+          grid.innerHTML = books.map(buildCard).join('');
+
+          if (!token) {
+            document.getElementById('archiveLoginNote').style.display = 'block';
+          }
+        })
+        .catch(function(){
+          document.getElementById('archiveGrid').innerHTML = '';
+        });
+    })();
+  </script>
 
   <!-- FAQ Section Inline Critical Styles -->
   <style>
