@@ -774,13 +774,18 @@
       }
 
       // 2. PDF 업로드
+      // authFetch 대신 fetch 직접 사용 — 브라우저가 multipart boundary를 자동 설정하게 함
       progressText.textContent = 'PDF 업로드 중...';
       const pdfForm = new FormData();
       pdfForm.append('file', selectedPdfFile);
       pdfForm.append('type', 'pdf');
       pdfForm.append('ebook_id', selectedEbookId);
 
-      const pdfRes = await BDS_AUTH.authFetch('/api/ebooks/upload', { method: 'POST', body: pdfForm });
+      const pdfRes = await fetch('/api/ebooks/upload', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${BDS_AUTH.getToken()}` },
+        body: pdfForm,
+      });
       if (!pdfRes.ok) {
         let errMsg = 'PDF 업로드 실패';
         try { const d = await pdfRes.json(); errMsg = d.error || errMsg; } catch {}
@@ -798,7 +803,11 @@
         thumbForm.append('type', 'thumbnail');
         thumbForm.append('ebook_id', selectedEbookId);
 
-        const thumbRes = await BDS_AUTH.authFetch('/api/ebooks/upload', { method: 'POST', body: thumbForm });
+        const thumbRes = await fetch('/api/ebooks/upload', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${BDS_AUTH.getToken()}` },
+          body: thumbForm,
+        });
         if (thumbRes.ok) {
           const d = await thumbRes.json();
           thumbnailKey = d.key;
