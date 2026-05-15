@@ -423,7 +423,7 @@ window.BDS_LANGS = {
     'nav.library': '자료실',
 
     // Archive section
-    'archive.eyebrow': '자료실',
+    'archive.eyebrow': '아카이브',
     'archive.title': 'BDS Library',
     'archive.subtitle': '주간 뉴스레터, 국내/해외 스페셜 활동, 체험학습, Year Book 등 주요 자료를 전자책으로 열람하세요.',
     'archive.more': '전체 자료 보기',
