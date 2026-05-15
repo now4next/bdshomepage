@@ -33,42 +33,41 @@
       min-height: 100vh;
     }
 
-    /* ── 헤더 ── */
+    /* ── 헤더 (ongdalsam 통일 스타일) ── */
     .header {
-      background: var(--black);
-      padding: 0 32px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      background: var(--white);
+      border-bottom: 1px solid #e0e0e0;
       position: sticky;
       top: 0;
       z-index: 100;
     }
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
     .header-logo {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      flex-direction: column;
+      gap: 2px;
       text-decoration: none;
-      color: var(--white);
     }
-    .header-logo-mark {
-      width: 32px;
-      height: 32px;
-      background: var(--crimson);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .header-logo-main {
       font-family: 'Merriweather', serif;
-      font-weight: 900;
-      font-size: 14px;
-    }
-    .header-logo-text {
-      font-family: 'Merriweather', serif;
-      font-size: 15px;
+      font-size: 2rem;
       font-weight: 700;
-      letter-spacing: .5px;
+      color: var(--crimson);
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+    .header-logo-sub {
+      font-size: 0.72rem;
+      color: var(--black);
+      font-weight: 400;
+      letter-spacing: 0.5px;
     }
     .header-nav {
       display: flex;
@@ -76,56 +75,64 @@
       gap: 8px;
     }
     .header-nav a {
-      color: rgba(255,255,255,.75);
+      color: var(--black);
       text-decoration: none;
-      font-size: 13px;
-      padding: 6px 12px;
-      border-radius: 6px;
+      font-size: 0.88rem;
+      padding: 8px 16px;
+      border: 1px solid #e0e0e0;
       transition: all .2s;
     }
-    .header-nav a:hover { background: rgba(255,255,255,.1); color: var(--white); }
-    .header-nav a.active { color: var(--white); background: rgba(165,28,48,.4); }
+    .header-nav a:hover { background: var(--gray-50); border-color: var(--black); }
+    .header-nav a.active { color: var(--crimson); border-color: var(--crimson); font-weight: 600; }
     .btn-logout {
       background: none;
-      border: 1px solid rgba(255,255,255,.25);
-      color: rgba(255,255,255,.75);
-      font-size: 13px;
-      padding: 5px 12px;
-      border-radius: 6px;
+      border: 1px solid #e0e0e0;
+      color: var(--black);
+      font-size: 0.88rem;
+      padding: 7px 16px;
       cursor: pointer;
       transition: all .2s;
       font-family: inherit;
     }
-    .btn-logout:hover { background: rgba(255,255,255,.1); color: var(--white); }
+    .btn-logout:hover { background: var(--gray-50); border-color: var(--black); }
 
-    /* ── 히어로 ── */
+    /* ── 히어로 (사진 배경) ── */
     .hero {
-      background: linear-gradient(135deg, var(--black) 0%, #2d0a12 100%);
-      padding: 64px 32px 56px;
+      position: relative;
+      min-height: 460px;
+      background: linear-gradient(rgba(20,20,20,.48), rgba(20,20,20,.58)),
+                  url('images/campus/study-hall-1.jpg') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
+      padding: 80px 24px;
       color: var(--white);
     }
+    .hero-inner { max-width: 800px; }
     .hero-eyebrow {
-      font-size: 12px;
-      letter-spacing: 3px;
+      font-size: 0.82rem;
+      letter-spacing: 0.25em;
       text-transform: uppercase;
-      color: rgba(255,255,255,.5);
-      margin-bottom: 14px;
+      color: rgba(255,255,255,.85);
+      margin-bottom: 22px;
+      font-weight: 500;
     }
     .hero h1 {
       font-family: 'Merriweather', serif;
-      font-size: clamp(28px, 5vw, 42px);
-      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 400;
+      color: var(--white);
       line-height: 1.2;
-      margin-bottom: 16px;
+      margin-bottom: 22px;
     }
-    .hero h1 span { color: #e8a0ab; }
     .hero p {
-      color: rgba(255,255,255,.65);
-      font-size: 16px;
-      max-width: 520px;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,.9);
+      max-width: 680px;
       margin: 0 auto;
-      line-height: 1.7;
+      word-break: keep-all;
     }
 
     /* ── 본문 ── */
@@ -438,10 +445,13 @@
     }
 
     @media (max-width: 600px) {
-      .hero { padding: 40px 20px 36px; }
+      .hero { min-height: 320px; padding: 50px 20px; }
+      .hero h1 { font-size: 1.8rem; }
       .main { padding: 32px 16px 60px; }
       .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
-      .header { padding: 0 16px; }
+      .header-inner { padding: 14px 20px; }
+      .header-logo-main { font-size: 1.5rem; }
+      .header-nav a, .btn-logout { font-size: .8rem; padding: 6px 10px; }
     }
   </style>
 </head>
@@ -449,24 +459,28 @@
 
 <!-- 헤더 -->
 <header class="header">
-  <a href="index.html" class="header-logo">
-    <div class="header-logo-mark">B</div>
-    <span class="header-logo-text">BDS</span>
-  </a>
-  <nav class="header-nav">
-    <a href="index.html">홈</a>
-    <a href="library.html" class="active">자료실</a>
-    <a href="dashboard.html" id="headerDashLink" style="display:none;">포털</a>
-    <button class="btn-logout" id="headerLogout" style="display:none;">로그아웃</button>
-    <a href="auth.html" id="headerLogin">로그인</a>
-  </nav>
+  <div class="header-inner">
+    <a href="index.html" class="header-logo">
+      <div class="header-logo-main">BDS</div>
+      <div class="header-logo-sub">Beyond Dream Scholars</div>
+    </a>
+    <nav class="header-nav">
+      <a href="index.html">홈</a>
+      <a href="library.html" class="active">자료실</a>
+      <a href="dashboard.html" id="headerDashLink" style="display:none;">포털</a>
+      <button class="btn-logout" id="headerLogout" style="display:none;">로그아웃</button>
+      <a href="auth.html" id="headerLogin">로그인</a>
+    </nav>
+  </div>
 </header>
 
 <!-- 히어로 -->
 <section class="hero">
-  <p class="hero-eyebrow">BDS Library</p>
-  <h1>BDS <span>자료실</span></h1>
-  <p>학교 소개, 교육과정, 입학 안내 등 주요 자료를 전자책으로 열람하세요.</p>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">BDS Library</p>
+    <h1>BDS 자료실</h1>
+    <p>주간 뉴스레터, 국내/해외 스페셜 활동, 체험학습, Year Book 등 주요 자료를 전자책으로 열람하세요.</p>
+  </div>
 </section>
 
 <!-- 본문 -->
