@@ -528,7 +528,7 @@
       <div id="dropzone" style="border:2px dashed #d0d0d0;border-radius:8px;padding:32px;text-align:center;cursor:pointer;transition:border-color .2s;" onclick="document.getElementById('pdfInput').click()">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5" style="margin-bottom:8px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
         <p id="dropzoneText" style="font-size:13px;color:#888;">클릭하거나 PDF 파일을 여기에 드래그하세요</p>
-        <p style="font-size:11px;color:#bbb;margin-top:4px;">최대 50MB</p>
+        <p style="font-size:11px;color:#bbb;margin-top:4px;">최대 200MB</p>
         <input type="file" id="pdfInput" accept=".pdf" style="display:none;" onchange="onPdfSelected(this)">
       </div>
     </div>
@@ -721,11 +721,18 @@
     if (e.target === e.currentTarget) closeUploadModal();
   });
 
+  const MAX_PDF_MB = 200;
+
   function onPdfSelected(input) {
     const file = input.files[0];
     if (!file) return;
     if (file.type !== 'application/pdf') {
       alert('PDF 파일만 업로드할 수 있습니다.');
+      return;
+    }
+    if (file.size > MAX_PDF_MB * 1024 * 1024) {
+      alert(`파일 크기는 ${MAX_PDF_MB}MB 이하여야 합니다.\n현재 파일: ${(file.size/1024/1024).toFixed(1)}MB`);
+      input.value = '';
       return;
     }
     selectedPdfFile = file;
@@ -787,25 +794,64 @@
         progressBar.style.width = '25%';
       }
 
-      // 2. PDF 업로드
-      // authFetch 대신 fetch 직접 사용 — 브라우저가 multipart boundary를 자동 설정하게 함
-      progressText.textContent = 'PDF 업로드 중...';
-      const pdfForm = new FormData();
-      pdfForm.append('file', selectedPdfFile);
-      pdfForm.append('type', 'pdf');
-      pdfForm.append('ebook_id', selectedEbookId);
+      // 2. PDF 청크 업로드 (R2 Multipart — Worker 128MB 메모리 한도 우회)
+      const CHUNK_SIZE = 10 * 1024 * 1024; // 10MB 청크 (R2 최소 5MB 요건 충족)
+      const totalChunks = Math.ceil(selectedPdfFile.size / CHUNK_SIZE);
+      const authHeader = { 'Authorization': `Bearer ${BDS_AUTH.getToken()}` };
 
-      const pdfRes = await fetch('/api/ebooks/upload', {
+      // 2-a. 멀티파트 업로드 세션 시작
+      progressText.textContent = 'PDF 업로드 준비 중...';
+      const startRes = await fetch('/api/ebooks/multipart/start', {
         method: 'POST',
-        headers: { 'Authorization': `Bearer ${BDS_AUTH.getToken()}` },
-        body: pdfForm,
+        headers: { ...authHeader, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ebook_id: selectedEbookId }),
       });
-      if (!pdfRes.ok) {
-        let errMsg = 'PDF 업로드 실패';
-        try { const d = await pdfRes.json(); errMsg = d.error || errMsg; } catch {}
-        throw new Error(errMsg);
+      if (!startRes.ok) {
+        const d = await startRes.json().catch(() => ({}));
+        throw new Error(d.error || '업로드 세션 시작 실패');
       }
-      const { key: r2Key } = await pdfRes.json();
+      const { upload_id, key: r2Key } = await startRes.json();
+
+      // 2-b. 청크 순차 업로드
+      const uploadedParts = [];
+      for (let i = 0; i < totalChunks; i++) {
+        const start = i * CHUNK_SIZE;
+        const end   = Math.min(start + CHUNK_SIZE, selectedPdfFile.size);
+        const chunk = selectedPdfFile.slice(start, end);
+
+        progressText.textContent = `PDF 업로드 중... (${i + 1} / ${totalChunks})`;
+        // 25% ~ 60% 구간에서 청크 진행률 표시
+        progressBar.style.width = (25 + Math.round(((i + 1) / totalChunks) * 35)) + '%';
+
+        const params = new URLSearchParams({
+          upload_id,
+          key: r2Key,
+          part_number: String(i + 1),
+        });
+        const chunkRes = await fetch(`/api/ebooks/multipart/chunk?${params}`, {
+          method: 'PUT',
+          headers: authHeader,
+          body: chunk,
+        });
+        if (!chunkRes.ok) {
+          const d = await chunkRes.json().catch(() => ({}));
+          throw new Error(d.error || `청크 ${i + 1} 업로드 실패`);
+        }
+        const { part_number, etag } = await chunkRes.json();
+        uploadedParts.push({ part_number, etag });
+      }
+
+      // 2-c. 멀티파트 업로드 완료
+      progressText.textContent = '업로드 마무리 중...';
+      const completeRes = await fetch('/api/ebooks/multipart/complete', {
+        method: 'POST',
+        headers: { ...authHeader, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ upload_id, key: r2Key, parts: uploadedParts }),
+      });
+      if (!completeRes.ok) {
+        const d = await completeRes.json().catch(() => ({}));
+        throw new Error(d.error || '업로드 완료 처리 실패');
+      }
       progressBar.style.width = '65%';
 
       // 3. 썸네일 업로드 (있는 경우)
