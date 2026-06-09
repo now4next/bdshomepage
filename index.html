@@ -3383,9 +3383,11 @@
         .sg-item {
           background-size: cover;
           background-position: center;
+          background-color: #e8e8e8; /* 이미지 로드 전 플레이스홀더 */
           position: relative;
           overflow: hidden;
           cursor: pointer;
+          contain: layout style; /* 리페인트 격리 */
         }
         .sg-item.wide { grid-column: span 2; }
         .sg-item.tall { grid-row: span 2; }
@@ -3433,7 +3435,7 @@
         <div class="sg-item" data-cat="wellness" style="background-image: url('images/students/yoga-1.jpg');">
           <div class="sg-label" data-i18n="gallery.label.yoga">Yoga</div>
         </div>
-        <div class="sg-item" data-cat="music" style="background-image: url('images/students/piano-1.jpg');">
+        <div class="sg-item" data-cat="music" style="background-image: url('images/students/piano-3.jpg');">
           <div class="sg-label" data-i18n="gallery.label.piano">Piano</div>
         </div>
         <div class="sg-item" data-cat="events" style="background-image: url('images/students/event-1.jpg');">
@@ -3445,19 +3447,19 @@
         <div class="sg-item" data-cat="wellness" style="background-image: url('images/students/meditation-class.jpg');">
           <div class="sg-label" data-i18n="gallery.label.meditation_class">Meditation Class</div>
         </div>
-        <div class="sg-item" data-cat="music" style="background-image: url('images/students/orchestra-2.jpg');">
+        <div class="sg-item" data-cat="music" style="background-image: url('images/students/orchestra-4.jpg');">
           <div class="sg-label" data-i18n="gallery.label.orchestra">Orchestra</div>
         </div>
-        <div class="sg-item" data-cat="events" style="background-image: url('images/students/event-3.jpg');">
+        <div class="sg-item" data-cat="events" style="background-image: url('images/students/event-2.jpg');">
           <div class="sg-label" data-i18n="gallery.label.events">Events</div>
         </div>
-        <div class="sg-item" data-cat="wellness" style="background-image: url('images/students/yoga-3.jpg');">
+        <div class="sg-item" data-cat="wellness" style="background-image: url('images/students/yoga-4.jpg');">
           <div class="sg-label" data-i18n="gallery.label.yoga">Yoga</div>
         </div>
         <div class="sg-item" data-cat="martial" style="background-image: url('images/students/sunmudo-2.jpg');">
           <div class="sg-label" data-i18n="gallery.label.sunmudo">Sunmudo</div>
         </div>
-        <div class="sg-item" data-cat="events" style="background-image: url('images/students/event-5.jpg');">
+        <div class="sg-item" data-cat="events" style="background-image: url('images/students/event-4.jpg');">
           <div class="sg-label" data-i18n="gallery.label.events">Events</div>
         </div>
         <div class="sg-item" data-cat="music" style="background-image: url('images/students/piano-2.jpg');">
