@@ -4591,6 +4591,29 @@
       }
     };
 
+    // ── URL 파라미터로 팝업 자동 오픈 ──────────────────────────────
+    // 사용법: https://bdskorea.org/?popup=contact&inquiry=INQUIRY_VALUE
+    // inquiry 값 목록:
+    //   Admission Requirements       (입학 요건)
+    //   Admission Info Session       (입학설명회 참여 신청)
+    //   Campus Tour Request          (캠퍼스 투어 신청)
+    //   Tuition & Financial Aid      (학비 및 재정 지원)
+    //   Academic Programs            (학업 프로그램)
+    //   Campus Life                  (캠퍼스 생활)
+    //   Other Questions              (기타 문의)
+    (function checkPopupParam() {
+      const params  = new URLSearchParams(location.search);
+      const popup   = params.get('popup');
+      const inquiry = params.get('inquiry');
+      if (popup === 'contact') {
+        // URL에서 파라미터 제거 (뒤로가기/공유 시 재오픈 방지)
+        const cleanUrl = location.pathname + location.hash;
+        history.replaceState(null, '', cleanUrl);
+        setTimeout(() => openContactModal(inquiry || undefined), 400);
+      }
+    })();
+    // ────────────────────────────────────────────────────────────────
+
     if (contactAdmissionsBtn) {
       contactAdmissionsBtn.addEventListener('click', (e) => {
         e.preventDefault();
