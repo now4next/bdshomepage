@@ -930,19 +930,25 @@
 
     async function loadAdminPosts() {
       const el = document.getElementById('adminPostsList');
+      el.innerHTML = '<p style="color:#aaa;font-size:.85rem">불러오는 중…</p>';
       try {
         const res  = await BDS_AUTH.authFetch('/api/posts?all=1&limit=50');
-        if (!res.ok) throw new Error((await res.json()).error || '불러오기 실패');
-        const { posts } = await res.json();
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || `서버 오류 (${res.status})`);
+
+        const posts = Array.isArray(data.posts) ? data.posts : null;
+        if (posts === null) throw new Error('응답 형식 오류 — 관리자 세션을 확인해주세요.');
+
         if (!posts.length) {
-          el.innerHTML = `<div class="empty"><div class="empty-icon">📝</div><p>게시물이 없습니다.<br>새 글 쓰기 버튼을 눌러 첫 글을 작성해보세요.</p></div>`;
+          el.innerHTML = `<div class="empty"><div class="empty-icon">📝</div><p>게시물이 없습니다.<br><a href="editor.html" style="color:var(--crimson);font-weight:600;">새 글 쓰기 →</a></p></div>`;
           return;
         }
         el.innerHTML = posts.map(p => `
           <div class="sub-row" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
             <div style="flex:1;min-width:0;">
               <div class="sub-name">${esc(p.title)}
-                ${!p.is_published ? '<span style="font-size:.68rem;padding:2px 7px;background:#fff3e0;color:#e65100;margin-left:6px;font-weight:600;">초안</span>' : ''}
+                ${!p.is_published ? '<span style="font-size:.68rem;padding:2px 7px;background:#fff3e0;color:#e65100;margin-left:6px;font-weight:600;">초안</span>' : '<span style="font-size:.68rem;padding:2px 7px;background:#e8f5e9;color:#2e7d32;margin-left:6px;font-weight:600;">발행됨</span>'}
               </div>
               <div style="font-size:.78rem;color:var(--gray);margin-top:4px;display:flex;gap:12px;flex-wrap:wrap;">
                 <span>${CAT_LABEL[p.category] || p.category}</span>
@@ -958,7 +964,11 @@
           </div>
         `).join('');
       } catch (e) {
-        el.innerHTML = `<p style="color:#c62828">불러오기 실패: ${esc(e.message)}</p>`;
+        el.innerHTML = `<div style="background:rgba(198,40,40,.06);border-left:3px solid #c62828;padding:14px 16px;">
+          <div style="font-weight:600;color:#c62828;margin-bottom:4px;">불러오기 실패</div>
+          <div style="font-size:.83rem;color:#555;">${esc(e.message)}</div>
+          <button class="btn" style="margin-top:10px;font-size:.8rem;" onclick="delete loaded['admin-posts'];loadAdminPosts();">다시 시도</button>
+        </div>`;
       }
     }
 
@@ -971,41 +981,74 @@
     }
 
     /* ── 팝업 관리 ── */
+    let _popupsCache = []; // editPopup 에서 JSON 인라인 대신 인덱스로 참조
+
     async function loadAdminPopups() {
       const el = document.getElementById('adminPopupsList');
+      el.innerHTML = '<p style="color:#aaa;font-size:.85rem">불러오는 중…</p>';
       try {
         const res  = await BDS_AUTH.authFetch('/api/popups?all=1');
-        if (!res.ok) throw new Error((await res.json()).error || '불러오기 실패');
-        const { popups } = await res.json();
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || `서버 오류 (${res.status})`);
+
+        // 관리자 세션 만료 시 API가 { popup } (단수)를 반환 → 감지
+        if (!Array.isArray(data.popups)) {
+          throw new Error('관리자 세션이 만료되었습니다. 페이지를 새로고침하고 다시 로그인해주세요.');
+        }
+
+        const popups = data.popups;
+        _popupsCache = popups; // editPopup 참조용
+
         if (!popups.length) {
-          el.innerHTML = `<div class="empty"><div class="empty-icon">🖼️</div><p>등록된 팝업이 없습니다.</p></div>`;
+          el.innerHTML = `<div class="empty"><div class="empty-icon">🖼️</div><p>등록된 팝업이 없습니다.<br>위의 <strong>새 팝업</strong> 버튼을 눌러 팝업을 등록하세요.</p></div>`;
+          // 팝업이 없으면 폼 바로 열기
+          openPopupForm();
           return;
         }
-        el.innerHTML = popups.map(p => `
+
+        el.innerHTML = popups.map((p, idx) => `
           <div class="sub-row" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-            ${p.image_key ? `<img src="/api/media/${esc(p.image_key)}" style="width:60px;height:60px;object-fit:cover;border-radius:4px;flex-shrink:0;" />` : ''}
+            ${p.image_key
+              ? `<img src="/api/media/${esc(p.image_key)}" style="width:64px;height:64px;object-fit:cover;border-radius:4px;flex-shrink:0;" />`
+              : `<div style="width:64px;height:64px;background:#f0f0f0;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:1.4rem;">🖼️</div>`}
             <div style="flex:1;min-width:0;">
               <div class="sub-name">${esc(p.title)}</div>
               <div style="font-size:.78rem;color:var(--gray);margin-top:4px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
                 <span style="font-size:.7rem;padding:2px 8px;font-weight:600;${p.is_active ? 'background:#e8f5e9;color:#2e7d32;' : 'background:#f5f5f5;color:#888;'}">
                   ${p.is_active ? '● 활성' : '○ 비활성'}
                 </span>
-                ${p.start_date ? `<span>시작: ${p.start_date}</span>` : ''}
-                ${p.end_date   ? `<span>종료: ${p.end_date}</span>`   : ''}
+                ${p.start_date ? `<span>시작: ${esc(p.start_date)}</span>` : ''}
+                ${p.end_date   ? `<span>종료: ${esc(p.end_date)}</span>` : ''}
+                ${p.link_url   ? `<span>🔗 ${esc(p.link_url)}</span>` : ''}
               </div>
             </div>
             <div style="display:flex;gap:6px;flex-shrink:0;align-items:center;">
-              <button class="btn" style="font-size:.78rem;padding:5px 10px;${p.is_active?'color:#e65100;':'color:#2e7d32;'}" onclick="togglePopup('${esc(p.id)}', ${p.is_active}, this)">
+              <button class="btn" style="font-size:.78rem;padding:5px 10px;${p.is_active ? 'color:#e65100;' : 'color:#2e7d32;'}"
+                      onclick="togglePopup('${esc(p.id)}', ${p.is_active ? 1 : 0}, this)">
                 ${p.is_active ? '비활성화' : '활성화'}
               </button>
-              <button class="btn" style="font-size:.78rem;padding:5px 10px;" onclick="editPopup(${JSON.stringify(p).replace(/"/g,'&quot;')})">편집</button>
-              <button class="btn" style="font-size:.78rem;padding:5px 10px;color:#c62828;" onclick="delPopup('${esc(p.id)}', this)">삭제</button>
+              <button class="btn" style="font-size:.78rem;padding:5px 10px;"
+                      onclick="editPopupByIdx(${idx})">편집</button>
+              <button class="btn" style="font-size:.78rem;padding:5px 10px;color:#c62828;"
+                      onclick="delPopup('${esc(p.id)}', this)">삭제</button>
             </div>
           </div>
         `).join('');
       } catch (e) {
-        el.innerHTML = `<p style="color:#c62828">불러오기 실패: ${esc(e.message)}</p>`;
+        el.innerHTML = `<div style="background:rgba(198,40,40,.06);border-left:3px solid #c62828;padding:14px 16px;">
+          <div style="font-weight:600;color:#c62828;margin-bottom:4px;">불러오기 실패</div>
+          <div style="font-size:.83rem;color:#555;">${esc(e.message)}</div>
+          <button class="btn" style="margin-top:10px;font-size:.8rem;" onclick="delete loaded['admin-popups'];loadAdminPopups();">다시 시도</button>
+        </div>`;
       }
+    }
+
+    // JSON 인라인 대신 인덱스로 참조 — 특수문자 이슈 없음
+    function editPopupByIdx(idx) {
+      const p = _popupsCache[idx];
+      if (!p) return;
+      editPopup(p);
     }
 
     async function togglePopup(id, current, btn) {
