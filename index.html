@@ -296,7 +296,8 @@
       margin-bottom: 30px;
     }
     
-    .mega-menu-main-links a {
+    .mega-menu-main-links a,
+    .mega-menu-main-links span {
       font-family: 'Merriweather', 'Pretendard Variable', Pretendard, serif;
       font-size: 3.5rem;
       font-weight: 400;
@@ -2730,27 +2731,13 @@
             </svg>
             Menu
           </button>
-          <!-- 소식 링크 -->
-          <a href="blog.html" class="header-nav-item" style="text-decoration:none;">
-            <svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-            </svg>
-            <span data-i18n="nav.blog">소식</span>
-          </a>
-          <!-- 자료실 링크 -->
-          <a href="library.html" class="header-nav-item" style="text-decoration:none;">
-            <svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-            </svg>
-            <span data-i18n="nav.library">자료실</span>
-          </a>
           <!-- 로그인/회원 포털 버튼 -->
           <a href="auth.html" id="headerAuthBtn" class="header-nav-item" style="text-decoration:none;">
             <svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
             </svg>
-            <span id="headerAuthLabel">로그인</span>
+            <span id="headerAuthLabel">Login</span>
           </a>
           <div class="lang-dropdown" id="langDropdown">
             <button type="button" class="lang-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false">
@@ -2833,24 +2820,22 @@
         </div>
         <div class="mega-menu-main">
           <ul class="mega-menu-main-links">
-            <li><a href="#academics">Academics</a></li>
-            <li><a href="#campus">Campus</a></li>
-            <li><a href="#in-focus">In Focus</a></li>
-            <li><a href="#visit">Visit</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#news">News</a></li>
+            <!-- 준비 중: 링크 없이 명칭만 노출 -->
+            <li><span style="cursor:default;opacity:.45;font-size:inherit;letter-spacing:inherit;display:block;padding:4px 0;">Academics</span></li>
+            <li><a href="ongdalsam.html">Campus</a></li>
+            <li><a href="blog.html">News</a></li>
+            <li><a href="library.html">Archive</a></li>
+            <li><a href="javascript:void(0)" id="megaMenuVisitBtn">Visit</a></li>
           </ul>
         </div>
         <div class="mega-menu-quick-links">
           <span class="mega-menu-quick-links-label">Quick Links ></span>
           <ul class="mega-menu-quick-links-list">
-            <li><a href="#a-to-z">A to Z index</a></li>
-            <li><a href="#find-person">Find a person</a></li>
-            <li><a href="#events">Events</a></li>
-            <li><a href="#media">Media Relations</a></li>
-            <li><a href="#alumni">Alumni</a></li>
-            <li><a href="#give">Give Now</a></li>
-            <li><a href="#emergency">Emergency</a></li>
+            <li><a href="academic-calendar.html">Academic Calendar</a></li>
+            <li><a href="blog.html">News &amp; Events</a></li>
+            <li><a href="library.html">Archive</a></li>
+            <li><a href="dashboard.html">Student Portal</a></li>
+            <li><a href="javascript:void(0)" id="megaMenuContactBtn">Contact Us</a></li>
           </ul>
         </div>
       </div>
@@ -4376,6 +4361,32 @@
           document.body.style.overflow = '';
         });
       });
+
+      // Visit 버튼 → 방문 신청 팝업
+      const visitBtn = document.getElementById('megaMenuVisitBtn');
+      if (visitBtn) {
+        visitBtn.addEventListener('click', function() {
+          megaMenu.classList.remove('active');
+          document.body.style.overflow = '';
+          setTimeout(() => {
+            if (typeof openContactModal === 'function') {
+              openContactModal('Campus Tour Request');
+            }
+          }, 180);
+        });
+      }
+
+      // Contact Us 버튼 → 문의 팝업
+      const contactBtn = document.getElementById('megaMenuContactBtn');
+      if (contactBtn) {
+        contactBtn.addEventListener('click', function() {
+          megaMenu.classList.remove('active');
+          document.body.style.overflow = '';
+          setTimeout(() => {
+            if (typeof openContactModal === 'function') openContactModal();
+          }, 180);
+        });
+      }
       
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && megaMenu.classList.contains('active')) {
