@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>소식 — BDS Beyond Dream Scholars</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="js/auth-client.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --crimson: #A51C30; --crimson-dark: #8a1828;
+      --black: #1a1a1a; --gray-50: #f9f9f9; --gray-100: #f0f0f0;
+      --gray-300: #d0d0d0; --gray-500: #888; --gray-700: #444; --white: #fff;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--gray-50); color: var(--black); }
+
+    /* ── 헤더 ── */
+    .header { background: var(--white); border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1400px; margin: 0 auto; padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; }
+    .header-logo { display: flex; flex-direction: column; gap: 2px; text-decoration: none; }
+    .header-logo-main { font-family: 'Merriweather', serif; font-size: 1.8rem; font-weight: 700; color: var(--crimson); letter-spacing: -0.5px; line-height: 1; }
+    .header-logo-sub  { font-size: 0.7rem; color: var(--black); font-weight: 400; letter-spacing: 0.5px; }
+    .header-nav { display: flex; align-items: center; gap: 8px; }
+    .header-nav a { color: var(--black); text-decoration: none; font-size: 0.88rem; padding: 7px 14px; border: 1px solid #e0e0e0; transition: all .2s; }
+    .header-nav a:hover { background: var(--gray-50); border-color: var(--black); }
+    .header-nav a.active { color: var(--crimson); border-color: var(--crimson); font-weight: 600; }
+    .btn-write { background: var(--crimson); color: var(--white); border-color: var(--crimson); border: 1px solid var(--crimson); padding: 7px 16px; font-size: 0.85rem; font-weight: 600; cursor: pointer; font-family: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: background .2s; }
+    .btn-write:hover { background: var(--crimson-dark); }
+
+    /* ── 히어로 ── */
+    .hero { background: linear-gradient(135deg, var(--black) 0%, #2d0a12 100%); padding: 60px 40px 52px; text-align: center; color: var(--white); }
+    .hero-eyebrow { font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,.65); margin-bottom: 16px; }
+    .hero h1 { font-family: 'Merriweather', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 400; margin-bottom: 14px; }
+    .hero p  { font-size: 1rem; color: rgba(255,255,255,.65); max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+    /* ── 필터 탭 ── */
+    .filter-bar { background: var(--white); border-bottom: 1px solid #e8e8e8; position: sticky; top: 61px; z-index: 90; }
+    .filter-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; display: flex; gap: 0; overflow-x: auto; }
+    .filter-tab { padding: 14px 20px; font-size: 0.85rem; font-weight: 500; color: var(--gray-500); cursor: pointer; border: none; background: none; white-space: nowrap; border-bottom: 2px solid transparent; transition: all .2s; font-family: inherit; }
+    .filter-tab:hover { color: var(--black); }
+    .filter-tab.active { color: var(--crimson); border-bottom-color: var(--crimson); font-weight: 700; }
+
+    /* ── 본문 ── */
+    .main { max-width: 1100px; margin: 0 auto; padding: 44px 24px 80px; }
+    .result-count { font-size: 0.82rem; color: var(--gray-500); margin-bottom: 28px; }
+
+    /* ── 카드 그리드 ── */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .card { background: var(--white); border: 1px solid #ebebeb; overflow: hidden; text-decoration: none; color: inherit; display: block; transition: box-shadow .25s, transform .25s; }
+    .card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.10); transform: translateY(-3px); }
+    .card-thumb { aspect-ratio: 16/9; background: var(--gray-100); overflow: hidden; position: relative; }
+    .card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .card-thumb-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #f5f5f5, #ebebeb); }
+    .card-thumb-placeholder svg { opacity: .2; }
+    .cat-badge { position: absolute; top: 10px; left: 10px; background: var(--crimson); color: var(--white); font-size: 0.68rem; font-weight: 700; padding: 3px 8px; letter-spacing: .05em; }
+    .card-body { padding: 20px; }
+    .card-date  { font-size: 0.75rem; color: var(--gray-500); margin-bottom: 8px; }
+    .card-title { font-family: 'Merriweather', serif; font-size: 1rem; font-weight: 700; line-height: 1.45; color: var(--black); margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .card-excerpt { font-size: 0.83rem; color: var(--gray-700); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .draft-badge { display: inline-block; margin-left: 6px; font-size: .65rem; padding: 1px 6px; background: #fff3e0; color: #e65100; font-weight: 600; vertical-align: middle; }
+
+    /* ── 빈 상태 ── */
+    .empty { text-align: center; padding: 80px 20px; color: var(--gray-500); }
+    .empty-icon { font-size: 2.5rem; margin-bottom: 12px; opacity: .4; }
+
+    /* ── 페이지네이션 ── */
+    .pagination { display: flex; justify-content: center; gap: 6px; margin-top: 48px; }
+    .page-btn { width: 36px; height: 36px; border: 1px solid #e0e0e0; background: var(--white); cursor: pointer; font-size: 0.85rem; font-family: inherit; transition: all .2s; display: flex; align-items: center; justify-content: center; }
+    .page-btn:hover { border-color: var(--black); }
+    .page-btn.active { background: var(--crimson); color: var(--white); border-color: var(--crimson); }
+    .page-btn:disabled { opacity: .35; cursor: default; }
+
+    @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) {
+      .header-inner { padding: 14px 20px; }
+      .header-logo-main { font-size: 1.4rem; }
+      .hero { padding: 40px 20px; }
+      .grid { grid-template-columns: 1fr; gap: 16px; }
+      .main { padding: 28px 16px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="header-logo">
+      <div class="header-logo-main">BDS</div>
+      <div class="header-logo-sub">Beyond Dream Scholars</div>
+    </a>
+    <nav class="header-nav" id="headerNav">
+      <a href="index.html">홈</a>
+      <a href="blog.html" class="active">소식</a>
+      <a href="library.html">자료실</a>
+      <a href="dashboard.html" id="headerDash" style="display:none;">포털</a>
+      <button class="btn-write" id="btnWrite" style="display:none;" onclick="location.href='editor.html'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        새 글 쓰기
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- 히어로 -->
+<section class="hero">
+  <p class="hero-eyebrow">BDS News & Stories</p>
+  <h1>소식 · 이벤트 · 지식</h1>
+  <p>BDS의 최신 소식과 이벤트, 교육 정보를 전달합니다.</p>
+</section>
+
+<!-- 카테고리 필터 -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <button class="filter-tab active" data-cat="">전체</button>
+    <button class="filter-tab" data-cat="news">소식</button>
+    <button class="filter-tab" data-cat="event">이벤트</button>
+    <button class="filter-tab" data-cat="knowledge">지식정보</button>
+  </div>
+</div>
+
+<!-- 목록 -->
+<main class="main">
+  <div class="result-count" id="resultCount"></div>
+  <div class="grid" id="postGrid">
+    <!-- 스켈레톤 -->
+    <div style="height:280px;background:linear-gradient(90deg,#f0f0f0 25%,#e4e4e4 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;"></div>
+    <div style="height:280px;background:linear-gradient(90deg,#f0f0f0 25%,#e4e4e4 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;"></div>
+    <div style="height:280px;background:linear-gradient(90deg,#f0f0f0 25%,#e4e4e4 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;"></div>
+  </div>
+  <div class="pagination" id="pagination"></div>
+</main>
+
+<style>@keyframes shimmer { to { background-position: -200% 0; } }</style>
+
+<script>
+  const CAT_LABEL = { news:'소식', event:'이벤트', knowledge:'지식정보' };
+  const PAGE_SIZE = 9;
+  let currentCat  = '';
+  let currentPage = 1;
+  let totalPosts  = 0;
+  let isAdmin     = false;
+
+  // 인증 상태
+  const user = BDS_AUTH.getUser();
+  if (user) {
+    document.getElementById('headerDash').style.display = '';
+    if (user.role === 'admin') {
+      isAdmin = true;
+      document.getElementById('btnWrite').style.display = '';
+    }
+  }
+
+  // 카테고리 탭
+  document.querySelectorAll('.filter-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      currentCat  = btn.dataset.cat;
+      currentPage = 1;
+      loadPosts();
+    });
+  });
+
+  async function loadPosts() {
+    const grid = document.getElementById('postGrid');
+    grid.innerHTML = '';
+    const params = new URLSearchParams({
+      limit: PAGE_SIZE,
+      offset: (currentPage - 1) * PAGE_SIZE,
+    });
+    if (currentCat) params.set('category', currentCat);
+    if (isAdmin) params.set('all', '1');
+
+    try {
+      const res = await fetch(`/api/posts?${params}`);
+      const { posts, total } = await res.json();
+      totalPosts = total || 0;
+
+      document.getElementById('resultCount').textContent =
+        `총 ${totalPosts}개의 게시물`;
+
+      if (!posts.length) {
+        grid.innerHTML = `<div class="empty" style="grid-column:1/-1">
+          <div class="empty-icon">📝</div>
+          <p>게시물이 없습니다.</p>
+        </div>`;
+        renderPagination();
+        return;
+      }
+
+      grid.innerHTML = posts.map(post => `
+        <a href="post.html?id=${esc(post.id)}" class="card">
+          <div class="card-thumb">
+            ${post.thumbnail_key
+              ? `<img src="/api/media/${esc(post.thumbnail_key)}" alt="${esc(post.title)}" loading="lazy" onerror="this.parentNode.innerHTML='<div class=card-thumb-placeholder><svg width=40 height=40 viewBox=\\'0 0 24 24\\' fill=none stroke=\\'#ccc\\' stroke-width=\\'1.5\\'><path d=\\'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\\'/><polyline points=\\'14 2 14 8 20 8\\'/></svg></div>'">`
+              : `<div class="card-thumb-placeholder">
+                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                 </div>`}
+            <span class="cat-badge">${CAT_LABEL[post.category] || post.category}</span>
+          </div>
+          <div class="card-body">
+            <div class="card-date">${post.created_at.slice(0,10)}
+              ${isAdmin && !post.is_published ? '<span class="draft-badge">초안</span>' : ''}
+            </div>
+            <div class="card-title">${esc(post.title)}</div>
+            ${post.excerpt ? `<div class="card-excerpt">${esc(post.excerpt)}</div>` : ''}
+          </div>
+        </a>
+      `).join('');
+
+      renderPagination();
+    } catch {
+      grid.innerHTML = '<p style="color:#c62828;grid-column:1/-1">불러오기 실패</p>';
+    }
+  }
+
+  function renderPagination() {
+    const pg   = document.getElementById('pagination');
+    const total = Math.ceil(totalPosts / PAGE_SIZE);
+    if (total <= 1) { pg.innerHTML = ''; return; }
+    let html = '';
+    html += `<button class="page-btn" ${currentPage===1?'disabled':''} onclick="goPage(${currentPage-1})">‹</button>`;
+    for (let i = 1; i <= total; i++) {
+      html += `<button class="page-btn${i===currentPage?' active':''}" onclick="goPage(${i})">${i}</button>`;
+    }
+    html += `<button class="page-btn" ${currentPage===total?'disabled':''} onclick="goPage(${currentPage+1})">›</button>`;
+    pg.innerHTML = html;
+  }
+
+  function goPage(n) { currentPage = n; loadPosts(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+  function esc(s) {
+    return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  loadPosts();
+</script>
+</body>
+</html>

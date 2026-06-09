@@ -303,6 +303,18 @@
             회원관리
           </a>
         </li>
+        <li data-panel="admin-posts" class="admin-only" style="display:none;">
+          <a href="#">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            글 관리
+          </a>
+        </li>
+        <li data-panel="admin-popups" class="admin-only" style="display:none;">
+          <a href="#">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+            팝업 관리
+          </a>
+        </li>
       </ul>
     </nav>
 
@@ -420,6 +432,76 @@
       <div class="modal-body">
         <div id="ebookAccessList"><p style="padding:20px;color:#aaa;font-size:.85rem">불러오는 중…</p></div>
       </div>
+      <!-- Admin: 글 관리 -->
+      <div class="panel" id="panel-admin-posts">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:12px;">
+          <div class="panel-title" style="margin:0;">글 관리</div>
+          <a href="editor.html" class="btn btn-crimson" style="font-size:.8rem;padding:7px 14px;text-decoration:none;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            새 글 쓰기
+          </a>
+        </div>
+        <div class="panel-sub">소식, 이벤트, 지식정보 게시물을 관리합니다.</div>
+        <div id="adminPostsList"><p style="color:#aaa;font-size:.85rem">불러오는 중…</p></div>
+      </div>
+
+      <!-- Admin: 팝업 관리 -->
+      <div class="panel" id="panel-admin-popups">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:12px;">
+          <div class="panel-title" style="margin:0;">팝업 관리</div>
+          <button class="btn btn-crimson" style="font-size:.8rem;padding:7px 14px;" onclick="openPopupForm()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            새 팝업
+          </button>
+        </div>
+        <div class="panel-sub">홈페이지에 표시되는 팝업 배너를 등록하고 노출을 제어합니다.</div>
+        <div class="alert alert-ok" id="popupOk"></div>
+        <div class="alert alert-err" id="popupErr"></div>
+
+        <!-- 팝업 편집 폼 (인라인) -->
+        <div id="popupFormWrap" style="display:none;background:#fafafa;border:1px solid #e0e0e0;padding:22px;margin-bottom:20px;">
+          <div style="font-weight:600;font-size:.92rem;margin-bottom:16px;" id="popupFormTitle">새 팝업 등록</div>
+          <div class="form-group">
+            <label>팝업 제목 (관리용) *</label>
+            <input type="text" id="pTitle" class="form-group input" style="width:100%;max-width:100%;padding:9px 12px;border:1px solid #e0e0e0;font-family:inherit;font-size:.9rem;" placeholder="예: 2025 서울 설명회" />
+          </div>
+          <div class="form-group">
+            <label>팝업 이미지</label>
+            <div id="pImgZone" style="border:2px dashed #d0d0d0;padding:20px;text-align:center;cursor:pointer;background:#fff;transition:border-color .2s;" onclick="document.getElementById('pImgInput').click()">
+              <img id="pImgPreview" src="" alt="" style="display:none;max-width:100%;max-height:200px;margin:0 auto 8px;" />
+              <div id="pImgHint" style="color:#aaa;font-size:.82rem;">클릭하여 이미지 업로드 (JPG/PNG, 10MB 이하)</div>
+            </div>
+            <input type="file" id="pImgInput" accept="image/*" style="display:none;" onchange="uploadPopupImg(this)" />
+            <input type="hidden" id="pImgKey" value="" />
+          </div>
+          <div class="form-group">
+            <label>클릭 시 이동 URL (선택)</label>
+            <input type="text" id="pLinkUrl" style="width:100%;max-width:100%;padding:9px 12px;border:1px solid #e0e0e0;font-family:inherit;font-size:.9rem;" placeholder="https://..." />
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label>노출 시작일 (선택)</label>
+              <input type="date" id="pStartDate" style="width:100%;padding:8px 10px;border:1px solid #e0e0e0;font-family:inherit;font-size:.88rem;" />
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label>노출 종료일 (선택)</label>
+              <input type="date" id="pEndDate" style="width:100%;padding:8px 10px;border:1px solid #e0e0e0;font-family:inherit;font-size:.88rem;" />
+            </div>
+          </div>
+          <div class="checkbox-row" style="margin-bottom:20px;">
+            <input type="checkbox" id="pActive" />
+            <label for="pActive">즉시 활성화 (홈페이지에 노출)</label>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-crimson" onclick="savePopup()" id="btnSavePopup">저장</button>
+            <button class="btn" onclick="closePopupForm()">취소</button>
+          </div>
+          <input type="hidden" id="pEditId" value="" />
+        </div>
+
+        <div id="adminPopupsList"><p style="color:#aaa;font-size:.85rem">불러오는 중…</p></div>
+      </div>
+
     </div>
   </div>
 
@@ -468,6 +550,8 @@
       if (name === 'admin-contacts') loadAllContacts();
       if (name === 'admin-ebooks')   loadAdminEbooks();
       if (name === 'admin-users')    loadAdminUsers();
+      if (name === 'admin-posts')    loadAdminPosts();
+      if (name === 'admin-popups')   loadAdminPopups();
     }
 
     // 초기 로드
@@ -840,6 +924,202 @@
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeEbookAccessModal();
     });
+
+    /* ── 글 관리 ── */
+    const CAT_LABEL = { news:'소식', event:'이벤트', knowledge:'지식정보' };
+
+    async function loadAdminPosts() {
+      const el = document.getElementById('adminPostsList');
+      try {
+        const res  = await BDS_AUTH.authFetch('/api/posts?all=1&limit=50');
+        if (!res.ok) throw new Error((await res.json()).error || '불러오기 실패');
+        const { posts } = await res.json();
+        if (!posts.length) {
+          el.innerHTML = `<div class="empty"><div class="empty-icon">📝</div><p>게시물이 없습니다.<br>새 글 쓰기 버튼을 눌러 첫 글을 작성해보세요.</p></div>`;
+          return;
+        }
+        el.innerHTML = posts.map(p => `
+          <div class="sub-row" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:0;">
+              <div class="sub-name">${esc(p.title)}
+                ${!p.is_published ? '<span style="font-size:.68rem;padding:2px 7px;background:#fff3e0;color:#e65100;margin-left:6px;font-weight:600;">초안</span>' : ''}
+              </div>
+              <div style="font-size:.78rem;color:var(--gray);margin-top:4px;display:flex;gap:12px;flex-wrap:wrap;">
+                <span>${CAT_LABEL[p.category] || p.category}</span>
+                <span>${(p.created_at||'').slice(0,10)}</span>
+                <span>✍️ ${esc(p.author_name)}</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:6px;flex-shrink:0;">
+              <a href="post.html?id=${esc(p.id)}" class="btn" style="font-size:.78rem;padding:5px 10px;text-decoration:none;" target="_blank">보기</a>
+              <a href="editor.html?id=${esc(p.id)}" class="btn" style="font-size:.78rem;padding:5px 10px;text-decoration:none;">편집</a>
+              <button class="btn" style="font-size:.78rem;padding:5px 10px;color:#c62828;" onclick="deletePost('${esc(p.id)}', this)">삭제</button>
+            </div>
+          </div>
+        `).join('');
+      } catch (e) {
+        el.innerHTML = `<p style="color:#c62828">불러오기 실패: ${esc(e.message)}</p>`;
+      }
+    }
+
+    async function deletePost(id, btn) {
+      if (!confirm('이 게시물을 삭제하시겠습니까?')) return;
+      btn.disabled = true;
+      const res = await BDS_AUTH.authFetch(`/api/posts/${id}`, { method: 'DELETE' });
+      if (res.ok) { delete loaded['admin-posts']; loadAdminPosts(); }
+      else { alert('삭제 실패'); btn.disabled = false; }
+    }
+
+    /* ── 팝업 관리 ── */
+    async function loadAdminPopups() {
+      const el = document.getElementById('adminPopupsList');
+      try {
+        const res  = await BDS_AUTH.authFetch('/api/popups?all=1');
+        if (!res.ok) throw new Error((await res.json()).error || '불러오기 실패');
+        const { popups } = await res.json();
+        if (!popups.length) {
+          el.innerHTML = `<div class="empty"><div class="empty-icon">🖼️</div><p>등록된 팝업이 없습니다.</p></div>`;
+          return;
+        }
+        el.innerHTML = popups.map(p => `
+          <div class="sub-row" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            ${p.image_key ? `<img src="/api/media/${esc(p.image_key)}" style="width:60px;height:60px;object-fit:cover;border-radius:4px;flex-shrink:0;" />` : ''}
+            <div style="flex:1;min-width:0;">
+              <div class="sub-name">${esc(p.title)}</div>
+              <div style="font-size:.78rem;color:var(--gray);margin-top:4px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                <span style="font-size:.7rem;padding:2px 8px;font-weight:600;${p.is_active ? 'background:#e8f5e9;color:#2e7d32;' : 'background:#f5f5f5;color:#888;'}">
+                  ${p.is_active ? '● 활성' : '○ 비활성'}
+                </span>
+                ${p.start_date ? `<span>시작: ${p.start_date}</span>` : ''}
+                ${p.end_date   ? `<span>종료: ${p.end_date}</span>`   : ''}
+              </div>
+            </div>
+            <div style="display:flex;gap:6px;flex-shrink:0;align-items:center;">
+              <button class="btn" style="font-size:.78rem;padding:5px 10px;${p.is_active?'color:#e65100;':'color:#2e7d32;'}" onclick="togglePopup('${esc(p.id)}', ${p.is_active}, this)">
+                ${p.is_active ? '비활성화' : '활성화'}
+              </button>
+              <button class="btn" style="font-size:.78rem;padding:5px 10px;" onclick="editPopup(${JSON.stringify(p).replace(/"/g,'&quot;')})">편집</button>
+              <button class="btn" style="font-size:.78rem;padding:5px 10px;color:#c62828;" onclick="delPopup('${esc(p.id)}', this)">삭제</button>
+            </div>
+          </div>
+        `).join('');
+      } catch (e) {
+        el.innerHTML = `<p style="color:#c62828">불러오기 실패: ${esc(e.message)}</p>`;
+      }
+    }
+
+    async function togglePopup(id, current, btn) {
+      btn.disabled = true;
+      const res = await BDS_AUTH.authFetch(`/api/popups/${id}`, {
+        method: 'PATCH', body: { is_active: current ? 0 : 1 }
+      });
+      if (res.ok) { delete loaded['admin-popups']; loadAdminPopups(); }
+      else { alert('변경 실패'); btn.disabled = false; }
+    }
+
+    async function delPopup(id, btn) {
+      if (!confirm('이 팝업을 삭제하시겠습니까?')) return;
+      btn.disabled = true;
+      const res = await BDS_AUTH.authFetch(`/api/popups/${id}`, { method: 'DELETE' });
+      if (res.ok) { delete loaded['admin-popups']; loadAdminPopups(); }
+      else { alert('삭제 실패'); btn.disabled = false; }
+    }
+
+    function openPopupForm() {
+      document.getElementById('pEditId').value    = '';
+      document.getElementById('pTitle').value     = '';
+      document.getElementById('pLinkUrl').value   = '';
+      document.getElementById('pStartDate').value = '';
+      document.getElementById('pEndDate').value   = '';
+      document.getElementById('pActive').checked  = true;
+      document.getElementById('pImgKey').value    = '';
+      document.getElementById('pImgPreview').style.display = 'none';
+      document.getElementById('pImgHint').style.display    = 'block';
+      document.getElementById('popupFormTitle').textContent = '새 팝업 등록';
+      document.getElementById('popupFormWrap').style.display = '';
+    }
+
+    function editPopup(p) {
+      document.getElementById('pEditId').value    = p.id;
+      document.getElementById('pTitle').value     = p.title || '';
+      document.getElementById('pLinkUrl').value   = p.link_url || '';
+      document.getElementById('pStartDate').value = p.start_date || '';
+      document.getElementById('pEndDate').value   = p.end_date || '';
+      document.getElementById('pActive').checked  = !!p.is_active;
+      document.getElementById('pImgKey').value    = p.image_key || '';
+      if (p.image_key) {
+        document.getElementById('pImgPreview').src = `/api/media/${p.image_key}`;
+        document.getElementById('pImgPreview').style.display = 'block';
+        document.getElementById('pImgHint').style.display    = 'none';
+      } else {
+        document.getElementById('pImgPreview').style.display = 'none';
+        document.getElementById('pImgHint').style.display    = 'block';
+      }
+      document.getElementById('popupFormTitle').textContent = '팝업 편집';
+      document.getElementById('popupFormWrap').style.display = '';
+      document.getElementById('popupFormWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function closePopupForm() {
+      document.getElementById('popupFormWrap').style.display = 'none';
+    }
+
+    async function uploadPopupImg(input) {
+      const file = input.files[0];
+      if (!file) return;
+      input.value = '';
+      const form = new FormData();
+      form.append('file', file);
+      form.append('prefix', 'popups');
+      const res = await fetch('/api/media/upload', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${BDS_AUTH.getToken()}` },
+        body: form,
+      });
+      if (!res.ok) { alert('이미지 업로드 실패'); return; }
+      const { key } = await res.json();
+      document.getElementById('pImgKey').value = key;
+      document.getElementById('pImgPreview').src = `/api/media/${key}`;
+      document.getElementById('pImgPreview').style.display = 'block';
+      document.getElementById('pImgHint').style.display    = 'none';
+    }
+
+    async function savePopup() {
+      const btn   = document.getElementById('btnSavePopup');
+      const title = document.getElementById('pTitle').value.trim();
+      if (!title) { alert('제목을 입력해주세요.'); return; }
+
+      btn.disabled = true;
+      const ok  = document.getElementById('popupOk');
+      const err = document.getElementById('popupErr');
+      ok.classList.remove('show'); err.classList.remove('show');
+
+      const body = {
+        title,
+        image_key:  document.getElementById('pImgKey').value || null,
+        link_url:   document.getElementById('pLinkUrl').value.trim() || null,
+        is_active:  document.getElementById('pActive').checked ? 1 : 0,
+        start_date: document.getElementById('pStartDate').value || null,
+        end_date:   document.getElementById('pEndDate').value || null,
+      };
+      const editId = document.getElementById('pEditId').value;
+      try {
+        const res = editId
+          ? await BDS_AUTH.authFetch(`/api/popups/${editId}`, { method: 'PATCH', body })
+          : await BDS_AUTH.authFetch('/api/popups', { method: 'POST', body });
+        if (!res.ok) throw new Error((await res.json()).error || '저장 실패');
+        ok.textContent = editId ? '팝업이 수정되었습니다.' : '팝업이 등록되었습니다.';
+        ok.classList.add('show');
+        closePopupForm();
+        delete loaded['admin-popups'];
+        loadAdminPopups();
+      } catch (e) {
+        err.textContent = e.message;
+        err.classList.add('show');
+      } finally {
+        btn.disabled = false;
+      }
+    }
 
     /* ── 로그아웃 ── */
     document.getElementById('logoutBtn').addEventListener('click', async () => {

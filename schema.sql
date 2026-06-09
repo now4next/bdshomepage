@@ -87,5 +87,34 @@ CREATE INDEX IF NOT EXISTS idx_ebook_views_user ON ebook_views(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_ebook_access_user ON user_ebook_access(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_ebook_access_ebook ON user_ebook_access(ebook_id);
 
+-- 팝업 (홈페이지 팝업 배너)
+CREATE TABLE IF NOT EXISTS popups (
+  id          TEXT PRIMARY KEY,
+  title       TEXT NOT NULL,
+  image_key   TEXT,                  -- R2: popups/{id}/image.jpg
+  link_url    TEXT,                  -- 클릭 시 이동 URL (optional)
+  is_active   INTEGER NOT NULL DEFAULT 0,
+  start_date  TEXT,                  -- YYYY-MM-DD (optional, inclusive)
+  end_date    TEXT,                  -- YYYY-MM-DD (optional, inclusive)
+  created_at  TEXT DEFAULT (datetime('now'))
+);
+
+-- 블로그 게시물
+CREATE TABLE IF NOT EXISTS posts (
+  id            TEXT PRIMARY KEY,
+  title         TEXT NOT NULL,
+  content       TEXT NOT NULL DEFAULT '',   -- HTML
+  excerpt       TEXT,                        -- 목록 미리보기
+  thumbnail_key TEXT,                        -- R2: posts/{id}/thumbnail.jpg
+  category      TEXT NOT NULL DEFAULT 'news', -- news | event | knowledge
+  author_name   TEXT NOT NULL DEFAULT 'BDS',
+  is_published  INTEGER NOT NULL DEFAULT 0,
+  created_at    TEXT DEFAULT (datetime('now')),
+  updated_at    TEXT DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_posts_published  ON posts(is_published, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_posts_category   ON posts(category, is_published);
+
 -- 초기 관리자 계정은 첫 회원가입 후 아래 SQL로 role 변경:
 -- UPDATE users SET role = 'admin' WHERE email = 'admin@bdskorea.org';

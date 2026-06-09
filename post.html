@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>게시물 — BDS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="js/auth-client.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --crimson: #A51C30; --black: #1a1a1a; --gray-50: #f9f9f9; --white: #fff; }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--black); }
+
+    /* 헤더 */
+    .header { background: var(--white); border-bottom: 1px solid #e0e0e0; position: sticky; top:0; z-index:100; }
+    .header-inner { max-width: 1400px; margin: 0 auto; padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; }
+    .header-logo { display: flex; flex-direction: column; gap: 2px; text-decoration: none; }
+    .header-logo-main { font-family: 'Merriweather', serif; font-size: 1.8rem; font-weight: 700; color: var(--crimson); line-height:1; }
+    .header-logo-sub  { font-size: .7rem; color: var(--black); font-weight: 400; letter-spacing: .5px; }
+    .header-nav { display: flex; align-items: center; gap: 8px; }
+    .header-nav a { color: var(--black); text-decoration: none; font-size: .88rem; padding: 7px 14px; border: 1px solid #e0e0e0; transition: all .2s; }
+    .header-nav a:hover { background: var(--gray-50); border-color: var(--black); }
+    .btn-edit { background: var(--crimson); color: var(--white); border: 1px solid var(--crimson); padding: 7px 14px; font-size: .85rem; font-weight: 600; cursor: pointer; font-family: inherit; text-decoration: none; }
+    .btn-edit:hover { background: #8a1828; }
+
+    /* 히어로 썸네일 */
+    .post-hero { width: 100%; max-height: 480px; overflow: hidden; background: #1a1a1a; display: none; }
+    .post-hero img { width: 100%; max-height: 480px; object-fit: cover; display: block; }
+
+    /* 본문 래퍼 */
+    .post-wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 100px; }
+
+    /* 메타 */
+    .post-back { display: inline-flex; align-items: center; gap: 6px; color: #888; font-size: .82rem; text-decoration: none; margin-bottom: 28px; transition: color .2s; }
+    .post-back:hover { color: var(--black); }
+    .post-cat  { font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--crimson); margin-bottom: 12px; }
+    .post-title { font-family: 'Merriweather', serif; font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 900; line-height: 1.3; margin-bottom: 18px; word-break: keep-all; }
+    .post-meta { display: flex; align-items: center; gap: 16px; font-size: .82rem; color: #888; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #eee; flex-wrap: wrap; }
+    .draft-banner { background: #fff3e0; color: #e65100; font-size: .82rem; font-weight: 600; padding: 10px 16px; border-left: 3px solid #e65100; margin-bottom: 28px; }
+
+    /* 콘텐츠 렌더링 */
+    .post-content { line-height: 1.85; font-size: 1rem; color: #333; }
+    .post-content h1 { font-family: 'Merriweather', serif; font-size: 1.7rem; margin: 2.2em 0 .8em; }
+    .post-content h2 { font-family: 'Merriweather', serif; font-size: 1.4rem; margin: 2em 0 .7em; padding-bottom: 8px; border-bottom: 2px solid #f0f0f0; }
+    .post-content h3 { font-family: 'Merriweather', serif; font-size: 1.15rem; margin: 1.6em 0 .5em; }
+    .post-content p  { margin-bottom: 1.4em; }
+    .post-content ul, .post-content ol { margin: 1em 0 1.4em 1.8em; }
+    .post-content li { margin-bottom: .5em; }
+    .post-content blockquote { border-left: 4px solid var(--crimson); padding: .8em 1.2em; margin: 1.5em 0; background: #fafafa; font-style: italic; color: #555; }
+    .post-content img { max-width: 100%; border-radius: 4px; margin: 1.5em 0; display: block; }
+    .post-content a { color: var(--crimson); text-decoration: underline; }
+    .post-content strong { font-weight: 700; }
+    .post-content em { font-style: italic; }
+    .post-content hr { border: none; border-top: 1px solid #eee; margin: 2em 0; }
+    .post-content pre { background: #f5f5f5; padding: 1em 1.2em; border-radius: 4px; overflow-x: auto; font-family: monospace; margin: 1.5em 0; }
+    .post-content table { width: 100%; border-collapse: collapse; margin: 1.5em 0; font-size: .9rem; }
+    .post-content th { background: #f0f0f0; padding: 8px 12px; text-align: left; font-weight: 600; border: 1px solid #ddd; }
+    .post-content td { padding: 8px 12px; border: 1px solid #ddd; }
+
+    /* 하단 네비 */
+    .post-footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .btn-back-lg { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #e0e0e0; padding: 10px 18px; font-size: .85rem; color: var(--black); text-decoration: none; transition: all .2s; }
+    .btn-back-lg:hover { background: var(--gray-50); border-color: var(--black); }
+    .loading { display: flex; align-items: center; justify-content: center; padding: 100px 20px; color: #888; gap: 12px; }
+    .loading-spinner { width: 28px; height: 28px; border: 2px solid #e0e0e0; border-top-color: var(--crimson); border-radius: 50%; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 600px) {
+      .header-inner { padding: 14px 20px; }
+      .header-logo-main { font-size: 1.4rem; }
+      .post-wrap { padding: 32px 16px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="header-logo">
+      <div class="header-logo-main">BDS</div>
+      <div class="header-logo-sub">Beyond Dream Scholars</div>
+    </a>
+    <nav class="header-nav">
+      <a href="index.html">홈</a>
+      <a href="blog.html" class="active">소식</a>
+      <a href="library.html">자료실</a>
+      <a href="dashboard.html" id="headerDash" style="display:none;">포털</a>
+      <a href="#" class="btn-edit" id="btnEdit" style="display:none;">편집</a>
+    </nav>
+  </div>
+</header>
+
+<div class="post-hero" id="postHero">
+  <img id="heroImg" src="" alt="" />
+</div>
+
+<div id="postArea">
+  <div class="loading">
+    <div class="loading-spinner"></div>
+    <span>불러오는 중...</span>
+  </div>
+</div>
+
+<script>
+  const CAT_LABEL = { news:'소식', event:'이벤트', knowledge:'지식정보' };
+  const id = new URLSearchParams(location.search).get('id');
+
+  if (!id) { document.getElementById('postArea').innerHTML = '<p style="text-align:center;padding:80px;color:#888;">잘못된 요청입니다.</p>'; }
+  else loadPost();
+
+  const user = BDS_AUTH.getUser();
+  if (user) document.getElementById('headerDash').style.display = '';
+
+  async function loadPost() {
+    try {
+      const headers = {};
+      const token = BDS_AUTH.getToken();
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+
+      const res = await fetch(`/api/posts/${id}`, { headers });
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}));
+        throw new Error(d.error || '게시물을 불러올 수 없습니다.');
+      }
+      const post = await res.json();
+
+      // 제목 업데이트
+      document.title = `${post.title} — BDS`;
+
+      // 관리자 편집 버튼
+      if (user?.role === 'admin') {
+        const btn = document.getElementById('btnEdit');
+        btn.style.display = '';
+        btn.href = `editor.html?id=${id}`;
+      }
+
+      // 썸네일 히어로
+      if (post.thumbnail_key) {
+        document.getElementById('heroImg').src = `/api/media/${post.thumbnail_key}`;
+        document.getElementById('heroImg').alt = post.title;
+        document.getElementById('postHero').style.display = 'block';
+      }
+
+      // 본문 렌더
+      document.getElementById('postArea').innerHTML = `
+        <div class="post-wrap">
+          <a href="blog.html" class="post-back">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+            소식 목록
+          </a>
+          ${!post.is_published ? '<div class="draft-banner">⚠️ 이 게시물은 초안입니다. (관리자에게만 표시)</div>' : ''}
+          <div class="post-cat">${CAT_LABEL[post.category] || post.category}</div>
+          <h1 class="post-title">${esc(post.title)}</h1>
+          <div class="post-meta">
+            <span>✍️ ${esc(post.author_name)}</span>
+            <span>📅 ${post.created_at.slice(0,10)}</span>
+            ${post.updated_at !== post.created_at ? `<span>수정: ${post.updated_at.slice(0,10)}</span>` : ''}
+          </div>
+          <div class="post-content">${post.content || '<p style="color:#aaa">내용이 없습니다.</p>'}</div>
+          <div class="post-footer">
+            <a href="blog.html" class="btn-back-lg">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+              목록으로
+            </a>
+            ${user?.role === 'admin' ? `<a href="editor.html?id=${id}" class="btn-edit">편집하기</a>` : ''}
+          </div>
+        </div>`;
+    } catch (e) {
+      document.getElementById('postArea').innerHTML =
+        `<div style="text-align:center;padding:80px 24px;color:#888;">
+          <div style="font-size:2rem;margin-bottom:12px">🔒</div>
+          <p style="margin-bottom:16px">${esc(e.message)}</p>
+          <a href="blog.html" style="color:#A51C30;">← 목록으로 돌아가기</a>
+         </div>`;
+    }
+  }
+
+  function esc(s) {
+    return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+</script>
+</body>
+</html>

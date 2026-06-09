@@ -11,6 +11,7 @@ window.BDS_LANGS = {
   en: {
     // Nav
     'nav.library': 'Library',
+    'nav.blog': 'News',
 
     // Archive section (index.html)
     'archive.eyebrow': 'Resources',
@@ -421,6 +422,7 @@ window.BDS_LANGS = {
   ko: {
     // Nav
     'nav.library': '자료실',
+    'nav.blog': '소식',
 
     // Archive section
     'archive.eyebrow': '아카이브',
@@ -816,6 +818,7 @@ window.BDS_LANGS = {
   ja: {
     // Nav
     'nav.library': 'ライブラリ',
+    'nav.blog': 'ニュース',
 
     // Archive section
     'archive.eyebrow': 'リソース',
@@ -1210,6 +1213,7 @@ window.BDS_LANGS = {
   de: {
     // Nav
     'nav.library': 'Bibliothek',
+    'nav.blog': 'Neuigkeiten',
 
     // Archive section
     'archive.eyebrow': 'Ressourcen',
