@@ -1,4 +1,4 @@
 # Cloudflare Cache Bust
 timestamp=$(date +%s)
-version=2.0.2
-last_update=2026-05-10
+version=2.0.3
+last_update=2026-06-21
