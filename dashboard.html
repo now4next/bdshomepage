@@ -602,7 +602,9 @@
       const el = document.getElementById('allContactsList');
       try {
         const res = await BDS_AUTH.authFetch('/api/contacts');
-        const { submissions } = await res.json();
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+        const submissions = Array.isArray(data.submissions) ? data.submissions : [];
         if (!submissions.length) {
           el.innerHTML = '<div class="empty"><div class="empty-icon">📭</div><p>접수된 문의가 없습니다.</p></div>';
           return;
@@ -621,12 +623,13 @@
               ${s.phone ? `<span>📞 ${esc(s.phone)}</span>` : ''}
               ${s.country ? `<span>🌏 ${esc(s.country)}</span>` : ''}
               ${s.grade_level ? `<span>📚 ${esc(s.grade_level)}</span>` : ''}
+              ${s.contact_method ? `<span>💬 ${esc(s.contact_method)}</span>` : ''}
             </div>
             ${s.message ? `<div class="sub-message">${esc(s.message)}</div>` : ''}
           </div>
         `).join('');
-      } catch {
-        el.innerHTML = '<p style="color:#c62828">불러오기 실패</p>';
+      } catch (e) {
+        el.innerHTML = `<p style="color:#c62828">불러오기 실패: ${esc(e.message)}</p>`;
       }
     }
 
