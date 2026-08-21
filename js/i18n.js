@@ -39,11 +39,35 @@
     return (window.BDS_LANGS && window.BDS_LANGS[lang]) || {};
   }
 
-  function t(key, fallback) {
+  /**
+   * Resolve a key, or null when it exists in no dictionary.
+   *
+   * apply() uses this rather than t() on purpose: if a page ships a key that the
+   * cached/stale langs.js does not know yet, we must leave the authored markup
+   * alone. Writing the key name into the DOM would surface raw strings like
+   * "acad.curriculum.math.title" to visitors.
+   */
+  function lookup(key) {
     var d = dict(current);
     if (d[key] != null) return d[key];
     var en = dict('en');
     if (en[key] != null) return en[key];
+    reportMissing(key);
+    return null;
+  }
+
+  var missingSeen = {};
+  function reportMissing(key) {
+    if (missingSeen[key]) return;
+    missingSeen[key] = true;
+    if (window.console && console.warn) {
+      console.warn('[BDS i18n] missing key: ' + key + ' — falling back to authored text');
+    }
+  }
+
+  function t(key, fallback) {
+    var val = lookup(key);
+    if (val != null) return val;
     return fallback != null ? fallback : key;
   }
 
@@ -54,7 +78,7 @@
     for (var i = 0; i < textEls.length; i++) {
       var el = textEls[i];
       var key = el.getAttribute('data-i18n');
-      var val = t(key, null);
+      var val = lookup(key);
       if (val != null) el.textContent = val;
     }
 
@@ -62,7 +86,7 @@
     for (var j = 0; j < htmlEls.length; j++) {
       var hEl = htmlEls[j];
       var hKey = hEl.getAttribute('data-i18n-html');
-      var hVal = t(hKey, null);
+      var hVal = lookup(hKey);
       if (hVal != null) hEl.innerHTML = hVal;
     }
 
@@ -79,7 +103,7 @@
         var attr = pair.slice(0, colon).trim();
         var aKey = pair.slice(colon + 1).trim();
         if (!attr || !aKey) continue;
-        var aVal = t(aKey, null);
+        var aVal = lookup(aKey);
         if (aVal != null) aEl.setAttribute(attr, aVal);
       }
     }
