@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>자료실 — BDS Beyond Dream Scholars</title>
+  <title data-i18n="library.title">Archive — BDS Beyond Dream Scholars</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -403,7 +403,7 @@
   <div class="hero-inner">
     <p class="hero-eyebrow">Archive</p>
     <h1>BDS Library</h1>
-    <p>주간 뉴스레터, 국내/해외 스페셜 활동, 체험학습, Year Book 등 주요 자료를 전자책으로 열람하세요.</p>
+    <p data-i18n="library.hero.desc">Weekly newsletters, domestic &amp; international special activities, field trips, Year Books, and more — available as interactive eBooks.</p>
   </div>
 </section>
 
@@ -411,11 +411,11 @@
 <main class="main">
   <div class="toolbar">
     <div class="toolbar-title">
-      전체 자료 <span id="totalCount"></span>
+      <span data-i18n="library.toolbar.all">All Resources</span> <span id="totalCount"></span>
     </div>
     <button class="btn-upload" id="btnUpload" style="display:none;" onclick="openUploadModal()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      새 자료 업로드
+      <span data-i18n="library.upload_btn">Upload New Resource</span>
     </button>
   </div>
 
@@ -433,11 +433,11 @@
     <div class="modal-icon">
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#A51C30" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
     </div>
-    <h3>열람 권한이 필요합니다</h3>
-    <p>이 자료는 회원 로그인 후 열람할 수 있습니다.<br>계정이 없으신 경우 회원가입을 진행해주세요.</p>
+    <h3 data-i18n="library.lock.title">Login Required</h3>
+    <p data-i18n-html="library.lock.desc">Please log in to access this resource. No account yet? Sign up to get started.</p>
     <div class="modal-actions">
-      <a href="auth.html?next=library.html" class="btn-primary" id="lockModalLoginBtn">로그인하기</a>
-      <button class="btn-secondary" onclick="closeModal()">닫기</button>
+      <a href="auth.html?next=library.html" class="btn-primary" id="lockModalLoginBtn" data-i18n="library.lock.login">Log In</a>
+      <button class="btn-secondary" onclick="closeModal()" data-i18n="library.lock.close">Close</button>
     </div>
   </div>
 </div>
@@ -491,6 +491,11 @@
 </div>
 
 <script>
+  function t(key, fallback) {
+    var fn = window.BDS_I18N && window.BDS_I18N.t;
+    return fn ? fn(key, fallback) : (fallback !== undefined ? fallback : key);
+  }
+
   /* ── 초기화 ── */
   let ebooks = [];
   let isAdmin = false;
@@ -514,7 +519,7 @@
     } catch {
       document.getElementById('grid').innerHTML = `
         <div class="empty" style="grid-column:1/-1;">
-          <p>자료를 불러오는 중 오류가 발생했습니다.</p>
+          <p>${t('library.load_error', 'Failed to load resources.')}</p>
         </div>`;
     }
   }
@@ -528,8 +533,8 @@
       grid.innerHTML = `
         <div class="empty" style="grid-column:1/-1;">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-          <h3>등록된 자료가 없습니다</h3>
-          <p>관리자가 자료를 업로드하면 이곳에 표시됩니다.</p>
+          <h3>${t('library.empty.title', 'No Resources Yet')}</h3>
+          <p>${t('library.empty.desc', 'Resources will appear here once uploaded by an administrator.')}</p>
         </div>`;
       return;
     }
@@ -549,13 +554,13 @@
     const overlayHtml = book.canAccess
       ? `<div class="card-open-overlay"><span class="card-open-label">
            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
-           열람하기
+           ${t('library.card.read', 'Read Now')}
          </span></div>`
       : `<div class="card-lock">
            <div class="card-lock-icon">
              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
            </div>
-           <span class="card-lock-text">열람 권한 필요</span>
+           <span class="card-lock-text">${t('library.card.locked', 'Login Required')}</span>
          </div>`;
 
     const adminEdit = isAdmin
@@ -576,7 +581,7 @@
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
               ${book.total_pages > 0 ? book.total_pages + 'p' : '—'}
             </span>
-            <span class="card-badge member">회원</span>
+            <span class="card-badge member">${t('library.member_badge', 'Member')}</span>
           </div>
         </div>
       </div>`;
@@ -834,5 +839,7 @@
       'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
   }
 </script>
+<script src="js/langs.js"></script>
+<script src="js/i18n.js"></script>
 </body>
 </html>

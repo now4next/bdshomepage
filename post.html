@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -75,15 +75,20 @@
 <div id="postArea">
   <div class="loading">
     <div class="loading-spinner"></div>
-    <span>불러오는 중...</span>
+    <span data-i18n="post.loading">Loading...</span>
   </div>
 </div>
 
 <script>
-  const CAT_LABEL = { news:'소식', event:'이벤트', knowledge:'지식정보' };
+  function t(key, fallback) {
+    var fn = window.BDS_I18N && window.BDS_I18N.t;
+    return fn ? fn(key, fallback) : (fallback !== undefined ? fallback : key);
+  }
+  function getCatLabel(cat) { return t('blog.cat.' + cat, cat); }
+
   const id = new URLSearchParams(location.search).get('id');
 
-  if (!id) { document.getElementById('postArea').innerHTML = '<p style="text-align:center;padding:80px;color:#888;">잘못된 요청입니다.</p>'; }
+  if (!id) { document.getElementById('postArea').innerHTML = `<p style="text-align:center;padding:80px;color:#888;">${t('post.invalid', 'Invalid request.')}</p>`; }
   else loadPost();
 
   const user = BDS_AUTH.getUser();
@@ -108,7 +113,7 @@
       if (user?.role === 'admin') {
         const editLink = document.createElement('a');
         editLink.href = `editor.html?id=${id}`;
-        editLink.textContent = '편집';
+        editLink.textContent = t('post.edit', 'Edit');
         editLink.style.cssText = 'display:inline-flex;align-items:center;border:1px solid #A51C30;color:#A51C30;padding:6px 14px;font-size:.82rem;font-weight:600;text-decoration:none;font-family:Inter,sans-serif;';
         const postMeta = document.querySelector('.post-meta');
         if (postMeta) postMeta.appendChild(editLink);
@@ -126,23 +131,23 @@
         <div class="post-wrap">
           <a href="blog.html" class="post-back">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-            소식 목록
+            ${t('post.back_to_list', 'News')}
           </a>
-          ${!post.is_published ? '<div class="draft-banner">⚠️ 이 게시물은 초안입니다. (관리자에게만 표시)</div>' : ''}
-          <div class="post-cat">${CAT_LABEL[post.category] || post.category}</div>
+          ${!post.is_published ? `<div class="draft-banner">⚠️ ${t('post.draft_notice', 'This post is a draft. (Visible to admins only)')}</div>` : ''}
+          <div class="post-cat">${getCatLabel(post.category)}</div>
           <h1 class="post-title">${esc(post.title)}</h1>
           <div class="post-meta">
             <span>✍️ ${esc(post.author_name)}</span>
             <span>📅 ${post.created_at.slice(0,10)}</span>
-            ${post.updated_at !== post.created_at ? `<span>수정: ${post.updated_at.slice(0,10)}</span>` : ''}
+            ${post.updated_at !== post.created_at ? `<span>${t('post.updated', 'Updated:')} ${post.updated_at.slice(0,10)}</span>` : ''}
           </div>
-          <div class="post-content">${post.content || '<p style="color:#aaa">내용이 없습니다.</p>'}</div>
+          <div class="post-content">${post.content || `<p style="color:#aaa">${t('post.no_content', 'No content.')}</p>`}</div>
           <div class="post-footer">
             <a href="blog.html" class="btn-back-lg">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-              목록으로
+              ${t('post.back_btn', 'Back to List')}
             </a>
-            ${user?.role === 'admin' ? `<a href="editor.html?id=${id}" class="btn-edit">편집하기</a>` : ''}
+            ${user?.role === 'admin' ? `<a href="editor.html?id=${id}" class="btn-edit">${t('post.edit', 'Edit')}</a>` : ''}
           </div>
         </div>`;
     } catch (e) {
@@ -150,7 +155,7 @@
         `<div style="text-align:center;padding:80px 24px;color:#888;">
           <div style="font-size:2rem;margin-bottom:12px">🔒</div>
           <p style="margin-bottom:16px">${esc(e.message)}</p>
-          <a href="blog.html" style="color:#A51C30;">← 목록으로 돌아가기</a>
+          <a href="blog.html" style="color:#A51C30;">${t('post.error_back', '← Back to list')}</a>
          </div>`;
     }
   }
@@ -159,5 +164,7 @@
     return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 </script>
+<script src="js/langs.js"></script>
+<script src="js/i18n.js"></script>
 </body>
 </html>

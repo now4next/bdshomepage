@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>소식 — BDS Beyond Dream Scholars</title>
+  <title data-i18n="blog.title">News — BDS Beyond Dream Scholars</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -79,17 +79,17 @@
 <!-- 히어로 -->
 <section class="hero">
   <p class="hero-eyebrow">BDS News & Stories</p>
-  <h1>소식 · 이벤트 · 지식</h1>
-  <p>BDS의 최신 소식과 이벤트, 교육 정보를 전달합니다.</p>
+  <h1 data-i18n="blog.hero.title">News · Events · Knowledge</h1>
+  <p data-i18n="blog.hero.desc">The latest news, events, and educational content from BDS.</p>
 </section>
 
 <!-- 카테고리 필터 -->
 <div class="filter-bar">
   <div class="filter-inner">
-    <button class="filter-tab active" data-cat="">전체</button>
-    <button class="filter-tab" data-cat="news">소식</button>
-    <button class="filter-tab" data-cat="event">이벤트</button>
-    <button class="filter-tab" data-cat="knowledge">지식정보</button>
+    <button class="filter-tab active" data-cat="" data-i18n="blog.filter.all">All</button>
+    <button class="filter-tab" data-cat="news" data-i18n="blog.filter.news">News</button>
+    <button class="filter-tab" data-cat="event" data-i18n="blog.filter.event">Events</button>
+    <button class="filter-tab" data-cat="knowledge" data-i18n="blog.filter.knowledge">Knowledge</button>
   </div>
 </div>
 
@@ -108,7 +108,11 @@
 <style>@keyframes shimmer { to { background-position: -200% 0; } }</style>
 
 <script>
-  const CAT_LABEL = { news:'소식', event:'이벤트', knowledge:'지식정보' };
+  function t(key, fallback) {
+    var fn = window.BDS_I18N && window.BDS_I18N.t;
+    return fn ? fn(key, fallback) : (fallback !== undefined ? fallback : key);
+  }
+  function getCatLabel(cat) { return t('blog.cat.' + cat, cat); }
   const PAGE_SIZE = 9;
   let currentCat  = '';
   let currentPage = 1;
@@ -148,12 +152,12 @@
       totalPosts = total || 0;
 
       document.getElementById('resultCount').textContent =
-        `총 ${totalPosts}개의 게시물`;
+        t('blog.count', '{n} Posts').replace('{n}', totalPosts);
 
       if (!posts.length) {
         grid.innerHTML = `<div class="empty" style="grid-column:1/-1">
           <div class="empty-icon">📝</div>
-          <p>게시물이 없습니다.</p>
+          <p>${t('blog.empty', 'No posts found.')}</p>
         </div>`;
         renderPagination();
         return;
@@ -167,11 +171,11 @@
               : `<div class="card-thumb-placeholder">
                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                  </div>`}
-            <span class="cat-badge">${CAT_LABEL[post.category] || post.category}</span>
+            <span class="cat-badge">${getCatLabel(post.category)}</span>
           </div>
           <div class="card-body">
             <div class="card-date">${post.created_at.slice(0,10)}
-              ${isAdmin && !post.is_published ? '<span class="draft-badge">초안</span>' : ''}
+              ${isAdmin && !post.is_published ? `<span class="draft-badge">${t('blog.draft_badge', 'Draft')}</span>` : ''}
             </div>
             <div class="card-title">${esc(post.title)}</div>
             ${post.excerpt ? `<div class="card-excerpt">${esc(post.excerpt)}</div>` : ''}
@@ -181,7 +185,7 @@
 
       renderPagination();
     } catch {
-      grid.innerHTML = '<p style="color:#c62828;grid-column:1/-1">불러오기 실패</p>';
+      grid.innerHTML = `<p style="color:#c62828;grid-column:1/-1">${t('blog.load_error', 'Failed to load posts.')}</p>`;
     }
   }
 
@@ -206,5 +210,7 @@
 
   loadPosts();
 </script>
+<script src="js/langs.js"></script>
+<script src="js/i18n.js"></script>
 </body>
 </html>
