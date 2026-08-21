@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <script src="js/auth-client.js"></script>
+  <script src="js/header.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -33,68 +34,6 @@
       min-height: 100vh;
     }
 
-    /* ── 헤더 (ongdalsam 통일 스타일) ── */
-    .header {
-      background: var(--white);
-      border-bottom: 1px solid #e0e0e0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .header-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 20px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .header-logo {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      text-decoration: none;
-    }
-    .header-logo-main {
-      font-family: 'Merriweather', serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--crimson);
-      letter-spacing: -0.5px;
-      line-height: 1;
-    }
-    .header-logo-sub {
-      font-size: 0.72rem;
-      color: var(--black);
-      font-weight: 400;
-      letter-spacing: 0.5px;
-    }
-    .header-nav {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .header-nav a {
-      color: var(--black);
-      text-decoration: none;
-      font-size: 0.88rem;
-      padding: 8px 16px;
-      border: 1px solid #e0e0e0;
-      transition: all .2s;
-    }
-    .header-nav a:hover { background: var(--gray-50); border-color: var(--black); }
-    .header-nav a.active { color: var(--crimson); border-color: var(--crimson); font-weight: 600; }
-    .btn-logout {
-      background: none;
-      border: 1px solid #e0e0e0;
-      color: var(--black);
-      font-size: 0.88rem;
-      padding: 7px 16px;
-      cursor: pointer;
-      transition: all .2s;
-      font-family: inherit;
-    }
-    .btn-logout:hover { background: var(--gray-50); border-color: var(--black); }
 
     /* ── 히어로 (사진 배경) ── */
     .hero {
@@ -455,24 +394,9 @@
     }
   </style>
 </head>
-<body>
+<body data-bds-page="archive">
 
-<!-- 헤더 -->
-<header class="header">
-  <div class="header-inner">
-    <a href="index.html" class="header-logo">
-      <div class="header-logo-main">BDS</div>
-      <div class="header-logo-sub">Beyond Dream Scholars</div>
-    </a>
-    <nav class="header-nav">
-      <a href="index.html">홈</a>
-      <a href="library.html" class="active">자료실</a>
-      <a href="dashboard.html" id="headerDashLink" style="display:none;">포털</a>
-      <button class="btn-logout" id="headerLogout" style="display:none;">로그아웃</button>
-      <a href="auth.html" id="headerLogin">로그인</a>
-    </nav>
-  </div>
-</header>
+<header data-bds-nav></header>
 
 <!-- 히어로 -->
 <section class="hero">
@@ -572,19 +496,11 @@
   let isAdmin = false;
 
   async function init() {
-    // 헤더 auth 상태
+    // 헤더 auth 상태 — 통일 헤더(header.js)가 Log In/Portal 표시 처리
     if (BDS_AUTH.isLoggedIn()) {
-      document.getElementById('headerLogin').style.display = 'none';
-      document.getElementById('headerDashLink').style.display = '';
-      document.getElementById('headerLogout').style.display = '';
       isAdmin = BDS_AUTH.isAdmin();
       if (isAdmin) document.getElementById('btnUpload').style.display = '';
     }
-
-    document.getElementById('headerLogout').addEventListener('click', async () => {
-      await BDS_AUTH.logout();
-      location.reload();
-    });
 
     await loadEbooks();
   }

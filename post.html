@@ -8,22 +8,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <script src="js/auth-client.js"></script>
+  <script src="js/header.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root { --crimson: #A51C30; --black: #1a1a1a; --gray-50: #f9f9f9; --white: #fff; }
     body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--black); }
 
-    /* 헤더 */
-    .header { background: var(--white); border-bottom: 1px solid #e0e0e0; position: sticky; top:0; z-index:100; }
-    .header-inner { max-width: 1400px; margin: 0 auto; padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; }
-    .header-logo { display: flex; flex-direction: column; gap: 2px; text-decoration: none; }
-    .header-logo-main { font-family: 'Merriweather', serif; font-size: 1.8rem; font-weight: 700; color: var(--crimson); line-height:1; }
-    .header-logo-sub  { font-size: .7rem; color: var(--black); font-weight: 400; letter-spacing: .5px; }
-    .header-nav { display: flex; align-items: center; gap: 8px; }
-    .header-nav a { color: var(--black); text-decoration: none; font-size: .88rem; padding: 7px 14px; border: 1px solid #e0e0e0; transition: all .2s; }
-    .header-nav a:hover { background: var(--gray-50); border-color: var(--black); }
-    .btn-edit { background: var(--crimson); color: var(--white); border: 1px solid var(--crimson); padding: 7px 14px; font-size: .85rem; font-weight: 600; cursor: pointer; font-family: inherit; text-decoration: none; }
-    .btn-edit:hover { background: #8a1828; }
 
     /* 히어로 썸네일 */
     .post-hero { width: 100%; max-height: 480px; overflow: hidden; background: #1a1a1a; display: none; }
@@ -74,23 +64,9 @@
     }
   </style>
 </head>
-<body>
+<body data-bds-page="news">
 
-<header class="header">
-  <div class="header-inner">
-    <a href="index.html" class="header-logo">
-      <div class="header-logo-main">BDS</div>
-      <div class="header-logo-sub">Beyond Dream Scholars</div>
-    </a>
-    <nav class="header-nav">
-      <a href="index.html">홈</a>
-      <a href="blog.html" class="active">소식</a>
-      <a href="library.html">자료실</a>
-      <a href="dashboard.html" id="headerDash" style="display:none;">포털</a>
-      <a href="#" class="btn-edit" id="btnEdit" style="display:none;">편집</a>
-    </nav>
-  </div>
-</header>
+<header data-bds-nav></header>
 
 <div class="post-hero" id="postHero">
   <img id="heroImg" src="" alt="" />
@@ -111,7 +87,6 @@
   else loadPost();
 
   const user = BDS_AUTH.getUser();
-  if (user) document.getElementById('headerDash').style.display = '';
 
   async function loadPost() {
     try {
@@ -129,11 +104,14 @@
       // 제목 업데이트
       document.title = `${post.title} — BDS`;
 
-      // 관리자 편집 버튼
+      // 관리자 편집 버튼 — 편집은 Portal(dashboard)을 통해 접근
       if (user?.role === 'admin') {
-        const btn = document.getElementById('btnEdit');
-        btn.style.display = '';
-        btn.href = `editor.html?id=${id}`;
+        const editLink = document.createElement('a');
+        editLink.href = `editor.html?id=${id}`;
+        editLink.textContent = '편집';
+        editLink.style.cssText = 'display:inline-flex;align-items:center;border:1px solid #A51C30;color:#A51C30;padding:6px 14px;font-size:.82rem;font-weight:600;text-decoration:none;font-family:Inter,sans-serif;';
+        const postMeta = document.querySelector('.post-meta');
+        if (postMeta) postMeta.appendChild(editLink);
       }
 
       // 썸네일 히어로

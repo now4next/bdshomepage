@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="js/header.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -22,17 +23,6 @@
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--black); line-height: 1.6; }
 
-    /* ── HEADER ── */
-    .header { background: var(--white); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
-    .header-inner { max-width: 1400px; margin: 0 auto; padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; }
-    .header-logo { display: flex; flex-direction: column; gap: 2px; text-decoration: none; }
-    .header-logo-main { font-family: 'Merriweather', serif; font-size: 1.8rem; font-weight: 700; color: var(--crimson); line-height: 1; }
-    .header-logo-sub { font-size: .68rem; color: var(--black); letter-spacing: .5px; }
-    .header-nav { display: flex; align-items: center; gap: 6px; }
-    .header-nav a { color: var(--gray); text-decoration: none; font-size: .85rem; padding: 6px 14px; transition: color .2s; }
-    .header-nav a:hover, .header-nav a.active { color: var(--crimson); }
-    .header-nav .btn-contact { background: var(--crimson); color: var(--white); padding: 8px 18px; font-size: .83rem; font-weight: 600; border: none; cursor: pointer; font-family: inherit; transition: background .2s; text-decoration: none; }
-    .header-nav .btn-contact:hover { background: var(--crimson-dark); }
 
     /* ── HERO ── */
     .hero {
@@ -218,25 +208,9 @@
     }
   </style>
 </head>
-<body>
+<body data-bds-page="academics">
 
-<!-- HEADER -->
-<header class="header">
-  <div class="header-inner">
-    <a href="index.html" class="header-logo">
-      <div class="header-logo-main">BDS</div>
-      <div class="header-logo-sub">Beyond Dream Scholars</div>
-    </a>
-    <nav class="header-nav">
-      <a href="index.html">Home</a>
-      <a href="academics.html" class="active">Academics</a>
-      <a href="ongdalsam.html">Campus</a>
-      <a href="blog.html">News</a>
-      <a href="library.html">Archive</a>
-      <a href="index.html?popup=contact" class="btn-contact">Contact Us</a>
-    </nav>
-  </div>
-</header>
+<header data-bds-nav></header>
 
 <!-- HERO -->
 <section class="hero">
