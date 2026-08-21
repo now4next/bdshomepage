@@ -158,6 +158,9 @@
     .bell-table { width: 100%; border-collapse: collapse; margin-top: 0; font-size: .84rem; }
     .bell-table th, .bell-table td { border: 1px solid var(--border); padding: 12px 14px; text-align: center; vertical-align: middle; line-height: 1.35; }
     .bell-table th { background: #1a1a1a; color: var(--white); font-weight: 600; font-size: .78rem; letter-spacing: .06em; }
+    /* MS runs airier rows than ES/HS, so switching to this tab reads as a change.
+       Equal specificity to the base rule — keep this declared after it. */
+    .bell-table-ms th, .bell-table-ms td { padding: 16px 14px; line-height: 1.45; }
     .bell-time { font-size: .8rem; color: var(--gray); font-weight: 500; white-space: nowrap; }
     .bell-block { font-size: .8rem; color: var(--gray); }
     .bell-pink { background: #fce4ec; color: #880e4f; font-weight: 600; }
@@ -207,6 +210,7 @@
       .bell-tab { padding: 12px 16px; font-size: .8rem; }
       .bell-table { font-size: .75rem; }
       .bell-table th, .bell-table td { padding: 8px 6px; }
+      .bell-table-ms th, .bell-table-ms td { padding: 12px 6px; line-height: 1.45; }
       .holistic-table { font-size: .78rem; }
       /* accreditation timeline */
       /* Grid items default to min-width:auto and refuse to shrink below their
@@ -958,7 +962,7 @@
     <!-- MS Schedule -->
     <div class="bell-panel" id="tab-ms">
       <div style="overflow-x:auto;">
-        <table class="bell-table">
+        <table class="bell-table bell-table-ms">
           <thead>
             <tr>
               <th>Time</th>
