@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Academics — BDS Beyond Dream Scholars</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --crimson: #A51C30;
+      --crimson-dark: #8a1828;
+      --black: #1a1a1a;
+      --dark: #2a2a2a;
+      --gray: #6b6b6b;
+      --gray-light: #f4f4f2;
+      --white: #ffffff;
+      --border: #e0e0e0;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--black); line-height: 1.6; }
+
+    /* ── HEADER ── */
+    .header { background: var(--white); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1400px; margin: 0 auto; padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; }
+    .header-logo { display: flex; flex-direction: column; gap: 2px; text-decoration: none; }
+    .header-logo-main { font-family: 'Merriweather', serif; font-size: 1.8rem; font-weight: 700; color: var(--crimson); line-height: 1; }
+    .header-logo-sub { font-size: .68rem; color: var(--black); letter-spacing: .5px; }
+    .header-nav { display: flex; align-items: center; gap: 6px; }
+    .header-nav a { color: var(--gray); text-decoration: none; font-size: .85rem; padding: 6px 14px; transition: color .2s; }
+    .header-nav a:hover, .header-nav a.active { color: var(--crimson); }
+    .header-nav .btn-contact { background: var(--crimson); color: var(--white); padding: 8px 18px; font-size: .83rem; font-weight: 600; border: none; cursor: pointer; font-family: inherit; transition: background .2s; text-decoration: none; }
+    .header-nav .btn-contact:hover { background: var(--crimson-dark); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d1a1a 50%, #1a1a1a 100%);
+      color: var(--white);
+      padding: 120px 40px 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(165,28,48,.18) 0%, transparent 70%);
+    }
+    .hero-inner { max-width: 1400px; margin: 0 auto; position: relative; }
+    .hero-eyebrow { font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--crimson); font-weight: 600; margin-bottom: 20px; }
+    .hero-title { font-family: 'Merriweather', serif; font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; line-height: 1.15; max-width: 700px; margin-bottom: 28px; }
+    .hero-title em { font-style: normal; color: var(--crimson); }
+    .hero-desc { font-size: 1.05rem; color: rgba(255,255,255,.7); max-width: 540px; line-height: 1.8; margin-bottom: 40px; }
+    .hero-stats { display: flex; gap: 48px; flex-wrap: wrap; }
+    .hero-stat-num { font-family: 'Merriweather', serif; font-size: 2.2rem; font-weight: 700; color: var(--white); line-height: 1; }
+    .hero-stat-label { font-size: .78rem; color: rgba(255,255,255,.55); margin-top: 4px; letter-spacing: .04em; }
+
+    /* ── SECTION COMMONS ── */
+    .section { padding: 96px 40px; }
+    .section-alt { background: var(--gray-light); }
+    .section-dark { background: var(--dark); color: var(--white); }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-eyebrow { font-size: .7rem; letter-spacing: .15em; text-transform: uppercase; color: var(--crimson); font-weight: 600; margin-bottom: 14px; }
+    .section-title { font-family: 'Merriweather', serif; font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 700; line-height: 1.2; margin-bottom: 16px; }
+    .section-subtitle { font-size: 1rem; color: var(--gray); max-width: 580px; line-height: 1.75; }
+    .section-dark .section-subtitle { color: rgba(255,255,255,.6); }
+    .divider { width: 48px; height: 3px; background: var(--crimson); margin: 24px 0 48px; }
+
+    /* ── MISSION / VISION / PHILOSOPHY ── */
+    .mvp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 56px; }
+    .mvp-card { background: var(--white); padding: 48px 40px; border-top: 4px solid transparent; transition: border-color .3s; }
+    .mvp-card:hover { border-color: var(--crimson); }
+    .mvp-icon { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
+    .mvp-icon-mission { background: rgba(165,28,48,.1); }
+    .mvp-icon-vision { background: rgba(30,90,60,.1); }
+    .mvp-icon-philosophy { background: rgba(80,120,60,.1); }
+    .mvp-label { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--crimson); margin-bottom: 12px; }
+    .mvp-title { font-family: 'Merriweather', serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 16px; line-height: 1.3; }
+    .mvp-text { font-size: .9rem; color: var(--gray); line-height: 1.8; }
+
+    /* ── SCHOOL STRUCTURE ── */
+    .structure-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+    .structure-card { border-radius: 4px; overflow: hidden; }
+    .structure-header { padding: 28px 32px 20px; color: var(--white); }
+    .structure-header-es { background: #c8a227; }
+    .structure-header-jh { background: #7a9e52; }
+    .structure-header-hs { background: #4a6fb5; }
+    .structure-grade { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; opacity: .75; margin-bottom: 6px; }
+    .structure-grade-range { font-family: 'Merriweather', serif; font-size: 1.9rem; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+    .structure-grade-label { font-size: .82rem; opacity: .8; }
+    .structure-body { background: var(--white); border: 1px solid var(--border); border-top: none; padding: 28px 32px; }
+    .structure-school-name { font-family: 'Merriweather', serif; font-size: 1.35rem; font-weight: 700; margin-bottom: 8px; }
+    .structure-tag { display: inline-block; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; font-weight: 600; padding: 4px 10px; border-radius: 2px; margin-bottom: 16px; }
+    .structure-tag-es { background: #fef9e7; color: #8b6914; }
+    .structure-tag-jh { background: #edf7ed; color: #3d7a3d; }
+    .structure-tag-hs { background: #eef2fb; color: #2c52a0; }
+    .structure-desc { font-size: .88rem; color: var(--gray); line-height: 1.7; }
+    .structure-desc li { margin-bottom: 6px; padding-left: 4px; }
+
+    /* ── PROGRAM OVERVIEW ── */
+    .program-timeline { margin-top: 56px; display: flex; flex-direction: column; gap: 2px; }
+    .program-block { display: grid; grid-template-columns: 160px 1fr; border: 1px solid var(--border); }
+    .program-time { background: var(--dark); color: var(--white); padding: 32px 28px; display: flex; flex-direction: column; justify-content: center; }
+    .program-time-hours { font-family: 'Merriweather', serif; font-size: 1.1rem; font-weight: 700; line-height: 1.1; }
+    .program-time-note { font-size: .72rem; color: rgba(255,255,255,.5); margin-top: 4px; }
+    .program-content { padding: 32px 40px; }
+    .program-name { font-family: 'Merriweather', serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; }
+    .program-sub { font-size: .82rem; color: var(--crimson); font-weight: 600; letter-spacing: .05em; margin-bottom: 14px; }
+    .program-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .program-tag { font-size: .78rem; padding: 5px 12px; border: 1px solid var(--border); color: var(--gray); }
+    .program-accent-academic { border-left: 4px solid #c0392b; }
+    .program-accent-after { border-left: 4px solid #e67e22; }
+    .program-accent-evening { border-left: 4px solid #2980b9; }
+
+    /* ── FIVE FEATURES ── */
+    .features-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; margin-top: 56px; }
+    .feature-card { text-align: center; padding: 36px 20px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); transition: background .3s; }
+    .feature-card:hover { background: rgba(255,255,255,.1); }
+    .feature-icon { width: 64px; height: 64px; margin: 0 auto 20px; }
+    .feature-icon svg { width: 64px; height: 64px; }
+    .feature-name { font-family: 'Merriweather', serif; font-size: 1rem; font-weight: 700; margin-bottom: 12px; color: var(--white); }
+    .feature-items { font-size: .82rem; color: rgba(255,255,255,.55); line-height: 1.7; }
+
+    /* ── CURRICULUM ── */
+    .curriculum-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 56px; align-items: start; }
+    .curriculum-block-title { font-family: 'Merriweather', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+    .curriculum-block-sub { font-size: .82rem; color: var(--gray); margin-bottom: 24px; }
+    .subject-list { display: flex; flex-direction: column; gap: 12px; }
+    .subject-item { display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: var(--gray-light); }
+    .subject-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .subject-dot-la { background: #8ab0d4; }
+    .subject-dot-math { background: #f4a58a; }
+    .subject-dot-ss { background: #8bc4a8; }
+    .subject-dot-sci { background: #c4a8c4; }
+    .subject-dot-arts { background: #8ab0d4; }
+    .subject-dot-career { background: #f4a58a; }
+    .subject-dot-ethics { background: #c4a8c4; }
+    .subject-dot-pe { background: #8bc4a8; }
+    .subject-name { font-weight: 600; font-size: .9rem; }
+    .subject-desc { font-size: .8rem; color: var(--gray); margin-top: 2px; }
+
+    /* ── FOREIGN LANGUAGES ── */
+    .lang-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 56px; }
+    .lang-card { text-align: center; padding: 40px 24px; border: 1px solid var(--border); transition: all .3s; }
+    .lang-card:hover { border-color: var(--crimson); transform: translateY(-4px); }
+    .lang-flag { font-size: 2.8rem; margin-bottom: 16px; line-height: 1; }
+    .lang-name { font-family: 'Merriweather', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+    .lang-native { font-size: .82rem; color: var(--gray); }
+
+    /* ── HOLISTIC SCHEDULE ── */
+    .holistic-table { width: 100%; border-collapse: collapse; margin-top: 48px; font-size: .88rem; }
+    .holistic-table th, .holistic-table td { border: 1px solid rgba(255,255,255,.1); padding: 14px 16px; text-align: center; vertical-align: middle; }
+    .holistic-table th { background: rgba(255,255,255,.06); font-weight: 600; font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.7); }
+    .holistic-time { font-weight: 600; color: rgba(255,255,255,.9); white-space: nowrap; }
+    .holistic-cell-academic { background: rgba(192,57,43,.18); color: rgba(255,255,255,.85); }
+    .holistic-cell-after { background: rgba(230,126,34,.15); color: rgba(255,255,255,.85); }
+    .holistic-cell-evening { background: rgba(41,128,185,.2); color: rgba(255,255,255,.85); }
+    .holistic-cell-weekend { background: rgba(39,174,96,.12); color: rgba(255,255,255,.75); }
+    .holistic-cell-sleep { background: rgba(255,255,255,.04); color: rgba(255,255,255,.4); }
+
+    /* ── BELL SCHEDULE ── */
+    .bell-tabs { display: flex; gap: 0; margin-bottom: 0; border-bottom: 2px solid var(--border); margin-top: 48px; }
+    .bell-tab { padding: 14px 32px; font-size: .88rem; font-weight: 600; cursor: pointer; color: var(--gray); border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all .2s; background: none; border-top: none; border-left: none; border-right: none; font-family: inherit; }
+    .bell-tab.active { color: var(--crimson); border-bottom-color: var(--crimson); }
+    .bell-panel { display: none; }
+    .bell-panel.active { display: block; }
+    .bell-table { width: 100%; border-collapse: collapse; margin-top: 0; font-size: .84rem; }
+    .bell-table th, .bell-table td { border: 1px solid var(--border); padding: 12px 14px; text-align: center; vertical-align: middle; line-height: 1.35; }
+    .bell-table th { background: #1a1a1a; color: var(--white); font-weight: 600; font-size: .78rem; letter-spacing: .06em; }
+    .bell-time { font-size: .8rem; color: var(--gray); font-weight: 500; white-space: nowrap; }
+    .bell-block { font-size: .8rem; color: var(--gray); }
+    .bell-pink { background: #fce4ec; color: #880e4f; font-weight: 600; }
+    .bell-yellow { background: #fffde7; color: #5d4037; }
+    .bell-green { background: #e8f5e9; color: #1b5e20; }
+    .bell-blue { background: #e3f2fd; color: #0d47a1; font-weight: 600; }
+    .bell-crimson { background: rgba(165,28,48,.08); color: var(--crimson); font-weight: 600; }
+    .bell-plain { background: #fafafa; }
+
+    /* ── CTA ── */
+    .cta { padding: 100px 40px; text-align: center; background: var(--dark); }
+    .cta-title { font-family: 'Merriweather', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 700; color: var(--white); margin-bottom: 16px; }
+    .cta-sub { font-size: 1rem; color: rgba(255,255,255,.6); margin-bottom: 40px; }
+    .cta-buttons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .btn-primary { background: var(--crimson); color: var(--white); padding: 15px 36px; font-size: .92rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; font-family: inherit; transition: background .2s; display: inline-block; }
+    .btn-primary:hover { background: var(--crimson-dark); }
+    .btn-outline { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,.35); padding: 15px 36px; font-size: .92rem; font-weight: 500; text-decoration: none; transition: border-color .2s; display: inline-block; }
+    .btn-outline:hover { border-color: var(--white); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .features-grid { grid-template-columns: repeat(3, 1fr); }
+      .mvp-grid { grid-template-columns: 1fr; }
+      .structure-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .section { padding: 64px 24px; }
+      .header-inner { padding: 14px 20px; }
+      .hero { padding: 80px 24px 64px; }
+      .hero-stats { gap: 28px; }
+      .curriculum-cols { grid-template-columns: 1fr; gap: 40px; }
+      .lang-grid { grid-template-columns: repeat(2, 1fr); }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .program-block { grid-template-columns: 1fr; }
+      .program-time { padding: 16px 24px; flex-direction: row; align-items: center; gap: 12px; }
+      .bell-table { font-size: .75rem; }
+      .bell-table th, .bell-table td { padding: 8px 6px; }
+      .holistic-table { font-size: .78rem; }
+    }
+    @media (max-width: 480px) {
+      .lang-grid { grid-template-columns: repeat(2, 1fr); }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .hero-title { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="header-logo">
+      <div class="header-logo-main">BDS</div>
+      <div class="header-logo-sub">Beyond Dream Scholars</div>
+    </a>
+    <nav class="header-nav">
+      <a href="index.html">Home</a>
+      <a href="academics.html" class="active">Academics</a>
+      <a href="ongdalsam.html">Campus</a>
+      <a href="blog.html">News</a>
+      <a href="library.html">Archive</a>
+      <a href="index.html?popup=contact" class="btn-contact">Contact Us</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Academics at BDS</div>
+    <h1 class="hero-title">A World-Class Education<br>Built for <em>Global Leaders</em></h1>
+    <p class="hero-desc">
+      BDS offers a rigorous American-standard curriculum — from Elementary through High School —
+      within a holistic, project-based environment that nurtures each student's unique talent,
+      character, and global vision.
+    </p>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">100%</div>
+        <div class="hero-stat-label">University Acceptance Rate</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">G4–G12</div>
+        <div class="hero-stat-label">Grade Levels Offered</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">5+</div>
+        <div class="hero-stat-label">Foreign Languages</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">8:1</div>
+        <div class="hero-stat-label">Student–Teacher Ratio</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION / VISION / PHILOSOPHY -->
+<section class="section">
+  <div class="container">
+    <div class="section-eyebrow">Our Foundation</div>
+    <h2 class="section-title">Mission, Vision &amp; Philosophy</h2>
+    <div class="divider"></div>
+    <div class="mvp-grid">
+      <div class="mvp-card">
+        <div class="mvp-icon mvp-icon-mission">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A51C30" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="mvp-label">Mission</div>
+        <h3 class="mvp-title">Developing Inquisitive Global Leaders</h3>
+        <p class="mvp-text">Beyond Dream Global Leader Scholars aims to develop inquisitive and conscientious students that will strive to become global leaders and life-long learners — optimistic in all situations, contributing meaningful work to their local, national, and global communities.</p>
+      </div>
+      <div class="mvp-card">
+        <div class="mvp-icon mvp-icon-vision">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1e5a3c" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="mvp-label">Vision</div>
+        <h3 class="mvp-title">Imagining Life Beyond the Dream</h3>
+        <p class="mvp-text">Beyond Dream is the idea that students will imagine a life after achieving their dreams. Through altruism and perseverance, BDS fosters a passion for learning through active participation in diverse activities — with the support of a caring and dedicated community that empowers students to become creators of their own future.</p>
+      </div>
+      <div class="mvp-card">
+        <div class="mvp-icon mvp-icon-philosophy">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#507836" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="mvp-label">Philosophy</div>
+        <h3 class="mvp-title">Learning Through Personal Growth</h3>
+        <p class="mvp-text">BDS believes that learning must take place in a fun and eco-friendly environment. Finding one's dream comes from a focus on personal growth rather than ruthless competition and test scores. In a safe and supportive space, students develop a love of school and become lifelong learners — which ultimately leads to better academic success.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHOOL STRUCTURE -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-eyebrow">Interdisciplinary Classification</div>
+    <h2 class="section-title">School Road Map</h2>
+    <p class="section-subtitle">BDS structures learning across three developmental stages — each designed to meet students where they are and prepare them for where they are going.</p>
+    <div class="divider"></div>
+    <div class="structure-grid">
+      <div class="structure-card">
+        <div class="structure-header structure-header-es">
+          <div class="structure-grade">Elementary School</div>
+          <div class="structure-grade-range">G4–G5</div>
+          <div class="structure-grade-label">Grades 4 to 5</div>
+        </div>
+        <div class="structure-body">
+          <div class="structure-school-name">BDS ES</div>
+          <div class="structure-tag structure-tag-es">무학년 프로젝트 · Grade-Free Projects</div>
+          <ul class="structure-desc" style="padding-left:16px;">
+            <li>Project-based, grade-free learning environment</li>
+            <li>Focus on exploration, creativity, and foundational skills</li>
+            <li>Core subjects integrated through hands-on projects</li>
+            <li>English and Korean bilingual instruction</li>
+          </ul>
+        </div>
+      </div>
+      <div class="structure-card">
+        <div class="structure-header structure-header-jh">
+          <div class="structure-grade">Junior High School</div>
+          <div class="structure-grade-range">G6–G8</div>
+          <div class="structure-grade-label">Grades 6 to 8</div>
+        </div>
+        <div class="structure-body">
+          <div class="structure-school-name">BDS JH</div>
+          <div class="structure-tag structure-tag-jh">교과별 이동수업 · Subject-Based Classes</div>
+          <ul class="structure-desc" style="padding-left:16px;">
+            <li>Departmental class rotations by subject</li>
+            <li>Introduction to specialized academic tracks</li>
+            <li>Career aptitude discovery and elective exploration</li>
+            <li>Building independence and critical thinking</li>
+          </ul>
+        </div>
+      </div>
+      <div class="structure-card">
+        <div class="structure-header structure-header-hs">
+          <div class="structure-grade">High School</div>
+          <div class="structure-grade-range">G9–G12</div>
+          <div class="structure-grade-label">Grades 9 to 12</div>
+        </div>
+        <div class="structure-body">
+          <div class="structure-school-name">BDS HS</div>
+          <div class="structure-tag structure-tag-hs">학년별 이동수업 · Grade-Level Classes</div>
+          <ul class="structure-desc" style="padding-left:16px;">
+            <li>Grade-level departmental instruction</li>
+            <li>American Diploma &amp; official transcript</li>
+            <li>SAT / TOEFL / College preparation tracks</li>
+            <li>University counseling and application support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAM OVERVIEW -->
+<section class="section">
+  <div class="container">
+    <div class="section-eyebrow">Daily Program</div>
+    <h2 class="section-title">A Full-Day Structure for Holistic Development</h2>
+    <p class="section-subtitle">From morning academics through evening enrichment, BDS provides an end-to-end educational environment that supports every dimension of student growth.</p>
+    <div class="divider"></div>
+    <div class="program-timeline">
+      <div class="program-block program-accent-academic">
+        <div class="program-time">
+          <div class="program-time-hours">9 AM<br>—<br>4 PM</div>
+          <div class="program-time-note">Mon – Fri</div>
+        </div>
+        <div class="program-content">
+          <div class="program-sub">The Academic Program</div>
+          <h3 class="program-name">American Diploma &amp; Transcript</h3>
+          <p style="font-size:.88rem;color:var(--gray);margin-bottom:16px;line-height:1.7;">A rigorous, standards-aligned curriculum covering all core subjects. Elementary (18 credits), Junior High (20 credits), and High School (24 credits) tracks — all leading to an accredited American diploma with official transcripts for university applications.</p>
+          <div class="program-tags">
+            <span class="program-tag">Language Arts</span>
+            <span class="program-tag">Mathematics</span>
+            <span class="program-tag">Science</span>
+            <span class="program-tag">Social Studies</span>
+            <span class="program-tag">World Geography</span>
+            <span class="program-tag">Healing Yoga / P.E.</span>
+            <span class="program-tag">Creative Arts</span>
+            <span class="program-tag">Drama</span>
+          </div>
+        </div>
+      </div>
+      <div class="program-block program-accent-after">
+        <div class="program-time">
+          <div class="program-time-hours">4 PM<br>—<br>6 PM</div>
+          <div class="program-time-note">Mon – Fri</div>
+        </div>
+        <div class="program-content">
+          <div class="program-sub">The After-School Program</div>
+          <h3 class="program-name">Clubs, Activities &amp; Supplemental Academics</h3>
+          <p style="font-size:.88rem;color:var(--gray);margin-bottom:16px;line-height:1.7;">Students choose from a range of after-school enrichment options that develop leadership, physical skills, artistic talent, and social skills. Clubs and supplemental academic sessions provide depth beyond the core curriculum.</p>
+          <div class="program-tags">
+            <span class="program-tag">BDS Orchestra</span>
+            <span class="program-tag">Screen Golf</span>
+            <span class="program-tag">Violin</span>
+            <span class="program-tag">Arts &amp; Crafts</span>
+            <span class="program-tag">Student Council</span>
+            <span class="program-tag">Supplemental Academic</span>
+          </div>
+        </div>
+      </div>
+      <div class="program-block program-accent-evening">
+        <div class="program-time">
+          <div class="program-time-hours">7 PM<br>—<br>10 PM</div>
+          <div class="program-time-note">Mon – Fri</div>
+        </div>
+        <div class="program-content">
+          <div class="program-sub">The Evening Program</div>
+          <h3 class="program-name">English Core Classes + Korean GED &amp; SAT/TOEFL</h3>
+          <p style="font-size:.88rem;color:var(--gray);margin-bottom:16px;line-height:1.7;">Evening sessions extend learning with focused English instruction, Korean academic preparation (GED / Korean History), and SAT/TOEFL prep for High School students. Study Hall and independent reading round out the residential evening schedule.</p>
+          <div class="program-tags">
+            <span class="program-tag">Study Hall / Reading</span>
+            <span class="program-tag">Korean GED Prep</span>
+            <span class="program-tag">Korean History</span>
+            <span class="program-tag">SAT Prep</span>
+            <span class="program-tag">TOEFL</span>
+            <span class="program-tag">Self Study</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIVE EDUCATIONAL FEATURES -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="section-eyebrow">What Sets BDS Apart</div>
+    <h2 class="section-title" style="color:var(--white)">Five Educational Features</h2>
+    <p class="section-subtitle">The pillars that define BDS's approach to academic excellence and character formation.</p>
+    <div class="divider"></div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="12" width="44" height="40" rx="3" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+            <text x="32" y="32" text-anchor="middle" font-size="12" fill="rgba(255,255,255,0.8)" font-family="Inter,sans-serif" font-weight="700">123</text>
+            <text x="32" y="46" text-anchor="middle" font-size="11" fill="rgba(255,255,255,0.8)" font-family="Inter,sans-serif" font-weight="700">ABC</text>
+          </svg>
+        </div>
+        <div class="feature-name">Official Languages</div>
+        <div class="feature-items">English<br>(Regular Classes)<br>+ Korean<br>(Extracurriculars)</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="14" y="8" width="36" height="48" rx="2" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+            <line x1="20" y1="22" x2="44" y2="22" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+            <line x1="20" y1="30" x2="44" y2="30" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+            <line x1="20" y1="38" x2="36" y2="38" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+            <path d="M38 38 L46 46" stroke="rgba(165,28,48,0.8)" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="feature-name">Curriculum</div>
+        <div class="feature-items">Common Core State Standards + BDS Internal Standards</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="20" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+            <ellipse cx="32" cy="32" rx="8" ry="20" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <line x1="12" y1="32" x2="52" y2="32" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="feature-name">Culture</div>
+        <div class="feature-items">Polite and Proper Language, Well-Mannered Attitude</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="20" r="8" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+            <path d="M16 52 C16 40 48 40 48 52" stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none"/>
+            <path d="M20 36 L32 44 L44 36" stroke="rgba(165,28,48,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="feature-name">PBL's</div>
+        <div class="feature-items">Project Based Learning + Problem Based Learning</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="10" width="48" height="36" rx="3" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+            <circle cx="22" cy="28" r="6" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+            <line x1="32" y1="22" x2="48" y2="22" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+            <line x1="32" y1="30" x2="48" y2="30" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+            <line x1="16" y1="52" x2="32" y2="46" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <line x1="48" y1="52" x2="32" y2="46" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="feature-name">Academic Consulting</div>
+        <div class="feature-items">BDS Faculty + Outside Consultant</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CURRICULUM -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-eyebrow">What We Teach</div>
+    <h2 class="section-title">Curriculum at a Glance</h2>
+    <p class="section-subtitle">A balanced blend of core academic disciplines and meaningful electives — designed to develop the whole student.</p>
+    <div class="divider"></div>
+    <div class="curriculum-cols">
+      <div>
+        <div class="curriculum-block-title">Core Projects</div>
+        <div class="curriculum-block-sub">Foundational subjects delivered through project-based, interdisciplinary instruction</div>
+        <div class="subject-list">
+          <div class="subject-item">
+            <div class="subject-dot subject-dot-la"></div>
+            <div>
+              <div class="subject-name">Language Arts</div>
+              <div class="subject-desc">Reading, writing, literature, and communication</div>
+            </div>
+          </div>
+          <div class="subject-item">
+            <div class="subject-dot subject-dot-math"></div>
+            <div>
+              <div class="subject-name">Mathematics</div>
+              <div class="subject-desc">Arithmetic through Geometry and beyond</div>
+            </div>
+          </div>
+          <div class="subject-item">
+            <div class="subject-dot subject-dot-ss"></div>
+            <div>
+              <div class="subject-name">Social Studies</div>
+              <div class="subject-desc">World Geography, History, and Civics</div>
+            </div>
+          </div>
+          <div class="subject-item">
+            <div class="subject-dot subject-dot-sci"></div>
+            <div>
+              <div class="subject-name">Science</div>
+              <div class="subject-desc">Biology, Earth Science, project-based inquiry</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="curriculum-block-title">Electives</div>
+        <div class="curriculum-block-sub">Student-chosen courses that develop identity, skills, and personal interests</div>
+        <div class="subject-list">
+          <div class="subject-item">
+            <div class="subject-dot subject-dot-arts"></div>
+            <div>
+              <div class="subject-name">Creative Arts</div>
+              <div class="subject-desc">Visual art, drama, music, and BDS Orchestra</div>
+            </div>
+          </div>
+          <div class="subject-item">
+            <div class="subject-dot subject-dot-career"></div>
+            <div>
+              <div class="subject-name">Career &amp; Aptitude</div>
+              <div class="subject-desc">Self-discovery, vocational exploration, goal setting</div>
+            </div>
+          </div>
+          <div class="subject-item">
+            <div class="subject-dot subject-dot-ethics"></div>
+            <div>
+              <div class="subject-name">Ethics &amp; Debating</div>
+              <div class="subject-desc">Moral reasoning, public speaking, critical discourse</div>
+            </div>
+          </div>
+          <div class="subject-item">
+            <div class="subject-dot subject-dot-pe"></div>
+            <div>
+              <div class="subject-name">P.E. — Yoga &amp; Sunmudo</div>
+              <div class="subject-desc">Physical wellness through healing yoga and Korean martial arts</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- I.S.T.C highlight -->
+    <div style="margin-top:48px;padding:36px 40px;background:#1a1a1a;color:#fff;display:flex;align-items:center;gap:40px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:240px;">
+        <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--crimson);font-weight:600;margin-bottom:10px;">Signature Program</div>
+        <h3 style="font-family:'Merriweather',serif;font-size:1.6rem;font-weight:700;margin-bottom:12px;">I.S.T.C</h3>
+        <p style="font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.75;">Interdisciplinary Student-led Teaching Curriculum — a unique Thursday block where students demonstrate mastery by teaching peers. Builds leadership, public speaking, and deep academic ownership.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;flex-shrink:0;">
+        <div style="display:flex;align-items:center;gap:12px;font-size:.85rem;color:rgba(255,255,255,.7);">
+          <div style="width:8px;height:8px;background:var(--crimson);border-radius:50%;flex-shrink:0;"></div>Student-led instruction
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:.85rem;color:rgba(255,255,255,.7);">
+          <div style="width:8px;height:8px;background:var(--crimson);border-radius:50%;flex-shrink:0;"></div>Cross-disciplinary projects
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:.85rem;color:rgba(255,255,255,.7);">
+          <div style="width:8px;height:8px;background:var(--crimson);border-radius:50%;flex-shrink:0;"></div>Peer collaboration &amp; leadership
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOREIGN LANGUAGES -->
+<section class="section">
+  <div class="container">
+    <div class="section-eyebrow">World Languages</div>
+    <h2 class="section-title">Foreign Languages</h2>
+    <p class="section-subtitle">BDS students become global communicators. Beyond English and Korean, students have access to four additional world languages throughout their schooling.</p>
+    <div class="divider"></div>
+    <div class="lang-grid">
+      <div class="lang-card">
+        <div class="lang-flag">🇨🇳</div>
+        <div class="lang-name">Chinese</div>
+        <div class="lang-native">中文 (Mandarin)</div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-flag">🇩🇪</div>
+        <div class="lang-name">German</div>
+        <div class="lang-native">Deutsch</div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-flag">🇯🇵</div>
+        <div class="lang-name">Japanese</div>
+        <div class="lang-native">日本語</div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-flag">🇪🇸</div>
+        <div class="lang-name">Spanish</div>
+        <div class="lang-native">Español</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOLISTIC SCHEDULE -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="section-eyebrow">Residential Life</div>
+    <h2 class="section-title" style="color:var(--white)">End-to-End Management for Holistic Education</h2>
+    <p class="section-subtitle">BDS manages every hour of the day with purpose — from morning meditation to evening study and weekend enrichment.</p>
+    <div class="divider"></div>
+    <div style="overflow-x:auto;">
+      <table class="holistic-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+            <th>Sun</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="holistic-time">7:00 – 9:00</td>
+            <td colspan="7" style="text-align:center;background:rgba(255,255,255,.05);color:rgba(255,255,255,.75);">Wake Up &amp; 아침명상 — Miracle Morning</td>
+          </tr>
+          <tr>
+            <td class="holistic-time">9:00 – 16:00</td>
+            <td colspan="5" class="holistic-cell-academic">정규수업<br><span style="font-size:.78rem;font-weight:400;">(ES 18 / JH 20 / HS 24 credits)</span></td>
+            <td colspan="2" rowspan="2" class="holistic-cell-weekend" style="vertical-align:middle;">
+              주말 스테이 프로그램<br>
+              <span style="font-size:.78rem;font-weight:400;display:block;margin-top:8px;">· 지역봉사<br>· 창의체험<br>· 농원 / 공방</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="holistic-time">16:00 – 18:00</td>
+            <td colspan="5" class="holistic-cell-after">선택 방과후 프로그램 — After-School Electives</td>
+          </tr>
+          <tr>
+            <td class="holistic-time">19:00 – 22:00</td>
+            <td colspan="5" class="holistic-cell-evening">기숙사 야간 프로그램 — Evening Dormitory Program</td>
+            <td colspan="2" class="holistic-cell-weekend">Weekend Stay</td>
+          </tr>
+          <tr>
+            <td class="holistic-time">22:00 – 7:00</td>
+            <td colspan="7" class="holistic-cell-sleep" style="text-align:center;">점호 후 취침 — Lights Out</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- BELL SCHEDULE -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-eyebrow">Class Schedule</div>
+    <h2 class="section-title">BDS Bell Schedule</h2>
+    <p class="section-subtitle">A structured day that balances academic rigor with personal development, physical wellness, and creative expression.</p>
+    <div class="divider"></div>
+
+    <div class="bell-tabs">
+      <button class="bell-tab active" onclick="switchTab('es')">Elementary School (ES · 초등부)</button>
+      <button class="bell-tab" onclick="switchTab('hs')">High School (HS · 고등부)</button>
+    </div>
+
+    <!-- ES Schedule -->
+    <div class="bell-panel active" id="tab-es">
+      <div style="overflow-x:auto;">
+        <table class="bell-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Block</th>
+              <th>Mon–Wed (월–수)</th>
+              <th>Thu (목)</th>
+              <th>Fri (금)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="bell-time">8:00–8:30</td>
+              <td class="bell-block">하루의 시작</td>
+              <td colspan="3" class="bell-plain" style="text-align:center;">나눔의 집 (사람살리는 밥상)</td>
+            </tr>
+            <tr>
+              <td class="bell-time">8:30–9:00</td>
+              <td class="bell-block">미라클 모닝</td>
+              <td class="bell-yellow">홈룸시간</td>
+              <td class="bell-yellow">아침명상</td>
+              <td class="bell-yellow">홈룸시간</td>
+            </tr>
+            <tr>
+              <td class="bell-time">9:10–10:00</td>
+              <td class="bell-block">1교시</td>
+              <td class="bell-pink">Language Arts (문학)</td>
+              <td class="bell-pink">E.S.L (영어)</td>
+              <td class="bell-green">진로와 적성</td>
+            </tr>
+            <tr>
+              <td class="bell-time">10:10–11:00</td>
+              <td class="bell-block">2교시</td>
+              <td class="bell-pink">Library (독서)</td>
+              <td class="bell-pink">Social Studies (사회)</td>
+              <td class="bell-plain">중국어</td>
+            </tr>
+            <tr>
+              <td class="bell-time">11:10–12:00</td>
+              <td class="bell-block">3교시</td>
+              <td class="bell-yellow">힐링 요가 명상</td>
+              <td class="bell-green">체육</td>
+              <td class="bell-pink">Show &amp; Tell</td>
+            </tr>
+            <tr>
+              <td class="bell-time">13:10–14:00</td>
+              <td class="bell-block">4교시</td>
+              <td class="bell-pink">DRAMA (드라마)</td>
+              <td class="bell-crimson" style="font-size:.9rem;letter-spacing:.04em;">I.S.T.C</td>
+              <td class="bell-pink" rowspan="2" style="vertical-align:middle;">HOUSE PROJECT</td>
+            </tr>
+            <tr>
+              <td class="bell-time">15:10–15:00</td>
+              <td class="bell-block">5교시</td>
+              <td class="bell-pink">Creative Arts (예술)</td>
+              <td class="bell-pink">BDS Orchestra</td>
+            </tr>
+            <tr>
+              <td class="bell-time">15:10–16:00</td>
+              <td class="bell-block">6교시</td>
+              <td class="bell-pink">Sci Project (과학)</td>
+              <td class="bell-pink">Math (수학)</td>
+              <td class="bell-plain" rowspan="3" style="vertical-align:middle;text-align:center;">3 pm 귀가<br><span style="font-size:.75rem;color:var(--gray);">(주말 스테이 가능)</span></td>
+            </tr>
+            <tr>
+              <td class="bell-time">16:10–17:00</td>
+              <td class="bell-block">방과후 1</td>
+              <td class="bell-yellow">스크린골프</td>
+              <td class="bell-yellow" rowspan="2" style="vertical-align:middle;">동아리 Arts &amp; Craft</td>
+            </tr>
+            <tr>
+              <td class="bell-time">17:10–18:00</td>
+              <td class="bell-block">방과후 2</td>
+              <td class="bell-yellow">Violin (바이올린)</td>
+            </tr>
+            <tr>
+              <td class="bell-time">19:10–20:20</td>
+              <td class="bell-block">Evening P</td>
+              <td class="bell-green">독서 &amp; 매거진</td>
+              <td class="bell-plain">한국사</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- HS Schedule -->
+    <div class="bell-panel" id="tab-hs">
+      <div style="overflow-x:auto;">
+        <table class="bell-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Block</th>
+              <th>Mon–Wed (월–수)</th>
+              <th>Thu (목)</th>
+              <th>Fri (금)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="bell-time">8:00–8:30</td>
+              <td class="bell-block"></td>
+              <td colspan="3" class="bell-plain" style="text-align:center;">나눔의 집 (사람살리는 밥상)</td>
+            </tr>
+            <tr>
+              <td class="bell-time">8:30–9:00</td>
+              <td class="bell-block">하루의 시작</td>
+              <td class="bell-yellow">홈룸시간</td>
+              <td class="bell-yellow">아침명상</td>
+              <td class="bell-yellow">홈룸시간</td>
+            </tr>
+            <tr>
+              <td class="bell-time">9:10–10:00</td>
+              <td class="bell-block">1교시</td>
+              <td class="bell-pink">Language Arts (문학)</td>
+              <td class="bell-pink">Language Arts (문학)</td>
+              <td class="bell-plain">선택 스페인어</td>
+            </tr>
+            <tr>
+              <td class="bell-time">10:10–11:00</td>
+              <td class="bell-block">2교시</td>
+              <td class="bell-pink">Library (독서)</td>
+              <td class="bell-pink">World Geo (세계지리)</td>
+              <td class="bell-green">Ethic</td>
+            </tr>
+            <tr>
+              <td class="bell-time">11:10–12:00</td>
+              <td class="bell-block">3교시</td>
+              <td class="bell-yellow">힐링요가 / P.E</td>
+              <td class="bell-yellow">선무도 명상</td>
+              <td class="bell-green">Career &amp; Aptitude</td>
+            </tr>
+            <tr>
+              <td class="bell-time">13:10–14:00</td>
+              <td class="bell-block">4교시</td>
+              <td class="bell-pink">World Geo (세계지리)</td>
+              <td class="bell-plain">필수 외국어 (중국어)</td>
+              <td class="bell-pink" rowspan="2" style="vertical-align:middle;">HOUSE PROJECT</td>
+            </tr>
+            <tr>
+              <td class="bell-time">15:10–15:00</td>
+              <td class="bell-block">5교시</td>
+              <td class="bell-pink">Creative Arts (예술)</td>
+              <td class="bell-pink">Geometry (기하학)</td>
+            </tr>
+            <tr>
+              <td class="bell-time">15:10–16:00</td>
+              <td class="bell-block">6교시</td>
+              <td class="bell-pink">Biology (생물)</td>
+              <td class="bell-yellow">Debating</td>
+              <td class="bell-plain" rowspan="3" style="vertical-align:middle;text-align:center;">3 pm 귀가<br><span style="font-size:.75rem;color:var(--gray);">(주말 스테이 가능)</span></td>
+            </tr>
+            <tr>
+              <td class="bell-time">16:10–17:00</td>
+              <td class="bell-block">방과후 1</td>
+              <td class="bell-yellow">GOLF</td>
+              <td class="bell-yellow">TOEFL</td>
+            </tr>
+            <tr>
+              <td class="bell-time">17:10–18:00</td>
+              <td class="bell-block">방과후 2</td>
+              <td class="bell-plain">한국사</td>
+              <td class="bell-plain">Club 학생회</td>
+            </tr>
+            <tr>
+              <td class="bell-time">19:10–20:20</td>
+              <td class="bell-block">Evening P</td>
+              <td class="bell-blue">SAT</td>
+              <td class="bell-plain">검정고시 &amp; Self Study</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h2 class="cta-title">Ready to Learn More?</h2>
+  <p class="cta-sub">Schedule a campus visit or reach out to our admissions team to discuss how BDS can be the right fit for your family.</p>
+  <div class="cta-buttons">
+    <a href="index.html?popup=contact&inquiry=Campus Tour Request" class="btn-primary">Schedule a Visit</a>
+    <a href="index.html?popup=contact&inquiry=Admission Inquiry" class="btn-outline">Admission Inquiry</a>
+    <a href="ongdalsam.html" class="btn-outline">Explore Campus</a>
+  </div>
+</section>
+
+<script>
+  function switchTab(id) {
+    document.querySelectorAll('.bell-tab').forEach((t, i) => {
+      t.classList.toggle('active', (i === 0 && id === 'es') || (i === 1 && id === 'hs'));
+    });
+    document.getElementById('tab-es').classList.toggle('active', id === 'es');
+    document.getElementById('tab-hs').classList.toggle('active', id === 'hs');
+  }
+</script>
+</body>
+</html>
