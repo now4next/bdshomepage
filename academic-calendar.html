@@ -4,162 +4,389 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Academic Calendar 2025-2026 - BDS</title>
+  <title data-i18n="cal.page_title">BDS 2026–2027 Academic Calendar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
   <script src="js/header.js"></script>
   <style>
+    /* ── Design tokens ───────────────────────────────────── */
     :root {
-      --harvard-crimson: #A51C30;
-      --harvard-black: #1a1a1a;
-      --harvard-light-gray: #f9f9f9;
-      --harvard-dark-gray: #8c8c8c;
-      --text-color: #333333;
+      --crimson:       #A51C30;
+      --crimson-dark:  #8b1626;
+      --navy:          #0f1729;
+      --navy-mid:      #1a2744;
+      --bg:            #f5f4f1;
+      --surface:       #ffffff;
+      --text:          #1c1c1c;
+      --text-muted:    #636059;
+      --border:        #dddad4;
+      --cell-empty:    #f9f8f6;
+      --dow-bg:        #edecea;
+      --break-bg:      #fef3c7;
+      --break-dot:     #d97706;
+      --disc-bg:       #ede9fe;
+      --disc-dot:      #7c3aed;
+      --school-dot:    #16a34a;
+      --note-dot:      #2563eb;
+      --footer-bg:     #1a1a1a;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg:         #0e1018;
+        --surface:    #181c28;
+        --text:       #e2ddd6;
+        --text-muted: #8a857c;
+        --border:     #262b3a;
+        --cell-empty: #131620;
+        --dow-bg:     #1e2230;
+        --break-bg:   #3b2408;
+        --disc-bg:    #1e1034;
+        --footer-bg:  #090c12;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg:         #0e1018;
+      --surface:    #181c28;
+      --text:       #e2ddd6;
+      --text-muted: #8a857c;
+      --border:     #262b3a;
+      --cell-empty: #131620;
+      --dow-bg:     #1e2230;
+      --break-bg:   #3b2408;
+      --disc-bg:    #1e1034;
+      --footer-bg:  #090c12;
     }
 
+    /* ── Reset ──────────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #ffffff;
-      color: var(--text-color);
-      line-height: 1.6;
+      font-family: 'Inter', 'Pretendard Variable', Pretendard, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
     }
 
-
-    /* Main Content */
-    .calendar-container {
-      max-width: 1200px;
-      margin: 60px auto;
-      padding: 0 40px;
-    }
-
-    .calendar-header {
+    /* ── Hero ───────────────────────────────────────────── */
+    .cal-hero {
+      background: var(--navy);
+      color: #fff;
+      padding: 80px 24px 60px;
       text-align: center;
-      margin-bottom: 40px;
     }
-
-    .calendar-title {
-      font-size: 2.5rem;
-      font-weight: 400;
-      color: var(--harvard-black);
-      font-family: 'Merriweather', 'Pretendard Variable', Pretendard, serif;
-      margin-bottom: 12px;
-    }
-
-    .calendar-subtitle {
-      font-size: 1.1rem;
-      color: var(--harvard-dark-gray);
-      font-weight: 400;
-    }
-
-    .calendar-image-wrapper {
-      background: #ffffff;
-      border: 1px solid #e0e0e0;
-      padding: 30px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      margin-bottom: 40px;
-    }
-
-    .calendar-image {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .calendar-info {
-      background: var(--harvard-light-gray);
-      padding: 30px;
-      border-left: 3px solid var(--harvard-crimson);
-    }
-
-    .calendar-info h3 {
-      font-size: 1.3rem;
-      font-weight: 400;
-      color: var(--harvard-black);
-      font-family: 'Merriweather', 'Pretendard Variable', Pretendard, serif;
+    .hero-inner { max-width: 680px; margin: 0 auto; }
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #A51C30;
       margin-bottom: 16px;
     }
-
-    .calendar-info-list {
-      list-style: none;
-      padding: 0;
+    .hero-title {
+      font-family: 'Merriweather', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: #fff;
+      margin-bottom: 16px;
+      text-wrap: balance;
+    }
+    .hero-desc {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.7;
     }
 
-    .calendar-info-list li {
-      padding: 10px 0;
-      border-bottom: 1px solid #e0e0e0;
-      font-size: 0.95rem;
+    /* ── Stats bar ──────────────────────────────────────── */
+    .stats-bar {
+      background: var(--crimson);
+      color: #fff;
     }
-
-    .calendar-info-list li:last-child {
-      border-bottom: none;
+    .stats-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
     }
-
-    .calendar-info-list strong {
-      color: var(--harvard-crimson);
+    .stat-item {
+      padding: 20px 16px;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.2);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-value {
+      display: block;
+      font-family: 'Merriweather', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    .stat-label {
+      display: block;
+      font-size: 0.75rem;
+      opacity: 0.85;
+      margin-top: 4px;
       font-weight: 500;
     }
 
-    /* Footer */
-    .footer {
-      background: var(--harvard-black);
-      color: #ffffff;
-      padding: 40px 0;
-      margin-top: 80px;
+    /* ── Legend strip ───────────────────────────────────── */
+    .legend-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 64px;
+      z-index: 80;
     }
-
-    .footer-container {
-      max-width: 1200px;
+    .legend-inner {
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 0 40px;
-      text-align: center;
-    }
-
-    .footer-text {
-      font-size: 0.9rem;
-      color: #cccccc;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .header-container {
-        padding: 16px 20px;
-      }
-
-      .calendar-container {
-        padding: 0 20px;
-        margin: 40px auto;
-      }
-
-      .calendar-title {
-        font-size: 1.8rem;
-      }
-
-      .calendar-subtitle {
-        font-size: 1rem;
-      }
-
-      .calendar-image-wrapper {
-        padding: 15px;
-      }
-
-      .calendar-info {
-        padding: 20px;
-      }
-    }
-
-    /* Language Dropdown */
-    .header-right {
+      padding: 10px 24px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .legend-title {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .legend-items {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .legend-chip {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .legend-chip.lc-holiday    { background: var(--crimson); }
+    .legend-chip.lc-school     { background: var(--school-dot); }
+    .legend-chip.lc-break      { background: var(--break-dot); border-radius: 3px; }
+    .legend-chip.lc-disc       { background: var(--disc-dot); border-radius: 3px; }
+    .legend-chip.lc-note       { background: var(--note-dot); }
+
+    /* ── Main calendar area ─────────────────────────────── */
+    .cal-main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 24px 16px;
+    }
+    .months-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    /* ── Month card ─────────────────────────────────────── */
+    .month-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+    }
+    .month-header {
+      background: var(--navy-mid);
+      color: #fff;
+      padding: 12px 14px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .month-name-en {
+      font-family: 'Merriweather', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+    .month-name-ko {
+      font-size: 0.8rem;
+      opacity: 0.65;
+    }
+
+    /* ── DOW row ────────────────────────────────────────── */
+    .cal-dow-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      background: var(--dow-bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .cal-dow {
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 5px 0;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .cal-dow.sun { color: #dc2626; }
+    .cal-dow.sat { color: #6b7280; }
+
+    /* ── Calendar cells ─────────────────────────────────── */
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+    }
+    .cal-cell {
+      min-height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .cal-cell.empty { background: var(--cell-empty); }
+    .cal-cell.is-break       { background: var(--break-bg); }
+    .cal-cell.is-discretionary { background: var(--disc-bg); }
+
+    .cal-num {
+      font-size: 0.72rem;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      line-height: 1;
+      color: var(--text);
+    }
+    .cal-cell.sun .cal-num:not(.has-circle) { color: #dc2626; }
+    .cal-cell.sat .cal-num:not(.has-circle) { color: #8a8a8a; }
+
+    .cal-num.circle-holiday {
+      background: var(--crimson);
+      color: #fff;
+      font-weight: 700;
+    }
+    .cal-num.circle-school {
+      background: var(--school-dot);
+      color: #fff;
+      font-weight: 700;
+    }
+    .cal-num.circle-note {
+      background: var(--note-dot);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    /* ── Month footer ───────────────────────────────────── */
+    .month-footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: var(--dow-bg);
+      border-top: 1px solid var(--border);
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      gap: 8px;
+    }
+    .month-footer strong { color: var(--text); font-weight: 600; }
+
+    /* ── Events list ────────────────────────────────────── */
+    .month-events {
+      list-style: none;
+      padding: 8px 12px 10px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .ev-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 0.72rem;
+      line-height: 1.4;
+    }
+    .ev-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    .ev-item.ev-holiday    .ev-dot { background: var(--crimson); }
+    .ev-item.ev-break      .ev-dot { background: var(--break-dot); border-radius: 2px; }
+    .ev-item.ev-school     .ev-dot { background: var(--school-dot); }
+    .ev-item.ev-discretionary .ev-dot { background: var(--disc-dot); border-radius: 2px; }
+    .ev-item.ev-note       .ev-dot { background: var(--note-dot); }
+    .ev-item.ev-continuing .ev-dot { background: var(--text-muted); }
+
+    .ev-date {
+      color: var(--text-muted);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+    .ev-label { color: var(--text); }
+    .ev-item.ev-continuing .ev-label { color: var(--text-muted); font-style: italic; }
+
+    /* ── Footnote ───────────────────────────────────────── */
+    .cal-footnote {
+      max-width: 1100px;
+      margin: 8px auto 40px;
+      padding: 0 24px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Footer ─────────────────────────────────────────── */
+    .site-footer {
+      background: var(--footer-bg);
+      color: #fff;
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+
+    /* ── Responsive ─────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .stats-inner {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .stat-item:nth-child(2) { border-right: none; }
+      .months-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 600px) {
+      .cal-hero { padding: 60px 16px 40px; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .legend-inner { gap: 10px; }
+      .legend-items { gap: 10px; }
+      .cal-main { padding: 20px 12px 12px; }
+      .months-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+    }
+    @media (max-width: 380px) {
+      .stats-inner { grid-template-columns: 1fr; }
+      .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.2); }
+      .stat-item:last-child { border-bottom: none; }
     }
   </style>
 </head>
@@ -167,39 +394,296 @@
 
   <header data-bds-nav></header>
 
-  <!-- Main Content -->
-  <main class="calendar-container">
-    <!-- Header Section -->
-    <div class="calendar-header">
-      <h1 class="calendar-title" data-i18n="calendar.page_title">Academic Calendar 2025-2026</h1>
-      <p class="calendar-subtitle" data-i18n="calendar.page_subtitle">학사일정 | BDS Global Leadership Academy</p>
+  <!-- Hero -->
+  <section class="cal-hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow" data-i18n="cal.eyebrow">2026–2027 Academic Year</p>
+      <h1 class="hero-title" data-i18n="cal.hero.title">Academic Calendar</h1>
+      <p class="hero-desc" data-i18n="cal.hero.desc">BDS follows a 180-day school year across two semesters, from September 2026 to June 2027.</p>
     </div>
+  </section>
 
-    <!-- Calendar Image -->
-    <div class="calendar-image-wrapper">
-      <img src="academic-calendar-2025-2026.png" alt="BDS Academic Calendar 2025-2026" class="calendar-image">
+  <!-- Stats bar -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <span class="stat-value" data-i18n="cal.stat.days.value">180</span>
+        <span class="stat-label" data-i18n="cal.stat.days.label">School Days</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" data-i18n="cal.stat.sem.value">2</span>
+        <span class="stat-label" data-i18n="cal.stat.sem.label">Semesters</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" data-i18n="cal.stat.s1.value">Semester 1</span>
+        <span class="stat-label" data-i18n="cal.stat.s1.label">Sep 2026 – Jan 2027</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" data-i18n="cal.stat.s2.value">Semester 2</span>
+        <span class="stat-label" data-i18n="cal.stat.s2.label">Feb – Jun 2027</span>
+      </div>
     </div>
+  </div>
 
-    <!-- Additional Information -->
-    <div class="calendar-info">
-      <h3 data-i18n="calendar.highlights">Key Highlights</h3>
-      <ul class="calendar-info-list">
-        <li><strong data-i18n="calendar.fall_strong">Fall Semester:</strong><span data-i18n="calendar.fall_text"> September 2025 - December 2025</span></li>
-        <li><strong data-i18n="calendar.winter_strong">Winter Break:</strong><span data-i18n="calendar.winter_text"> December 2025 - January 2026</span></li>
-        <li><strong data-i18n="calendar.spring_strong">Spring Semester:</strong><span data-i18n="calendar.spring_text"> February 2026 - June 2026</span></li>
-        <li><strong data-i18n="calendar.summer_strong">Summer Programs:</strong><span data-i18n="calendar.summer_text"> July 2026 - August 2026</span></li>
-        <li><strong data-i18n="calendar.events_strong">Special Events:</strong><span data-i18n="calendar.events_text"> Mock Tests, APAP, Winter Concert, Easter Egg Hunt, and more</span></li>
-        <li><strong data-i18n="calendar.intl_strong">International Programs:</strong><span data-i18n="calendar.intl_text"> BDS Germany, Summer Sessions, Intensive SAT/TOEFL</span></li>
-      </ul>
+  <!-- Legend (sticky) -->
+  <div class="legend-bar">
+    <div class="legend-inner">
+      <span class="legend-title" data-i18n="cal.legend.title">Legend</span>
+      <div class="legend-items">
+        <span class="legend-item"><span class="legend-chip lc-holiday"></span><span data-i18n="cal.legend.holiday">Public Holiday</span></span>
+        <span class="legend-item"><span class="legend-chip lc-school"></span><span data-i18n="cal.legend.school">School Event</span></span>
+        <span class="legend-item"><span class="legend-chip lc-break"></span><span data-i18n="cal.legend.break">School Break</span></span>
+        <span class="legend-item"><span class="legend-chip lc-disc"></span><span data-i18n="cal.legend.discretionary">Discretionary</span></span>
+        <span class="legend-item"><span class="legend-chip lc-note"></span><span data-i18n="cal.legend.note">Note</span></span>
+      </div>
     </div>
+  </div>
+
+  <!-- Calendar grid (JS-rendered) -->
+  <main class="cal-main">
+    <div class="months-grid" id="calendarGrid"></div>
   </main>
 
+  <!-- Footnote -->
+  <p class="cal-footnote" data-i18n="cal.footnote">* 180 instructional days total. Dates subject to change without prior notice.</p>
+
   <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-container">
-      <p class="footer-text" data-i18n="footer.copyright">Copyright © 2020-2026 BDS (Beyond Dream Scholars). All rights reserved.</p>
-    </div>
+  <footer class="site-footer">
+    <p data-i18n="footer.copyright">Copyright © 2020-2026 BDS (Beyond Dream Scholars). All rights reserved.</p>
   </footer>
+
+  <script>
+    /* ─────────────────────────────────────────────────────────────
+       CALENDAR DATA  — edit this object to update dates each year
+       ───────────────────────────────────────────────────────────── */
+    const CALENDAR_DATA = {
+
+      /* Months to render: [year, month 1-indexed] */
+      months: [
+        [2026,9],[2026,10],[2026,11],[2026,12],
+        [2027,1],[2027,2],[2027,3],[2027,4],[2027,5],[2027,6]
+      ],
+
+      /* School days per month: key → [days_this_month, cumulative] */
+      schoolDays: {
+        '2026-09': [18, 18],
+        '2026-10': [17, 35],
+        '2026-11': [20, 55],
+        '2026-12': [20, 75],
+        '2027-01': [15, 90],
+        '2027-02': [10, 100],
+        '2027-03': [22, 122],
+        '2027-04': [22, 144],
+        '2027-05': [17, 161],
+        '2027-06': [19, 180],
+      },
+
+      /* Events
+         type: 'holiday' | 'break' | 'school' | 'discretionary' | 'note'
+         dateEnd: inclusive end for multi-day events
+         label: Korean text  |  en: English text
+      */
+      events: [
+        { date:'2026-08-31', label:'BDS 새학기 개학식',               en:'New Semester Opening',                    type:'school' },
+        { date:'2026-09-21', dateEnd:'2026-09-25',
+                             label:'추석방학',                          en:'Chuseok Holiday Break',                  type:'break' },
+        { date:'2026-10-05', label:'개천절 대체휴무일',                en:'National Foundation Day (Substitute)',     type:'holiday' },
+        { date:'2026-10-06', dateEnd:'2026-10-08',
+                             label:'재량휴일',                          en:'Discretionary Holiday',                  type:'discretionary' },
+        { date:'2026-10-09', label:'한글날 공휴일',                    en:'Hangeul Day',                             type:'holiday' },
+        { date:'2026-11-05', label:'Q1 종료',                         en:'Q1 End',                                  type:'school' },
+        { date:'2026-11-27', label:'추수감사 재량휴일',                en:'Thanksgiving (Discretionary)',             type:'discretionary' },
+        { date:'2026-12-23', label:'재량휴일',                         en:'Discretionary Holiday',                   type:'discretionary' },
+        { date:'2026-12-24', label:'재량휴일 · 대체연차',              en:'Discretionary / Substitute Leave',         type:'discretionary' },
+        { date:'2026-12-25', label:'크리스마스 휴무일',                en:'Christmas Holiday',                        type:'holiday' },
+        { date:'2026-12-31', label:'대체연차',                         en:'Substitute Leave',                         type:'discretionary' },
+        { date:'2027-01-01', label:'신정 공휴일',                      en:"New Year's Day",                           type:'holiday' },
+        { date:'2027-01-22', label:'1학기 종강 (학사 90일차)',         en:'End of Semester 1 · Day 90',               type:'school' },
+        { date:'2027-01-25', dateEnd:'2027-02-14',
+                             label:'겨울방학',                          en:'Winter Break',                             type:'break' },
+        { date:'2027-02-08', dateEnd:'2027-02-09',
+                             label:'설날',                             en:'Lunar New Year',                           type:'holiday' },
+        { date:'2027-02-15', label:'2학기 시작 (학사 91일차)',         en:'Semester 2 Start · Day 91',                type:'school' },
+        { date:'2027-03-01', label:'삼일절 휴무일',                    en:'Independence Movement Day',                type:'holiday' },
+        { date:'2027-05-03', label:'노동절 대체휴무일',                en:'Labour Day (Substitute)',                   type:'holiday' },
+        { date:'2027-05-04', label:'어린이날 재량휴일',                en:"Children's Day (Discretionary)",            type:'discretionary' },
+        { date:'2027-05-05', label:'어린이날 공휴일',                  en:"Children's Day",                           type:'holiday' },
+        { date:'2027-05-13', label:'부처님 오신날 정상운영',           en:"Buddha's Birthday (Normal Operation)",      type:'note' },
+        { date:'2027-05-14', label:'부처님 오신날 대체휴일',           en:"Buddha's Birthday (Substitute)",           type:'holiday' },
+        { date:'2027-06-25', label:'2026-2027 학사 종강 (학사 180일차)', en:'End of School Year 2026-2027 · Day 180', type:'school' },
+      ],
+    };
+
+    /* ─────────────────────────────────────────────────────────────
+       RENDER ENGINE — no edits needed below this line
+       ───────────────────────────────────────────────────────────── */
+
+    const MONTH_EN  = ['','January','February','March','April','May','June',
+                       'July','August','September','October','November','December'];
+    const MONTH_KO  = ['','1월','2월','3월','4월','5월','6월',
+                       '7월','8월','9월','10월','11월','12월'];
+    const DOW_HEADS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+    function getLang() {
+      return localStorage.getItem('bds_lang') || 'en';
+    }
+
+    function evLabel(ev) {
+      return getLang() === 'ko' ? ev.label : (ev.en || ev.label);
+    }
+
+    /* Build map: dateStr → [event, ...] covering multi-day ranges */
+    function buildEventMap(events) {
+      const map = {};
+      const p = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y,m-1,d); };
+      for (const ev of events) {
+        const start = p(ev.date);
+        const end   = ev.dateEnd ? p(ev.dateEnd) : p(ev.date);
+        const cur   = new Date(start);
+        while (cur <= end) {
+          const k = `${cur.getFullYear()}-${String(cur.getMonth()+1).padStart(2,'0')}-${String(cur.getDate()).padStart(2,'0')}`;
+          (map[k] = map[k] || []).push(ev);
+          cur.setDate(cur.getDate() + 1);
+        }
+      }
+      return map;
+    }
+
+    /* Format date range for event list */
+    function fmtRange(ev) {
+      const lang = getLang();
+      const d1 = parseInt(ev.date.slice(8));
+      if (!ev.dateEnd) return lang === 'ko' ? `${d1}일` : `${d1}`;
+      const d2 = parseInt(ev.dateEnd.slice(8));
+      const m2 = parseInt(ev.dateEnd.slice(5,7));
+      const m1 = parseInt(ev.date.slice(5,7));
+      if (m1 === m2) return lang === 'ko' ? `${d1}–${d2}일` : `${d1}–${d2}`;
+      return lang === 'ko' ? `${d1}일~` : `${d1}→`;
+    }
+
+    function renderMonth(year, month, eventMap) {
+      const key      = `${year}-${String(month).padStart(2,'0')}`;
+      const [mDays, cumul] = CALENDAR_DATA.schoolDays[key] || [0,0];
+      const numDays  = new Date(year, month, 0).getDate();
+      const startDow = new Date(year, month-1, 1).getDay();
+      const total    = Math.ceil((startDow + numDays) / 7) * 7;
+      const lang     = getLang();
+
+      const card = document.createElement('div');
+      card.className = 'month-card';
+
+      /* Header */
+      card.innerHTML = `
+        <div class="month-header">
+          <span class="month-name-en">${MONTH_EN[month]} ${year}</span>
+          <span class="month-name-ko">${MONTH_KO[month]}</span>
+        </div>`;
+
+      /* DOW row */
+      const dowRow = document.createElement('div');
+      dowRow.className = 'cal-dow-row';
+      DOW_HEADS.forEach((d,i) => {
+        const el = document.createElement('div');
+        el.className = 'cal-dow' + (i===0?' sun':i===6?' sat':'');
+        el.textContent = d;
+        dowRow.appendChild(el);
+      });
+      card.appendChild(dowRow);
+
+      /* Cell grid */
+      const grid = document.createElement('div');
+      grid.className = 'cal-grid';
+
+      for (let i = 0; i < total; i++) {
+        const day = i - startDow + 1;
+        const cell = document.createElement('div');
+
+        if (day < 1 || day > numDays) {
+          cell.className = 'cal-cell empty';
+        } else {
+          const dateStr = `${key}-${String(day).padStart(2,'0')}`;
+          const dayEvs  = eventMap[dateStr] || [];
+          const types   = dayEvs.map(e => e.type);
+          const col     = i % 7;
+
+          let cls = 'cal-cell';
+          if (col === 0) cls += ' sun';
+          if (col === 6) cls += ' sat';
+          if (types.includes('break'))          cls += ' is-break';
+          else if (types.includes('discretionary')) cls += ' is-discretionary';
+          cell.className = cls;
+
+          const num = document.createElement('span');
+          num.textContent = day;
+
+          let circleClass = '';
+          if (types.includes('holiday'))     circleClass = 'circle-holiday';
+          else if (types.includes('school')) circleClass = 'circle-school';
+          else if (types.includes('note'))   circleClass = 'circle-note';
+
+          num.className = 'cal-num' + (circleClass ? ' ' + circleClass + ' has-circle' : '');
+          cell.appendChild(num);
+        }
+        grid.appendChild(cell);
+      }
+      card.appendChild(grid);
+
+      /* Footer: school days */
+      const footer = document.createElement('div');
+      footer.className = 'month-footer';
+      const daysLbl  = lang === 'ko' ? '학사일' : 'School days';
+      const cumulLbl = lang === 'ko' ? '누계'   : 'Cumulative';
+      const totalLbl = lang === 'ko' ? '/180일'  : '/180';
+      footer.innerHTML = `<span>${daysLbl}: <strong>${mDays}</strong></span>
+                          <span>${cumulLbl}: <strong>${cumul}${totalLbl}</strong></span>`;
+      card.appendChild(footer);
+
+      /* Events list: starting this month + continuing from previous */
+      const startingEvs    = CALENDAR_DATA.events.filter(ev => ev.date.startsWith(key));
+      const continuingEvs  = CALENDAR_DATA.events.filter(ev =>
+        ev.dateEnd &&
+        ev.date.slice(0,7) < key &&
+        ev.dateEnd.slice(0,7) >= key
+      );
+
+      if (startingEvs.length || continuingEvs.length) {
+        const ul = document.createElement('ul');
+        ul.className = 'month-events';
+
+        continuingEvs.forEach(ev => {
+          const li = document.createElement('li');
+          li.className = 'ev-item ev-continuing';
+          const contLbl = lang === 'ko' ? '계속' : 'cont.';
+          li.innerHTML = `<span class="ev-dot"></span>
+            <span class="ev-date">${contLbl}</span>
+            <span class="ev-label">${evLabel(ev)}</span>`;
+          ul.appendChild(li);
+        });
+
+        startingEvs.forEach(ev => {
+          const li = document.createElement('li');
+          li.className = `ev-item ev-${ev.type}`;
+          li.innerHTML = `<span class="ev-dot"></span>
+            <span class="ev-date">${fmtRange(ev)}</span>
+            <span class="ev-label">${evLabel(ev)}</span>`;
+          ul.appendChild(li);
+        });
+
+        card.appendChild(ul);
+      }
+
+      return card;
+    }
+
+    /* Init */
+    (function init() {
+      const eventMap = buildEventMap(CALENDAR_DATA.events);
+      const gridEl   = document.getElementById('calendarGrid');
+      for (const [year, month] of CALENDAR_DATA.months) {
+        gridEl.appendChild(renderMonth(year, month, eventMap));
+      }
+    })();
+  </script>
 
   <script src="js/langs.js"></script>
   <script src="js/i18n.js"></script>
