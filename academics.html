@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <script src="js/header.js?v=7ac36616"></script>
+  <script src="js/header.js?v=27965c16"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -149,6 +149,26 @@
     .holistic-cell-weekend { background: rgba(39,174,96,.12); color: rgba(255,255,255,.75); }
     .holistic-cell-sleep { background: rgba(255,255,255,.04); color: rgba(255,255,255,.4); }
 
+    /* ── 2026–2027 GROWTH FOCUS ── */
+    .growth-pillars {
+      list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 32px;
+    }
+    .growth-pillars li {
+      font-size: .86rem; font-weight: 600; color: var(--crimson);
+      background: rgba(165,28,48,.07); border: 1px solid rgba(165,28,48,.18);
+      border-radius: 999px; padding: 8px 18px; word-break: keep-all;
+    }
+    .growth-body {
+      font-size: .98rem; color: var(--gray); line-height: 1.9;
+      max-width: 720px; margin-bottom: 28px; word-break: keep-all;
+    }
+    .growth-motto {
+      font-family: 'Merriweather', serif; font-size: clamp(1.15rem, 2.2vw, 1.6rem);
+      font-weight: 700; color: var(--black); line-height: 1.45;
+      padding-left: 22px; border-left: 4px solid var(--crimson);
+      margin-bottom: 28px; text-wrap: balance;
+    }
+
     /* ── BELL SCHEDULE ── */
     .bell-tabs { display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 0; border-bottom: 2px solid var(--border); margin-top: 48px; }
     .bell-tab { padding: 14px 32px; font-size: .88rem; font-weight: 600; cursor: pointer; color: var(--gray); border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all .2s; background: none; border-top: none; border-left: none; border-right: none; font-family: inherit; }
@@ -161,6 +181,15 @@
     /* MS runs airier rows than ES/HS, so switching to this tab reads as a change.
        Equal specificity to the base rule — keep this declared after it. */
     .bell-table-ms th, .bell-table-ms td { padding: 16px 14px; line-height: 1.45; }
+    /* Weekly timetable: 6 columns of multi-line group listings — left-align the
+       group text so the "Group n:" labels line up and stay scannable. */
+    .bell-table-week { font-size: .78rem; min-width: 860px; }
+    .bell-table-week td { text-align: left; padding: 10px 12px; line-height: 1.5; }
+    .bell-table-week td.bell-time,
+    .bell-table-week td.bell-plain,
+    .bell-table-week td.bell-crimson,
+    .bell-table-week td.bell-green,
+    .bell-table-week td.bell-blue { text-align: center; }
     .bell-time { font-size: .8rem; color: var(--gray); font-weight: 500; white-space: nowrap; }
     .bell-block { font-size: .8rem; color: var(--gray); }
     .bell-pink { background: #fce4ec; color: #880e4f; font-weight: 600; }
@@ -854,6 +883,32 @@
   </div>
 </section>
 
+<!-- 2026–2027 GROWTH FOCUS -->
+<section class="section">
+  <div class="container">
+    <div class="section-eyebrow" data-i18n="acad.y2627.eyebrow">2026–2027 Academic Year</div>
+    <h2 class="section-title" data-i18n="acad.y2627.title">What This New Semester Sets Out to Grow</h2>
+    <div class="divider"></div>
+
+    <ul class="growth-pillars">
+      <li data-i18n="acad.y2627.p1">English Proficiency</li>
+      <li data-i18n="acad.y2627.p2">Math Fundamentals</li>
+      <li data-i18n="acad.y2627.p3">Problem Solving</li>
+      <li data-i18n="acad.y2627.p4">Self-Management</li>
+      <li data-i18n="acad.y2627.p5">Self-Direction</li>
+      <li data-i18n="acad.y2627.p6">Collaboration</li>
+      <li data-i18n="acad.y2627.p7">Leadership</li>
+    </ul>
+
+    <p class="growth-body" data-i18n="acad.y2627.body">Rather than simply adding more class hours, our curriculum carries students through learning → experience → growth, so that they think and act for themselves and build a story of their own.</p>
+
+    <!-- Motto: kept in English across all languages, like other BDS brand lines. -->
+    <p class="growth-motto">Learn deeply. Think independently. Act with purpose.</p>
+
+    <p class="growth-body" data-i18n="acad.y2627.closing">Through 2026–2027, BDS will walk alongside students as they grow beyond being good learners — into students who think and act for themselves, and author their own story.</p>
+  </div>
+</section>
+
 <!-- BELL SCHEDULE -->
 <section class="section section-alt">
   <div class="container">
@@ -863,13 +918,111 @@
     <div class="divider"></div>
 
     <div class="bell-tabs">
-      <button class="bell-tab active" data-tab="es" onclick="switchTab('es')" data-i18n="acad.bell.tab.es">Elementary School (ES)</button>
+      <button class="bell-tab active" data-tab="y2627" onclick="switchTab('y2627')" data-i18n="acad.bell.tab.y2627">2026–2027 Weekly Timetable</button>
+      <button class="bell-tab" data-tab="es" onclick="switchTab('es')" data-i18n="acad.bell.tab.es">Elementary School (ES)</button>
       <button class="bell-tab" data-tab="ms" onclick="switchTab('ms')" data-i18n="acad.bell.tab.ms">Middle School (MS)</button>
       <button class="bell-tab" data-tab="hs" onclick="switchTab('hs')" data-i18n="acad.bell.tab.hs">High School (HS)</button>
     </div>
 
+    <!-- 2026–2027 Weekly Timetable (Group 1 / 2 / 3) -->
+    <div class="bell-panel active" id="tab-y2627">
+      <div style="overflow-x:auto;">
+        <table class="bell-table bell-table-week">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Monday</th>
+              <th>Tuesday</th>
+              <th>Wednesday</th>
+              <th>Thursday</th>
+              <th>Friday</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="bell-time">08:00–09:00</td>
+              <td class="bell-plain">Breakfast</td>
+              <td class="bell-plain">Breakfast</td>
+              <td class="bell-plain">Breakfast</td>
+              <td class="bell-plain">Breakfast</td>
+              <td class="bell-plain">Breakfast</td>
+            </tr>
+            <tr>
+              <td class="bell-time">09:00–09:50</td>
+              <td class="bell-pink" rowspan="2" style="vertical-align:middle;">Group 1: E.S.L.<br>Group 2: World History<br>Group 3: American Lit</td>
+              <td class="bell-pink" rowspan="2" style="vertical-align:middle;">Group 1: E.S.L.<br>Group 2: American Lit<br>Group 3: TOEFL Writing</td>
+              <td class="bell-pink">Group 1: Conversation<br>Group 2: Arts and Crafts<br>Group 3: Creation &amp; Composition</td>
+              <td class="bell-pink">Group 1: American Lit<br>Group 2: TOEFL Writing<br>Group 3: SAT Math</td>
+              <td class="bell-plain" rowspan="2" style="vertical-align:middle;">Group 1: Beginner Russian<br>Group 2: Beginner French<br>Group 3: Beginner Japanese</td>
+            </tr>
+            <tr>
+              <td class="bell-time">10:00–10:50</td>
+              <td class="bell-pink">Group 1: Creation &amp; Composition<br>Group 2: Conversation<br>Group 3: Arts and Crafts</td>
+              <td class="bell-pink">Group 1: American Lit<br>Group 2: Lyrics<br>Group 3: SAT Math</td>
+            </tr>
+            <tr>
+              <td class="bell-time">11:00–11:50</td>
+              <td class="bell-crimson">ISTC</td>
+              <td class="bell-yellow">Sunmudo</td>
+              <td class="bell-green">Kevin House Project</td>
+              <td class="bell-green">S.T.U.C.O</td>
+              <td class="bell-green">Academic Counseling</td>
+            </tr>
+            <tr>
+              <td class="bell-time">12:00–12:50</td>
+              <td class="bell-plain">Lunch</td>
+              <td class="bell-plain">Lunch</td>
+              <td class="bell-plain">Lunch</td>
+              <td class="bell-plain">Lunch</td>
+              <td class="bell-plain">Lunch</td>
+            </tr>
+            <tr>
+              <td class="bell-time">13:00–13:50</td>
+              <td class="bell-pink">Group 1: Science / Chemistry<br>Group 2: TOEFL Voca<br>Group 3: Stage Starters</td>
+              <td class="bell-pink">Group 1: World History<br>Group 2: Design Thinking Project<br>Group 3: Global-Issues Debate</td>
+              <td class="bell-pink">Group 1: Arts and Crafts<br>Group 2: Creation &amp; Composition<br>Group 3: Conversation</td>
+              <td class="bell-blue">Math / Self-Study</td>
+              <td class="bell-plain" rowspan="6"></td>
+            </tr>
+            <tr>
+              <td class="bell-time">14:00–14:50</td>
+              <td class="bell-pink">Group 1: TOEFL Voca<br>Group 2: Stage Starters<br>Group 3: Chemistry</td>
+              <td class="bell-pink">Group 1: American History<br>Group 2: Global-Issues Debate<br>Group 3: Design Thinking Project</td>
+              <td class="bell-blue">Math / Self-Study</td>
+              <td class="bell-blue">TOEFL Vocab Test Review</td>
+            </tr>
+            <tr>
+              <td class="bell-time">15:00–15:50</td>
+              <td class="bell-pink">Group 1: Stage Starters<br>Group 2: Biology / Chemistry<br>Group 3: TOEFL Voca</td>
+              <td class="bell-plain">Science Presentations<br>Self-Study</td>
+              <td class="bell-plain">Yearbook Club / Self-Study</td>
+              <td class="bell-blue">TOEFL Vocab Test</td>
+            </tr>
+            <tr>
+              <td class="bell-time">16:00–16:50</td>
+              <td class="bell-yellow" rowspan="2" style="vertical-align:middle;">Group 1: Bookworm<br>Group 2: Self-Study</td>
+              <td class="bell-yellow" rowspan="2" style="vertical-align:middle;">Group 1: Sports Club<br>Group 2: Self-Study</td>
+              <td class="bell-yellow">Group 1: Band Club<br>Group 2: Math / SAT Math</td>
+              <td class="bell-yellow" rowspan="2" style="vertical-align:middle;">Group 1: Self-Study<br>Group 2: Band Club</td>
+            </tr>
+            <tr>
+              <td class="bell-time">17:00–17:50</td>
+              <td class="bell-yellow">Group 1: Bookworm<br>Group 2: Math / SAT Math</td>
+            </tr>
+            <tr>
+              <td class="bell-time">18:00–18:50</td>
+              <td class="bell-plain">Dinner</td>
+              <td class="bell-plain">Dinner</td>
+              <td class="bell-plain">Dinner</td>
+              <td class="bell-plain">Dinner</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- ES Schedule -->
-    <div class="bell-panel active" id="tab-es">
+    <div class="bell-panel" id="tab-es">
       <div style="overflow-x:auto;">
         <table class="bell-table">
           <thead>
@@ -1246,7 +1399,7 @@
     });
   }
 </script>
-<script src="js/langs.js?v=7ac36616"></script>
-<script src="js/i18n.js?v=7ac36616"></script>
+<script src="js/langs.js?v=27965c16"></script>
+<script src="js/i18n.js?v=27965c16"></script>
 </body>
 </html>
