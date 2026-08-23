@@ -21,6 +21,8 @@
       --border: #e0e0e0;
     }
     html { scroll-behavior: smooth; }
+    /* Deep-linked sections must clear the fixed header instead of hiding under it. */
+    section[id] { scroll-margin-top: 88px; }
     body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--black); line-height: 1.6; }
 
 
@@ -293,7 +295,7 @@
 </section>
 
 <!-- MISSION / VISION / PHILOSOPHY -->
-<section class="section">
+<section class="section" id="foundation">
   <div class="container">
     <div class="section-eyebrow" data-i18n="acad.foundation.eyebrow">Our Foundation</div>
     <h2 class="section-title" data-i18n="acad.foundation.title">Mission, Vision &amp; Philosophy</h2>
@@ -1297,7 +1299,7 @@
 </section>
 
 <!-- STUDENT LIFE -->
-<section class="section">
+<section class="section" id="student-life">
   <div class="container">
     <div class="section-eyebrow" data-i18n="acad.student_life.eyebrow">Beyond Academics</div>
     <h2 class="section-title" data-i18n="acad.student_life.title">Student Life & Enrichment</h2>
