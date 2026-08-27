@@ -44,6 +44,24 @@
     .card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .card-thumb-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #f5f5f5, #ebebeb); }
     .card-thumb-placeholder svg { opacity: .2; }
+    /* Press clippings carry no image of their own, so the thumb slot becomes a
+       typographic panel: outlet name + headline. Padding-top clears .cat-badge. */
+    .card-thumb-text {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 42px 18px 16px;
+      background: linear-gradient(140deg, #faf7f7 0%, #f1eaec 100%);
+      border-bottom: 3px solid var(--crimson);
+    }
+    .card-thumb-outlet {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: .07em;
+      color: var(--crimson); margin-bottom: 7px;
+    }
+    .card-thumb-title {
+      font-family: 'Merriweather', serif; font-size: 0.95rem; font-weight: 700;
+      line-height: 1.45; color: var(--black); word-break: keep-all;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
     .cat-badge { position: absolute; top: 10px; left: 10px; background: var(--crimson); color: var(--white); font-size: 0.68rem; font-weight: 700; padding: 3px 8px; letter-spacing: .05em; }
     .card-body { padding: 20px; }
     .card-date  { font-size: 0.75rem; color: var(--gray-500); margin-bottom: 8px; }
@@ -113,6 +131,22 @@
     return fn ? fn(key, fallback) : (fallback !== undefined ? fallback : key);
   }
   function getCatLabel(cat) { return t('blog.cat.' + cat, cat); }
+
+  // Thumb slot for posts with no image: outlet name over the headline.
+  function textThumb(outlet, title) {
+    return `<div class="card-thumb-text">
+              ${outlet ? `<div class="card-thumb-outlet">${esc(outlet)}</div>` : ''}
+              <div class="card-thumb-title">${esc(title)}</div>
+            </div>`;
+  }
+  // Same panel when a stored thumbnail fails to load.
+  window.thumbFallback = function (img) {
+    const slot = img.parentNode;
+    const html = textThumb(img.dataset.outlet, img.dataset.title);
+    img.remove();
+    slot.insertAdjacentHTML('afterbegin', html);
+  };
+
   const PAGE_SIZE = 9;
   let currentCat  = '';
   let currentPage = 1;
@@ -167,17 +201,17 @@
         <a href="post.html?id=${esc(post.id)}" class="card">
           <div class="card-thumb">
             ${post.thumbnail_key
-              ? `<img src="/api/media/${esc(post.thumbnail_key)}" alt="${esc(post.title)}" loading="lazy" onerror="this.parentNode.innerHTML='<div class=card-thumb-placeholder><svg width=40 height=40 viewBox=\\'0 0 24 24\\' fill=none stroke=\\'#ccc\\' stroke-width=\\'1.5\\'><path d=\\'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\\'/><polyline points=\\'14 2 14 8 20 8\\'/></svg></div>'">`
-              : `<div class="card-thumb-placeholder">
-                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                 </div>`}
+              ? `<img src="/api/media/${esc(post.thumbnail_key)}" alt="${esc(post.title)}" loading="lazy"
+                      data-outlet="${esc(post.author_name || '')}" data-title="${esc(post.title)}"
+                      onerror="thumbFallback(this)">`
+              : textThumb(post.author_name, post.title)}
             <span class="cat-badge">${getCatLabel(post.category)}</span>
           </div>
           <div class="card-body">
             <div class="card-date">${post.created_at.slice(0,10)}
               ${isAdmin && !post.is_published ? `<span class="draft-badge">${t('blog.draft_badge', 'Draft')}</span>` : ''}
             </div>
-            <div class="card-title">${esc(post.title)}</div>
+            ${post.thumbnail_key ? `<div class="card-title">${esc(post.title)}</div>` : ''}
             ${post.excerpt ? `<div class="card-excerpt">${esc(post.excerpt)}</div>` : ''}
           </div>
         </a>
