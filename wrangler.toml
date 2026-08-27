@@ -1,4 +1,7 @@
-name = "bds-website"
+# Must match the Cloudflare Pages project name (dash → Pages → bdshomepage).
+# It had drifted to "bds-website", which no project uses.
+# Note: `wrangler pages <cmd>` still wants an explicit --project-name.
+name = "bdshomepage"
 compatibility_date = "2024-01-01"
 pages_build_output_dir = "."
 
