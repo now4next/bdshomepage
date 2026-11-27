@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
-  <script src="js/header.js?v=27965c16"></script>
+  <script src="js/header.js?v=bcc9d093"></script>
   <style>
     /* ── Design tokens ───────────────────────────────────── */
     :root {
@@ -399,7 +399,7 @@
     <div class="hero-inner">
       <p class="hero-eyebrow" data-i18n="cal.eyebrow">2026–2027 Academic Year</p>
       <h1 class="hero-title" data-i18n="cal.hero.title">Academic Calendar</h1>
-      <p class="hero-desc" data-i18n="cal.hero.desc">BDS follows a 180-day school year across two semesters, from September 2026 to June 2027.</p>
+      <p class="hero-desc" data-i18n="cal.hero.desc">BDS follows a {n}-day school year across two semesters, from September 2026 to June 2027.</p>
     </div>
   </section>
 
@@ -407,7 +407,7 @@
   <div class="stats-bar">
     <div class="stats-inner">
       <div class="stat-item">
-        <span class="stat-value" data-i18n="cal.stat.days.value">180</span>
+        <span class="stat-value" data-i18n="cal.stat.days.value">{n}</span>
         <span class="stat-label" data-i18n="cal.stat.days.label">School Days</span>
       </div>
       <div class="stat-item">
@@ -445,7 +445,7 @@
   </main>
 
   <!-- Footnote -->
-  <p class="cal-footnote" data-i18n="cal.footnote">* 180 instructional days total. Dates subject to change without prior notice.</p>
+  <p class="cal-footnote" data-i18n="cal.footnote">* {n} instructional days total. Dates subject to change without prior notice.</p>
 
   <!-- Footer -->
   <footer class="site-footer">
@@ -469,13 +469,16 @@
         '2026-09': [18, 18],
         '2026-10': [17, 35],
         '2026-11': [20, 55],
-        '2026-12': [20, 75],
-        '2027-01': [15, 90],
-        '2027-02': [10, 100],
-        '2027-03': [22, 122],
-        '2027-04': [22, 144],
-        '2027-05': [17, 161],
-        '2027-06': [19, 180],
+        // 배포본 PDF 는 12월을 "학사일수 20" 으로 적었으나, 누계 71 과 이후 모든
+        // 달의 누계가 16 을 가리킨다(12월 평일 23 − 겨울방학 5 − 크리스마스 1
+        // − 재량휴일 1). 누계가 맞물리는 16 을 채택.
+        '2026-12': [16, 71],
+        '2027-01': [20, 91],
+        '2027-02': [10, 101],
+        '2027-03': [22, 123],
+        '2027-04': [22, 145],
+        '2027-05': [17, 162],
+        '2027-06': [19, 181],
       },
 
       /* Events
@@ -492,25 +495,25 @@
                              label:'재량휴일',                          en:'Discretionary Holiday',                  type:'discretionary' },
         { date:'2026-10-09', label:'한글날 공휴일',                    en:'Hangeul Day',                             type:'holiday' },
         { date:'2026-11-05', label:'Q1 종료',                         en:'Q1 End',                                  type:'school' },
-        { date:'2026-11-27', label:'추수감사 재량휴일',                en:'Thanksgiving (Discretionary)',             type:'discretionary' },
-        { date:'2026-12-23', label:'재량휴일',                         en:'Discretionary Holiday',                   type:'discretionary' },
-        { date:'2026-12-24', label:'재량휴일 · 대체연차',              en:'Discretionary / Substitute Leave',         type:'discretionary' },
+        { date:'2026-11-27', label:'추수감사재량휴일',                 en:'Thanksgiving (Discretionary)',             type:'discretionary' },
+        { date:'2026-12-18', dateEnd:'2026-12-24',
+                             label:'겨울방학',                          en:'Winter Break',                             type:'break' },
         { date:'2026-12-25', label:'크리스마스 휴무일',                en:'Christmas Holiday',                        type:'holiday' },
-        { date:'2026-12-31', label:'대체연차',                         en:'Substitute Leave',                         type:'discretionary' },
-        { date:'2027-01-01', label:'신정 공휴일',                      en:"New Year's Day",                           type:'holiday' },
-        { date:'2027-01-22', label:'1학기 종강 (학사 90일차)',         en:'End of Semester 1 · Day 90',               type:'school' },
-        { date:'2027-01-25', dateEnd:'2027-02-12',
+        { date:'2026-12-31', label:'재량휴일',                         en:'Discretionary Holiday',                    type:'discretionary' },
+        { date:'2027-01-01', label:'신정휴일',                         en:"New Year's Day",                           type:'holiday' },
+        { date:'2027-01-22', label:'1학기 종강일',                     en:'End of Semester 1',                        type:'school' },
+        { date:'2027-02-01', dateEnd:'2027-02-12',
                              label:'겨울방학',                          en:'Winter Break',                             type:'break' },
         { date:'2027-02-08', dateEnd:'2027-02-09',
                              label:'설날',                             en:'Lunar New Year',                           type:'holiday' },
-        { date:'2027-02-15', label:'2학기 시작 (학사 91일차)',         en:'Semester 2 Start · Day 91',                type:'school' },
+        { date:'2027-02-15', label:'2학기 시작일',                     en:'Semester 2 Start',                         type:'school' },
         { date:'2027-03-01', label:'삼일절 휴무일',                    en:'Independence Movement Day',                type:'holiday' },
         { date:'2027-05-03', label:'노동절 대체휴무일',                en:'Labour Day (Substitute)',                   type:'holiday' },
         { date:'2027-05-04', label:'어린이날 재량휴일',                en:"Children's Day (Discretionary)",            type:'discretionary' },
-        { date:'2027-05-05', label:'어린이날 공휴일',                  en:"Children's Day",                           type:'holiday' },
+        { date:'2027-05-05', label:'어린이날 휴무일',                  en:"Children's Day",                           type:'holiday' },
         { date:'2027-05-13', label:'부처님 오신날 정상운영',           en:"Buddha's Birthday (Normal Operation)",      type:'note' },
         { date:'2027-05-14', label:'부처님 오신날 대체휴일',           en:"Buddha's Birthday (Substitute)",           type:'holiday' },
-        { date:'2027-06-25', label:'2026-2027 학사 종강 (학사 180일차)', en:'End of School Year 2026-2027 · Day 180', type:'school' },
+        { date:'2027-06-25', label:'2026-2027 학사 종강일',            en:'End of School Year 2026-2027',             type:'school' },
       ],
     };
 
@@ -523,6 +526,12 @@
     const MONTH_KO  = ['','1월','2월','3월','4월','5월','6월',
                        '7월','8월','9월','10월','11월','12월'];
     const DOW_HEADS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+    // Year total = last month's cumulative. Derived, not typed, so changing
+    // CALENDAR_DATA alone keeps the footer, hero and stat bar in agreement.
+    const TOTAL_DAYS = Math.max(
+      ...Object.values(CALENDAR_DATA.schoolDays).map(([, cumulative]) => cumulative)
+    );
 
     function getLang() {
       return localStorage.getItem('bds_lang') || 'en';
@@ -633,7 +642,7 @@
       footer.className = 'month-footer';
       const daysLbl  = lang === 'ko' ? '학사일' : 'School days';
       const cumulLbl = lang === 'ko' ? '누계'   : 'Cumulative';
-      const totalLbl = lang === 'ko' ? '/180일'  : '/180';
+      const totalLbl = lang === 'ko' ? `/${TOTAL_DAYS}일` : `/${TOTAL_DAYS}`;
       footer.innerHTML = `<span>${daysLbl}: <strong>${mDays}</strong></span>
                           <span>${cumulLbl}: <strong>${cumul}${totalLbl}</strong></span>`;
       card.appendChild(footer);
@@ -675,17 +684,41 @@
       return card;
     }
 
+    /* Translations spell the year total as "{n}" (same convention as
+       blog.count) so the figure lives only in CALENDAR_DATA. i18n rewrites
+       these nodes from the dictionary on every language switch, restoring
+       the token, so this re-runs on each bds:langchange. */
+    function fillTotals() {
+      document.querySelectorAll('[data-i18n]').forEach((el) => {
+        if (el.textContent.includes('{n}')) {
+          el.textContent = el.textContent.replace(/\{n\}/g, TOTAL_DAYS);
+        }
+      });
+    }
+
     /* Init */
     (function init() {
       const eventMap = buildEventMap(CALENDAR_DATA.events);
       const gridEl   = document.getElementById('calendarGrid');
-      for (const [year, month] of CALENDAR_DATA.months) {
-        gridEl.appendChild(renderMonth(year, month, eventMap));
+
+      // The grid is built in JS, so i18n's attribute pass cannot touch it —
+      // event names and footers would stay in the previous language until a
+      // reload. Rebuild it whenever the language changes.
+      function renderGrid() {
+        gridEl.innerHTML = '';
+        for (const [year, month] of CALENDAR_DATA.months) {
+          gridEl.appendChild(renderMonth(year, month, eventMap));
+        }
       }
+      renderGrid();
+
+      // load (not DOMContentLoaded) so this lands after i18n's first apply().
+      window.addEventListener('load', fillTotals);
+      window.addEventListener('bds:langchange', () => { renderGrid(); fillTotals(); });
     })();
   </script>
 
-  <script src="js/langs.js?v=27965c16"></script>
-  <script src="js/i18n.js?v=27965c16"></script>
+  <script src="js/langs.js?v=bcc9d093"></script>
+  <script src="js/i18n.js?v=bcc9d093"></script>
 </body>
 </html>

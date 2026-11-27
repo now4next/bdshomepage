@@ -684,8 +684,8 @@ window.BDS_LANGS = {
     'cal.page_title':       'BDS 2026–2027 Academic Calendar',
     'cal.eyebrow':          '2026–2027 Academic Year',
     'cal.hero.title':       'Academic Calendar',
-    'cal.hero.desc':        'BDS follows a 180-day school year across two semesters, from September 2026 to June 2027.',
-    'cal.stat.days.value':  '180',
+    'cal.hero.desc':        'BDS follows a {n}-day school year across two semesters, from September 2026 to June 2027.',
+    'cal.stat.days.value':  '{n}',
     'cal.stat.days.label':  'School Days',
     'cal.stat.sem.value':   '2',
     'cal.stat.sem.label':   'Semesters',
@@ -699,7 +699,7 @@ window.BDS_LANGS = {
     'cal.legend.break':     'School Break',
     'cal.legend.discretionary': 'Discretionary',
     'cal.legend.note':      'Note',
-    'cal.footnote':         '* 180 instructional days total. Dates subject to change without prior notice.',
+    'cal.footnote':         '* {n} instructional days total. Dates subject to change without prior notice.',
   },
 
   ko: {
@@ -1363,8 +1363,8 @@ window.BDS_LANGS = {
     'cal.page_title':       'BDS 2026–2027 학사 일정',
     'cal.eyebrow':          '2026–2027 학년도',
     'cal.hero.title':       '학사 일정',
-    'cal.hero.desc':        'BDS는 2026년 9월부터 2027년 6월까지 2학기, 180일 학사 일정을 운영합니다.',
-    'cal.stat.days.value':  '180',
+    'cal.hero.desc':        'BDS는 2026년 9월부터 2027년 6월까지 2학기, {n}일 학사 일정을 운영합니다.',
+    'cal.stat.days.value':  '{n}',
     'cal.stat.days.label':  '학사일수',
     'cal.stat.sem.value':   '2',
     'cal.stat.sem.label':   '학기',
@@ -1378,7 +1378,7 @@ window.BDS_LANGS = {
     'cal.legend.break':     '방학',
     'cal.legend.discretionary': '재량휴일',
     'cal.legend.note':      '참고',
-    'cal.footnote':         '* 총 180 수업일. 일정은 사전 예고 없이 변경될 수 있습니다.',
+    'cal.footnote':         '* 총 {n} 수업일. 일정은 사전 예고 없이 변경될 수 있습니다.',
   },
 
   ja: {
@@ -2041,8 +2041,8 @@ window.BDS_LANGS = {
     'cal.page_title':       'BDS 2026–2027 学事暦',
     'cal.eyebrow':          '2026–2027 学年度',
     'cal.hero.title':       '学事暦',
-    'cal.hero.desc':        'BDSは2026年9月から2027年6月まで、2学期制・180日間の教育を行います。',
-    'cal.stat.days.value':  '180',
+    'cal.hero.desc':        'BDSは2026年9月から2027年6月まで、2学期制・{n}日間の教育を行います。',
+    'cal.stat.days.value':  '{n}',
     'cal.stat.days.label':  '授業日数',
     'cal.stat.sem.value':   '2',
     'cal.stat.sem.label':   '学期',
@@ -2056,7 +2056,7 @@ window.BDS_LANGS = {
     'cal.legend.break':     '休校',
     'cal.legend.discretionary': '裁量休日',
     'cal.legend.note':      '備考',
-    'cal.footnote':         '* 授業日数は計180日。日程は予告なく変更になる場合があります。',
+    'cal.footnote':         '* 授業日数は計{n}日。日程は予告なく変更になる場合があります。',
   },
 
   de: {
@@ -2719,8 +2719,8 @@ window.BDS_LANGS = {
     'cal.page_title':       'BDS 2026–2027 Schulkalender',
     'cal.eyebrow':          'Schuljahr 2026–2027',
     'cal.hero.title':       'Schulkalender',
-    'cal.hero.desc':        'BDS führt ein 180-tägiges Schuljahr über zwei Semester durch, von September 2026 bis Juni 2027.',
-    'cal.stat.days.value':  '180',
+    'cal.hero.desc':        'BDS führt ein {n}-tägiges Schuljahr über zwei Semester durch, von September 2026 bis Juni 2027.',
+    'cal.stat.days.value':  '{n}',
     'cal.stat.days.label':  'Schultage',
     'cal.stat.sem.value':   '2',
     'cal.stat.sem.label':   'Semester',
@@ -2734,6 +2734,6 @@ window.BDS_LANGS = {
     'cal.legend.break':     'Schulferien',
     'cal.legend.discretionary': 'Ermessenstag',
     'cal.legend.note':      'Hinweis',
-    'cal.footnote':         '* Insgesamt 180 Unterrichtstage. Termine können sich ohne Vorankündigung ändern.',
+    'cal.footnote':         '* Insgesamt {n} Unterrichtstage. Termine können sich ohne Vorankündigung ändern.',
   }
 };
